@@ -10,20 +10,27 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
 import com.icann.Helper;
+import java.lang.reflect.Field;
 
 import com.icann._contentrecordtypes.RegistryAgreement;
-
-import com.icann.cms.*;
-
 import com.icann.dms.*;
 import com.icann.dms.ContentType.*;
+import com.icann.e2e.Suite;
 
 public class DmsPoc {
     static WebDriver browser; 
     String sNodeId = "unset";
 	String sWhichField = "";
 	String sValueToSelect = "";
-    
+	
+	
+	//list out the variables that are settable by the suite if defined
+	List<String> lsSuiteVars = Arrays.asList("sALabel", "sTypeOfTld", "sAgreementType", "sAgreementDate");
+	public String sALabel;
+	public String sTypeOfTld;
+	public String sAgreementType;
+	public String sAgreementDate;
+
 	@BeforeClass
 	static public void runOnce() throws Exception {
 		browser = Environment.initializeDriver();
@@ -39,72 +46,41 @@ public class DmsPoc {
 		
 	}
 	
-	@Ignore
-	@Test
-	public void createPublicComment() {
-		String sContentType = "Public Comment";
-		Helper.logTest("Create content:  " + sContentType);
-		
-		Helper.logTestStep("Create a new item of type:  " + sContentType);
-		LandingPage.createContent(sContentType);
-		
-		Helper.waitForUrlToContain("public-comment");
-		Helper.nap(2);
-	
-		Helper.logTestStep("Click the Save Draft button.");
-		Helper.waitForThenClick(PublicCommentPage.btnSaveDraft);
-		Helper.waitForUrlToContain("nodeId");
-		
-		Helper.logTestStep("Verify a nodeId is returned.");
-		sNodeId = PublicCommentPage.getCurrentNodeId();
-		Helper.logMessage("The created nodeId:  " + sNodeId);
-		
-		String sPublicCommentTitle = "Public Comment Title";
-		String sPageDescription = sContentType + " page description!";
-		Helper.logTestStep("Type in a public comment title:  " + sPublicCommentTitle);
-		Helper.waitForThenClick(PublicCommentPage.txtPageTitle);
-		Helper.waitForThenSendKeys(PublicCommentPage.txtPageTitle, sPublicCommentTitle);
-		
-		Helper.logTestStep("Expand the Page Text by clicking on the expander.");
-		Helper.waitForThenClick(PublicCommentPage.pageDescriptionExpander);
-		
-		Helper.logTestStep("Type text into editor (and click Save):  " + sPageDescription);
-		TinyMce.enterTextIntoTinyMceAndSave(sPageDescription);
-
-		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
-		String sMetadataDescription = "metadata description text";
-		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Taxonomy.txtMetadataDescription, sMetadataDescription);
-
-		
-		sWhichField = "topic owner";
-		sValueToSelect = "Communications";
-		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
-		
-
-		sWhichField = "team";
-		sValueToSelect = "Language Services";
-		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
-
-		sWhichField = "topic";
-		sValueToSelect = "Translation, Interpretation, and Localization";
-		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
-				
-		Helper.logTestStep("Publish the content item now.");
-		ContentItem.publishNow();
-	}
-	
-//	@Ignore
 	@Test
 	public void createRegistryAgreement() {
-		String sALabel = Helper.todayString() + "_dms_automation";
-		String sTypeOfTld = "gTLD ";
-		String sAgreementType = "Community - Spec 12";
-		String sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
+		Helper.bDebug = true;
+		
+		if (Suite.bUsingSuite) {
+			Helper.logDebug("Using suite.");
+			for (int i=0; i<lsSuiteVars.size(); i++) {
+				try {
+					Helper.logDebug("Assigning field name  " + DmsPoc.class.getField(lsSuiteVars.get(i)) + " to suite value " + Suite.class.getField(lsSuiteVars.get(i)).get(null));
+					DmsPoc.class.getField(lsSuiteVars.get(i)).set(this, Suite.class.getField(lsSuiteVars.get(i)).get(null));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			sALabel = Helper.todayString() + "_dms_automation";
+			sTypeOfTld = "gTLD ";
+			sAgreementType = "Community - Spec 12";
+			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
+		}
+		
+		Helper.logDebug("sALabel = " + sALabel);
+		Helper.logDebug("sTypeOfTld = " + sTypeOfTld); 
+		Helper.logDebug("sAgreementType = " + sAgreementType); 
+		Helper.logDebug("sAgreementDate = " + sAgreementDate); 
+		
+		Helper.bDebug = false;
+		
 		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+		
+		if (Suite.bUsingSuite) {
+			Suite.raRecord = raRecord;
+		}
+		
+		
 		
 //		String sOriginalTab = browser.getWindowHandle();
 		
@@ -125,6 +101,9 @@ public class DmsPoc {
 		Helper.logTestStep("Verify a nodeId is returned.");
 		sNodeId = RegistryAgreementPage.getCurrentNodeId();
 		Helper.logMessage("The created nodeId:  " + sNodeId);
+		if (Suite.bUsingSuite) {
+			Suite.sNodeId = sNodeId;
+		}
 
 		Helper.logTestStep("Click Manage on the gTLD/String field.");
 		Helper.waitForThenClick(RegistryAgreementPage.btnManageGtldString);
@@ -152,8 +131,8 @@ public class DmsPoc {
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
 		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
 		
-		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297)is not there
-		String sMetadataDescription = Helper.todayString() + " metadata description text";
+		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
+		String sMetadataDescription = raRecord.sGtld + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
 		Helper.waitForThenSendKeys(Taxonomy.txtMetadataDescription, sMetadataDescription);
 
@@ -176,67 +155,7 @@ public class DmsPoc {
 		//poll the published state
 		ContentItem.waitForWorkflowState("Published", 60);
 		
-		
-//>>>somehow trigger cache refresh - graphql?
-		
-		
-//		//debug shortcut
-//		raRecord.sGtld = "20190520_13.25.09_dms_automation"; 
-//		sALabel = raRecord.sGtld;
-		
-		
-		
-		Helper.logTest("Look up new DMS content in CMS:  " + sContentType);
-		Helper.logMessage("Looking for registry agreement:  " + raRecord.sGtld);
-		Helper.logMessage("");
-		
-		Helper.logTestStep("Open the registry agreements page.");
-		RegistryAgreementsPage.open();
-		
-		sWhichField = "gTLD / String";
-		Helper.logTestStep("Filter the registry agreements by the new A-Label:  " + sALabel);
-		Helper.logDebug("Click the " + sWhichField + " text field.");
-		Helper.waitForThenClick(RegistryAgreementsPage.txtEnterSelect(sWhichField));
-		Helper.nap(2);
-		
-		Helper.waitForThenSendKeys(RegistryAgreementsPage.txtEnterSelectSearch("gTLD / String"), sALabel);
-		
-		Helper.logTestStep("Click the checkbox for filter item:  " + sALabel);
-		Helper.waitForThenClick(RegistryAgreementsPage.chkFilterSelection(sALabel));
-		
-		Helper.logTestStep("Click Apply.");
-		Helper.waitForThenClick(RegistryAgreementsPage.btnApplyFilters);
-		Helper.nap(1);
-		
-		List<String> lsExpected = Arrays.asList(raRecord.sGtld, raRecord.sAgreementType, raRecord.sOperator, raRecord.sAgreementStatus, raRecord.sAgreementDate);
-		Helper.logMessage("Verify the row record information.");
-		Helper.compareLists(lsExpected, RegistryAgreementsPage.searchResultRowValue(1).toList());
-	
-		Helper.logTestStep("Click the agreement link with text:  " + raRecord.sGtld);
-		Helper.waitForThenClick(RegistryAgreementsPage.resultLink(raRecord.sGtld));
-		
-		Helper.logTestStep("Verify the returned URL contains:  " + raRecord.sGtld);
-		Helper.waitForUrlToContain(raRecord.sGtld);
-		
-		String sExpectedAgreementTitle = "." + raRecord.sGtld + " Registry Agreement";
-		Helper.logTestStep("Verify the agreement title is:  " + sExpectedAgreementTitle);
-		Helper.compareStrings(sExpectedAgreementTitle, Helper.waitForElement(RegistryAgreementDetail.txtAgreementTitle).getText());
-		
-		String sULabelPreString = "U-Label ";
-		Helper.logTestStep("Verify the U-Label is:  " + raRecord.sGtld);
-		Helper.compareStrings(sULabelPreString + raRecord.sGtld, Helper.waitForElement(RegistryAgreementDetail.txtULabel).getText());
-		
-		String sOperatorPreString = "Operator";
-		Helper.logTestStep("Verify the Operator is:  " + raRecord.sOperator);
-		Helper.compareStrings(sOperatorPreString + raRecord.sOperator, Helper.waitForElement(RegistryAgreementDetail.txtOperator).getText());
-
-		String sAgreementDatePreString = "Agreement Date ";
-		Helper.logTestStep("Verify the Agreement Date is:  " + raRecord.sAgreementDate);
-		Helper.compareStrings(sAgreementDatePreString + raRecord.sAgreementDate, Helper.waitForElement(RegistryAgreementDetail.txtAgreementDate).getText());
-		
-		String sAgreementTypePreString = "Agreement Type ";
-		Helper.logTestStep("Verify the Agreement Type is:  " + raRecord.sAgreementType);
-		Helper.compareStrings(sAgreementTypePreString + raRecord.sAgreementType, Helper.waitForElement(RegistryAgreementDetail.txtAgreementType).getText());
+////>>>somehow trigger cache refresh - graphql?
 
 	}
 
@@ -245,8 +164,7 @@ public class DmsPoc {
 	public void publishPlayground() {
 		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=112b6283-9fb0-473e-9be2-3fb196d44bea");
 		
-		
-		
+
 		
 //		RegistryAgreementPage.requestReview("jeffrey.chen");
 //		RegistryAgreementPage.requestTranslation("Arabic");

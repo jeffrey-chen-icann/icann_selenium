@@ -21,6 +21,10 @@ public class RegistryAgreement {
 	public RegistryAgreement(String sNewGtld) {
 		this(sNewGtld, "unset", "unset", "unset", "unset");
 	}
+	public RegistryAgreement() {
+		this("unset", "unset", "unset", "unset", "unset");
+	}
+
 
 	public String toString() {
 		return this.toList().toString();
