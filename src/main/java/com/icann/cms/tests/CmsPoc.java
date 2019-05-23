@@ -14,10 +14,6 @@ import com.icann.Helper;
 import com.icann._contentrecordtypes.RegistryAgreement;
 
 import com.icann.cms.*;
-
-import com.icann.dms.*;
-import com.icann.dms.ContentType.*;
-import com.icann.dms.tests.DmsPoc;
 import com.icann.e2e.Suite;
 
 public class CmsPoc {

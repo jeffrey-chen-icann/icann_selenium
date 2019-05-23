@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
 import com.icann.Helper;
-import java.lang.reflect.Field;
 
 import com.icann._contentrecordtypes.RegistryAgreement;
 import com.icann.dms.*;
@@ -24,7 +23,7 @@ public class DmsPoc {
 	String sValueToSelect = "";
 	
 	
-	//list out the variables that are settable by the suite if defined
+	//list out the variables that are settable by the suite if defined - could this list move to the Suite class and called with the test class name?  hmmmm
 	List<String> lsSuiteVars = Arrays.asList("sALabel", "sTypeOfTld", "sAgreementType", "sAgreementDate");
 	public String sALabel;
 	public String sTypeOfTld;

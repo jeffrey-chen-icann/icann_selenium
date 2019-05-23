@@ -10,7 +10,22 @@ import java.util.List;
 public class Suite {
 	public static boolean bUsingSuite = false;
 	
-	//maybe name these better - use test names?
+	/* 
+	 * Special things to implement a testcase that can be used in a suite with different/shared data:
+	 *   e2e/tests/YourE2ESuiteName.java 
+	 *     > create a new case in the suite parameter
+	 *   Launcher.java
+	 *     > create a new case in the suite parameter
+	 *   e2e/Suite.java
+	 *     > create public static member variables in the Suite object which will be populated using the setSuiteVars method
+	 *   <project>/tests/YourTestCase.java
+	 *     > create a list of the suite variables you want to pull into a testcase - should have the same name as the suite variable:  List<String> lsSuiteVars = Arrays.asList("sALabel", "sTypeOfTld", "sAgreementType", "sAgreementDate");
+	 *      
+	 * <more?>
+	 */
+	
+	
+	//maybe name these better - use test names in the variable names?  or do we care?
 	public static String sALabel;
 	public static String sTypeOfTld;
 	public static String sAgreementType;
