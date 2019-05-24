@@ -1,6 +1,8 @@
 package com.icann;
 import java.util.Arrays;
 
+import com.icann.e2e.Suite;
+
 public class Launcher {
 	public static String sProject = "unset";
 	public static String sCommandLineArgs = "unset";
@@ -34,6 +36,7 @@ public class Launcher {
 			String sWhereToRunParameter = args[2];
 			String sSuiteParameter = args[3];
 						
+			//where to run
 			switch (sWhereToRunParameter){
 			case "local":
 				break;
@@ -45,13 +48,17 @@ public class Launcher {
 			default:
 			}
 			
+			//suite?
+			if (sSuiteParameter.toLowerCase().contains("suite")) {
+				Suite.bUsingSuite = true;
+				Suite.setSuiteVars(sSuiteParameter);
+			}
 			switch (sProject) {
 			case "dms":
 				switch (sSuiteParameter){
 				case "poc":
 					sSuiteToRun = "DmsPoc";
 					break;						
-		
 				default:
 					Helper.logError("Unrecognized suite parameter for project " + sProject + ":  " + sSuiteParameter);
 					System.exit(1);
@@ -65,6 +72,14 @@ public class Launcher {
 					System.exit(1);
 				}
 				break;
+			case "e2e":
+				switch (sSuiteParameter){
+				case "pocsuite":
+					sSuiteToRun = "PocSuite";
+					break;
+				default:
+					
+				}
 			default:
 				
 			}

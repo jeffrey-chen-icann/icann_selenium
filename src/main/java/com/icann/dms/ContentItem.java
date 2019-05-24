@@ -7,7 +7,6 @@ import com.icann.dms.ContentType.PublicCommentPage;
 public class ContentItem {
     static WebDriver browser = Helper.browser;
     
-//    public static By txtPageTitle = By.xpath("//*[@id=\"icn:pageTitle\"]");
     public static By btnPreview = Helper.anythingWithText("Preview");
     public static By btnSaveDraft = Helper.anythingWithText("Save Draft");
     public static By btnPublish = Helper.anythingWithText("Publish");
@@ -20,7 +19,7 @@ public class ContentItem {
     public static By btnRequestReview = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Request Review\")]]");
     public static By btnDelete = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Delete\")]]");
     
-    public static String getCurrentNodeId() {
+    public static String currentNodeId() {
 		Helper.waitForUrlToContain("nodeId");
     	
     	String sNodeId = "unset";
@@ -33,29 +32,7 @@ public class ContentItem {
     	return sNodeId;
     }
     
-    static public By btnMetadataOverflowChoice(String sChoiceText) {
-    	return By.xpath("//*[text()=\"" + sChoiceText + "\"]/ancestor::mat-option");
-    }
-    
-    static public void setDropdownSelection(String sWhichField, String sValueToSelect) {
-    	Helper.logMessage("Click the " + sWhichField + " dropdown link.");
-    	
-    	switch (sWhichField.toLowerCase()){
-		//these are dropdown only fields
-    	case "type of tld":
-    		Helper.logDebug("We think " + sWhichField + " is a select control.");
-			Helper.waitForThenClick(Taxonomy.btnDropdownForField(sWhichField));
-			break;
-		//these are enter/select fields (with a text area)
-		default:
-			Helper.logDebug("We think " + sWhichField + " is an enter/select control.");
-			Helper.waitForThenSendKeys(Taxonomy.txtForField(sWhichField), sValueToSelect);
-    	}
-    	
-		Helper.logMessage("Click the popup menu item:  " + sValueToSelect);
-		Helper.waitForThenClick(btnMetadataOverflowChoice(sValueToSelect));
-		Helper.nap(2);
-    }
+
     
     static public void publish() {
     	//defaults to today - later add argument for when to publish (?)
@@ -85,32 +62,48 @@ public class ContentItem {
 		
 		Helper.logMessage("Click Publish button on confirmation modal.");
 		Helper.waitForThenClick(PublishModal.btnPublishConfirm);
-		
-		//detect snackbar message?
-		Helper.nap(2);
-		
-		//later - detect snackbar messaging - on save, on publish
-//		String sPublishedMessage = "Published successfully.";
-//		Helper.logTestStep("Validate the message appears:  " + sPublishedMessage);
-//		if (Helper.waitForElement(Helper.anythingWithText(sPublishedMessage)) != null) {
-//			Helper.waitForElementToDisappear(Helper.anythingWithText(sPublishedMessage));
-//		}
 
+		waitForWorkflowState("Published");
     }
     
+    static public By btnUnpublishYes = Helper.anythingWithText("Yes");
+    static public By btnUnpublishNo = Helper.anythingWithText("No");
     static public void unpublish() {
+    	//only do it if we need to
+    	String sCurrentState = currentWorkflowState();
+    	if (sCurrentState.contentEquals("Published")) {
+    		Helper.logMessage("Current workflow state is " + sCurrentState + ".  Unpublishing.");
+    		Helper.logMessage("Click the More actions button.");
+    		Helper.waitForThenClick(btnMoreActions);
+    		
+    		Helper.logMessage("Click Unpublish.");
+    		Helper.waitForThenClick(btnUnpublish);
+
+    		Helper.logMessage("Click Yes on confirmation modal.");
+    		Helper.waitForThenClick(btnUnpublishYes);
+    		
+    		waitForWorkflowState("Unpublished");    		
+    	} else {
+    		Helper.logMessage("Current workflow state is " + sCurrentState + ".  No need to unpublish.");
+    	}
+    }
+
+    static public By btnDeleteConfirm = By.xpath("//mat-dialog-container//*[text()=\"Delete\"]");
+    static public void delete() {
+    	Helper.logMessage("Deleting content with nodeId:  " + currentNodeId());
+    	unpublish();
+    	
 		Helper.logMessage("Click the More actions button.");
 		Helper.waitForThenClick(btnMoreActions);
 		
-		Helper.logMessage("Click Unpublish.");
-		Helper.waitForThenClick(btnUnpublish);
-
-		//detect snackbar message?
-		Helper.nap(2);
+		Helper.logMessage("Click Delete.");
+		Helper.waitForThenClick(btnDelete);
 		
-		//wait for workflow state to change?
+		Helper.logMessage("Click Delete button on confirmation modal.");
+		Helper.waitForThenClick(btnDeleteConfirm);
+    	
+		Helper.waitForUrlToContain("landing-page");
     }
-
     static public void requestTranslation(String sLanguage) {
 		Helper.logMessage("Click the More actions button.");
 		Helper.waitForThenClick(btnMoreActions);
@@ -120,7 +113,7 @@ public class ContentItem {
 
 		String sWhichField = "Languages";
 		Helper.logMessage("Set the " + sWhichField + " to value:  " + sLanguage);
-		setDropdownSelection(sWhichField, sLanguage);
+		Dms.setDropdownSelection(sWhichField, sLanguage);
 
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);
@@ -140,7 +133,7 @@ public class ContentItem {
 
 		String sWhichField = "Reviewer";
 		Helper.logMessage("Set the " + sWhichField + " to value:  " + sFromReviewer);
-		setDropdownSelection(sWhichField, sFromReviewer);
+		Dms.setDropdownSelection(sWhichField, sFromReviewer);
 		
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);
@@ -158,8 +151,6 @@ public class ContentItem {
     }
     
     static private By txtWorkflowState = By.cssSelector(".workflowState-value");
-
-    
     static public String currentWorkflowState() {
     	String sCurrentState = "unset";
     	
@@ -174,7 +165,7 @@ public class ContentItem {
     	boolean bMatches = false;
     	int iRetryTimeInSeconds = 5;
     	
-    	Helper.logMessage("Waiting for workflow state to change to:  " + sDesiredState);
+    	Helper.logMessage("Waiting up to " + iSecondsToWait + " seconds for workflow state to change to:  " + sDesiredState);
     	sCurrentState = currentWorkflowState();
     	
     	for (int i=0; i<iSecondsToWait/iRetryTimeInSeconds; i++) {
@@ -197,5 +188,7 @@ public class ContentItem {
     	}
     	return sCurrentState;
     }
-
+    static public String waitForWorkflowState(String sDesiredState) {
+    	return waitForWorkflowState(sDesiredState, 60);
+    }
 }

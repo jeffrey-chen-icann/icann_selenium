@@ -1,119 +1,152 @@
 package com.icann.cms.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import com.icann.cms.*;
 import com.icann.Environment;
 import com.icann.Helper;
+
+import com.icann._contentrecordtypes.RegistryAgreement;
+
+import com.icann.cms.*;
+import com.icann.e2e.Suite;
 
 public class CmsPoc {
     static WebDriver browser; 
     String sNodeId = "unset";
+	String sWhichField = "";
+	String sValueToSelect = "";
     
-    private static void testOverflow(String sWhichField) {
-    	List<String> lsExpected = new ArrayList<>();;
-		
-    	//eventually we will get this from alfresco (?)
-    	switch (sWhichField) {
-    	case "gTLD / String":
-    		switch (Environment.sEnvironment) {
-    		case "dev":
-    			lsExpected = Arrays.asList("aaa", "aarp", "abarth", "abb", "abb Registry Agreement", "abbott", "abbvie", "abc", "able", "abogado", "abudhabi", "academy", "accenture", "accountant", "accountants", "ace", "aco", "active", "actor", "adac", "ads", "adult", "aeg", "aero", "aetna", "afamilycompany", "afl", "africa", "agakhan", "agency", "aig", "aigo", "airbus", "airforce", "airtel", "akdn", "alfaromeo", "alibaba", "alipay", "allfinanz", "allstate", "ally", "alsace", "alstom", "americanexpress", "americanfamily", "amex", "amfam", "amica", "amsterdam", "analytics", "android", "anquan", "anz", "aol", "apartments", "app", "apple", "aquarelle", "arab", "aramco", "archi", "army", "art", "arte", "asda", "asia", "associates", "athleta", "attorney", "auction", "audi", "audible", "audio", "auspost", "author", "auto", "autos", "avianca", "aws", "axa", "azure", "bingo", "bmc", "com (Label, \"Translation\")", "cooking", "earth", "fishing", "horse", "mobi", "monster", "net", "ubank", "winners", "xn--11b4c3d", "xn--3oq18vl8pn36a (大众汽车, \"Volkswagen\")", "xn--80asehdb (онлайн, \"online\")", "xn--i1b6b1a6a2e (餐厅, \"restaurant\")");
-    			break;
-    		case "prod":
-    			lsExpected = Arrays.asList("aaa", "aarp", "abarth", "abb", "abbott", "abbvie", "abc", "able", "abogado", "abudhabi", "academy", "accenture", "accountant", "accountants", "aco", "active", "actor", "adac", "ads", "adult", "aeg", "aero", "aetna", "afamilycompany", "afl", "africa", "africamagic", "agakhan", "agency", "aig", "aigo", "airbus", "airforce", "airtel", "akdn", "alfaromeo", "alibaba", "alipay", "allfinanz", "allstate", "ally", "alsace", "alstom", "americanexpress", "americanfamily", "amex", "amfam", "amica", "amsterdam", "analytics", "android", "anquan", "anz", "aol", "apartments", "app", "apple", "aquarelle", "arab", "aramco", "archi", "army", "art", "arte", "asda", "asia", "associates", "athleta", "attorney", "auction", "audi", "audible", "audio", "auspost", "author", "auto", "autos", "avianca", "aws", "axa", "azure", "baby", "baidu", "banamex", "bananarepublic", "band", "bank", "bar", "barcelona", "barclaycard", "barclays", "barefoot", "bargains", "baseball", "basketball", "bauhaus", "bayern", "bbc", "bbt", "bbva", "bcg", "bcn", "beats", "beauty", "beer", "bentley", "berlin", "best", "bestbuy", "bet", "bharti", "bible", "bid", "bike", "bing", "bingo", "bio", "biz", "black", "blackfriday", "blanco", "blockbuster", "blog", "bloomberg", "blue", "bms", "bmw", "bnl", "bnpparibas", "boats", "boehringer", "bofa", "bom", "bond", "boo", "book", "booking", "boots", "bosch", "bostik", "boston", "bot", "boutique", "box", "bradesco", "bridgestone", "broadway", "broker", "brother", "brussels", "budapest", "bugatti", "build", "builders", "business", "buy", "buzz", "bzh", "cab", "cafe", "cal", "call", "calvinklein", "cam", "camera", "camp", "cancerresearch", "canon", "capetown", "capital", "capitalone", "car", "caravan", "cards", "care", "career", "careers", "cars", "cartier", "casa", "case", "caseih", "cash", "casino", "cat", "catering", "catholic", "cba", "cbn", "cbre", "cbs", "ceb", "center", "ceo", "cern", "cfa", "cfd", "chanel", "channel", "charity", "chase", "chat", "cheap", "chintai", "chloe", "christmas", "chrome", "chrysler", "church", "cipriani", "circle", "cisco", "citadel", "citi", "citic", "city", "cityeats", "claims", "cleaning", "click", "clinic", "clinique", "clothing", "cloud", "club", "clubmed", "coach", "codes", "coffee", "college", "cologne", "com", "comcast", "commbank", "community", "company", "compare", "computer", "comsec", "condos", "construction", "consulting", "contact", "contractors", "cooking", "cookingchannel", "cool", "coop", "corsica", "country", "coupon", "coupons", "courses", "credit", "creditcard", "creditunion", "cricket", "crown", "crs", "cruise", "cruises", "csc", "cuisinella", "cymru", "cyou", "dabur", "dad", "dance", "data", "date", "dating", "datsun", "day", "dclk", "dds", "deal", "dealer", "deals", "degree", "delivery", "dell", "deloitte", "delta", "democrat", "dental", "dentist", "desi", "design", "dev", "dhl", "diamonds", "diet", "digital", "direct", "directory", "discount", "discover", "dish", "diy", "dnp", "docs", "doctor", "dodge", "dog", "doha", "domains", "doosan", "dot", "download", "drive", "dstv", "dtv", "dubai", "duck", "dunlop", "duns", "dupont", "durban", "dvag", "dvr", "dwg", "earth", "eat", "eco", "edeka", "education", "email", "emerck", "emerson", "energy", "engineer", "engineering", "enterprises", "epost", "epson", "equipment", "ericsson", "erni", "esq", "estate", "esurance", "etisalat", "eurovision", "eus", "events", "everbank", "exchange", "expert", "exposed", "express", "extraspace", "fage", "fail", "fairwinds", "faith", "family", "fan", "fans", "farm", "farmers", "fashion", "fast", "fedex", "feedback", "ferrari", "ferrero", "fiat", "fidelity", "fido", "film", "final", "finance", "financial", "fire", "firestone", "firmdale", "fish", "fishing", "fit", "fitness", "flickr", "flights", "flir", "florist", "flowers", "flsmidth", "fly", "foo", "food", "foodnetwork", "football", "ford", "forex", "forsale", "forum", "foundation", "fox", "free", "fresenius", "frl", "frogans", "frontdoor", "frontier", "ftr", "fujitsu", "fujixerox", "fun", "fund", "furniture", "futbol", "fyi", "gal", "gallery", "gallo", "gallup", "game", "games", "gap", "garden", "gbiz", "gdn", "gea", "gent", "genting", "george", "ggee", "gift", "gifts", "gives", "giving", "glade", "glass", "gle", "global", "globo", "gmail", "gmbh", "gmo", "gmx", "godaddy", "gold", "goldpoint", "golf", "goo", "goodhands", "goodyear", "goog", "google", "gop", "got", "gotv", "grainger", "graphics", "gratis", "green", "gripe", "grocery", "group", "guardian", "gucci", "guge", "guide", "guitars", "guru", "hair", "hamburg", "hangout", "haus", "hbo", "hdfc", "hdfcbank", "health", "healthcare", "help", "helsinki", "here", "hermes", "hgtv", "hiphop", "hisamitsu", "hitachi", "hiv", "hkt", "hockey", "holdings", "holiday", "homedepot", "homegoods", "homes", "homesense", "honda", "honeywell", "horse", "hospital", "host", "hosting", "hot", "hoteles", "hotels", "hotmail", "house", "how", "hsbc", "htc", "hughes", "hyatt", "hyundai", "ibm", "icbc", "ice", "icu", "ieee", "ifm", "iinet", "ikano", "imamat", "imdb", "immo", "immobilien", "inc", "industries", "infiniti", "info", "ing", "ink", "institute", "insurance", "insure", "intel", "international", "intuit", "investments", "ipiranga", "irish", "iselect", "ismaili", "ist", "istanbul", "itau", "itv", "iveco", "iwc", "jaguar", "java", "jcb", "jcp", "jeep", "jetzt", "jewelry", "jio", "jlc", "jll", "jmp", "jnj", "jobs", "joburg", "jot", "joy", "jpmorgan", "jprs", "juegos", "juniper", "kaufen", "kddi", "kerryhotels", "kerrylogistics", "kerryproperties", "kfh", "kia", "kim", "kinder", "kindle", "kitchen", "kiwi", "koeln", "komatsu", "kosher", "kpmg", "kpn", "krd", "kred", "kuokgroup", "kyknet", "kyoto", "lacaixa", "ladbrokes", "lamborghini", "lamer", "lancaster", "lancia", "lancome", "land", "landrover", "lanxess", "lasalle", "lat", "latino", "latrobe", "law", "lawyer", "lds", "lease", "leclerc", "lefrak", "legal", "lego", "lexus", "lgbt", "liaison", "lidl", "life", "lifeinsurance", "lifestyle", "lighting", "like", "lilly", "limited", "limo", "lincoln", "linde", "link", "lipsy", "live", "living", "lixil", "llc", "loan", "loans", "locker", "locus", "loft", "lol", "london", "lotte", "lotto", "love", "lpl", "lplfinancial", "ltd", "ltda", "lundbeck", "lupin", "luxe", "luxury", "macys", "madrid", "maif", "maison", "makeup", "man", "management", "mango", "map", "market", "marketing", "markets", "marriott", "marshalls", "maserati", "mattel", "mba", "mcd", "mcdonalds", "mckinsey", "med", "media", "meet", "melbourne", "meme", "memorial", "men", "menu", "meo", "merckmsd", "metlife", "miami", "microsoft", "mini", "mint", "mit", "mitsubishi", "mlb", "mls", "mma", "mnet", "mobi", "mobile", "mobily", "moda", "moe", "moi", "mom", "monash", "money", "monster", "montblanc", "mopar", "mormon", "mortgage", "moscow", "moto", "motorcycles", "mov", "movie", "movistar", "msd", "mtn", "mtpc", "mtr", "multichoice", "museum", "mutual", "mutuelle", "mzansimagic", "nab", "nadex", "nagoya", "name", "naspers", "nationwide", "natura", "navy", "nba", "nec", "net", "netbank", "netflix", "network", "neustar", "new", "newholland", "news", "next", "nextdirect", "nexus", "nfl", "ngo", "nhk", "nico", "nike", "nikon", "ninja", "nissan", "nissay", "nokia", "northwesternmutual", "norton", "now", "nowruz", "nowtv", "nra", "nrw", "ntt", "nyc", "obi", "observer", "off", "office", "okinawa", "olayan", "olayangroup", "oldnavy", "ollo", "omega", "one", "ong", "onl", "online", "onyourside", "ooo", "open", "oracle", "orange", "org", "organic", "orientexpress", "origins", "osaka", "otsuka", "ott", "ovh", "page", "pamperedchef", "panasonic", "panerai", "paris", "pars", "partners", "parts", "party", "passagens", "pay", "payu", "pccw", "pet", "pfizer", "pharmacy", "phd", "philips", "phone", "photo", "photography", "photos", "physio", "piaget", "pics", "pictet", "pictures", "pid", "pin", "ping", "pink", "pioneer", "pizza", "place", "play", "playstation", "plumbing", "plus", "pnc", "pohl", "poker", "politie", "porn", "post", "pramerica", "praxi", "press", "prime", "pro", "prod", "productions", "prof", "progressive", "promo", "properties", "property", "protection", "pru", "prudential", "pub", "pwc", "qpon", "quebec", "quest", "qvc", "racing", "radio", "raid", "read", "realestate", "realtor", "realty", "recipes", "red", "redstone", "redumbrella", "rehab", "reise", "reisen", "reit", "reliance", "ren", "rent", "rentals", "repair", "report", "republican", "rest", "restaurant", "review", "reviews", "rexroth", "rich", "richardli", "ricoh", "rightathome", "ril", "rio", "rip", "rmit", "rocher", "rocks", "rodeo", "rogers", "room", "rsvp", "rugby", "ruhr", "run", "rwe", "ryukyu", "saarland", "safe", "safety", "sakura", "sale", "salon", "samsclub", "samsung", "sandvik", "sandvikcoromant", "sanofi", "sap", "sapo", "sarl", "sas", "save", "saxo", "sbi", "sbs", "sca", "scb", "schaeffler", "schmidt", "scholarships", "school", "schule", "schwarz", "science", "scjohnson", "scor", "scot", "search", "seat", "secure", "security", "seek", "select", "sener", "services", "ses", "seven", "sew", "sex", "sexy", "sfr", "shangrila", "sharp", "shaw", "shell", "shia", "shiksha", "shoes", "shop", "shopping", "shouji", "show", "showtime", "shriram", "silk", "sina", "singles", "site", "ski", "skin", "sky", "skype", "sling", "smart", "smile", "sncf", "soccer", "social", "softbank", "software", "sohu", "solar", "solutions", "song", "sony", "soy", "space", "spiegel", "sport", "spot", "spreadbetting", "srl", "srt", "stada", "staples", "star", "starhub", "statebank", "statefarm", "statoil", "stc", "stcgroup", "stockholm", "storage", "store", "stream", "studio", "study", "style", "sucks", "supersport", "supplies", "supply", "support", "surf", "surgery", "suzuki", "swatch", "swiftcover", "swiss", "sydney", "symantec", "systems", "tab", "taipei", "talk", "taobao", "target", "tatamotors", "tatar", "tattoo", "tax", "taxi", "tci", "tdk", "team", "tech", "technology", "tel", "telecity", "telefonica", "temasek", "tennis", "teva", "thd", "theater", "theatre", "theguardian", "tiaa", "tickets", "tienda", "tiffany", "tips", "tires", "tirol", "tjmaxx", "tjx", "tkmaxx", "tmall", "today", "tokyo", "tools", "top", "toray", "toshiba", "total", "tours", "town", "toyota", "toys", "trade", "trading", "training", "travel", "travelchannel", "travelers", "travelersinsurance", "trust", "trv", "tube", "tui", "tunes", "tushu", "tvs", "ubank", "ubs", "uconnect", "unicom", "university", "uno", "uol", "ups", "vacations", "vana", "vanguard", "vegas", "ventures", "verisign", "versicherung", "vet", "viajes", "video", "vig", "viking", "villas", "vin", "vip", "virgin", "visa", "vision", "vista", "vistaprint", "viva", "vivo", "vlaanderen", "vodka", "volkswagen", "volvo", "vote", "voting", "voto", "voyage", "vuelos", "wales", "walmart", "walter", "wang", "wanggou", "warman", "watch", "watches", "weather", "weatherchannel", "webcam", "weber", "website", "wed", "wedding", "weibo", "weir", "whoswho", "wien", "wiki", "williamhill", "win", "windows", "wine", "winners", "wme", "wolterskluwer", "woodside", "work", "works", "world", "wow", "wtc", "wtf", "xbox", "xerox", "xfinity", "xihuan", "xin", "xn--11b4c3d (कॉम, \"com\")", "xn--1ck2e1b (セール, \"sale\")", "xn--1qqw23a (佛山, \"Foshan\")", "xn--30rr7y (慈善, \"charity\")", "xn--3bst00m (集团, \"group\")", "xn--3ds443g (在线, \"online\")", "xn--3oq18vl8pn36a (大众汽车, \"Volkswagen\")", "xn--3pxu8k (点看, \"dot com\")", "xn--42c2d9a (คอม, \"com\")", "xn--45q11c (八卦, \"gossip\")", "xn--4gbrim (موقع, \"site\")", "xn--4gq48lf9j (一号店, \"number one store\")", "xn--55qw42g (公益, \"public interest\")", "xn--55qx5d (公司, \"company\")", "xn--5su34j936bgsg (香格里拉, \"Shangri-La\")", "xn--5tzm5g (网站, \"website\")", "xn--6frz82g (移动, \"mobile\")", "xn--6qq986b3xl (我爱你, \"I love you\")", "xn--80adxhks (москва, \"Moscow/moskva\")", "xn--80aqecdr1a (католик, \"Catholic\")", "xn--80asehdb (онлайн, \"online\")", "xn--80aswg (сайт, \"site\")", "xn--8y0a063a (联通, \"Unicom\")", "xn--9dbq2a (קום, \"com\")", "xn--9et52u (时尚, \"vogue\")", "xn--9krt00a (微博, \"Wei-bo\")", "xn--b4w605ferd (淡马锡, \"Temasek\")", "xn--bck1b9a5dre4c (ファッション, \"fashion\")", "xn--c1avg (орг, \"organization/org\")", "xn--c2br7g (नेट, \"net\")", "xn--cck2b3b (ストア, \"store\")", "xn--cg4bki (商标, \"trademark\")", "xn--czr694b (삼성, \"samsung\")", "xn--czrs0t (商店, \"shop\")", "xn--czru2d (商城, \"mall\")", "xn--d1acj3b (дети, \"kids\")", "xn--eckvdtc9d (ポイント, \"point\")", "xn--efvy88h (新闻, \"news\")", "xn--estv75g (工行, \"icbc\")", "xn--fct429k (家電, \"consumer electronics\")", "xn--fhbei (كوم, \"com\")", "xn--fiq228c5hs (中文网, \"website\")", "xn--fiq64b (中信, \"citic\")", "xn--fjq720a (娱乐, \"entertainment\")", "xn--flw351e (谷歌, \"Google\")", "xn--fzys8d69uvgm (電訊盈科, \"pccw\")", "xn--g2xx48c (购物, \"shopping\")", "xn--gckr3f0f (クラウド, \"clouad\")", "xn--gk3at1e (通販, \"online shopping\")", "xn--hxt814e (网店, \"webshop\")", "xn--i1b6b1a6a2e (संगठन, \"organization\")", "xn--imr513n (餐厅, \"restaurant\")", "xn--io0a7i (网络, \"network\")", "xn--j1aef (ком, \"com\")", "xn--jlq61u9w7b (诺基亚, \"nokia\")", "xn--jvr189m (食品, \"food\")", "xn--kcrx77d1x4a (飞利浦, \"phillips\")", "xn--kpu716f (手表, \"watches\")", "xn--kput3i (手机, \"cell\")", "xn--mgba3a3ejt (ارامكو, \"aramco\")", "xn--mgba7c0bbn0a (العليان, \"olayan\")", "xn--mgbaakc7dvf (اتصالات, \"communications\")", "xn--mgbab2bd (بازار, \"Bazaar\")", "xn--mgbb9fbpob (موبايلي, \"Mobily\")", "xn--mgbca7dzdo (ابوظبي, \"Abu Dhabi\")", "xn--mgbi4ecexp (كاثوليك, \"catholic\")", "xn--mgbt3dhd (همراه, \"along\")", "xn--mk1bu44c (닷컴, \"dot com\")", "xn--mxtq1m (政府, \"government\")", "xn--ngbc5azd (شبكة, \"web\")", "xn--ngbe9e0a (بيتك, \"your own house\")", "xn--ngbrx (عرب, \"arab\")", "xn--nqv7f (组织机构, \"org\")", "xn--nqv7fs00ema (组织机构, \"org\")", "xn--nyqy26a (健康, \"healthy\")", "xn--otu796d (招聘, \"recruitment\")", "xn--p1acf (pyc, \"russian speaking community\")", "xn--pbt977c (珠宝, \"jewelry\")", "xn--pssy2u (大拿, \"dot net\")", "xn--q9jyb4c (みんな, \"everyone\")", "xn--qcka1pmc (グーグル, \"google\")", "xn--rhqv96g (世界, \"world\")", "xn--rovu88b (書籍, \"book\")", "xn--ses554g (网址, \"web address\")", "xn--t60b56a (닷넷, \"dot net\")", "xn--tckwe (コム, \"com\")", "xn--tiq49xqyj (天主教, \"catholic\")", "xn--unup4y (游戏, \"game\")", "xn--vermgensberater-ctb (vermögensberatung, \"financial advice\")", "xn--vermgensberatung-pwb (企业, \"enterprise\")", "xn--vhquv (企业, \"enterprise\")", "xn--vuq861b (信息, \"knowledge\")", "xn--w4r85el8fhu5dnra (嘉里大酒店, \"Kerry Hotels\")", "xn--w4rs40l (嘉里, \"kerry\")", "xn--xhq521b (广东, \"guangdong\")", "xn--zfr164b (政务, \"government\")", "xperia", "xxx", "xyz", "yachts", "yahoo", "yamaxun", "yandex", "yodobashi", "yoga", "yokohama", "you", "youtube", "yun", "zappos", "zara", "zero", "zip", "zippo", "zone", "zuerich");
-    		}
-    		break;
-    	case "Agreement Type":
-    		switch (Environment.sEnvironment) {
-    		case "dev":
-    			lsExpected = Arrays.asList("Agreement", "Base", "Brand (Spec 13)", "Community (Spec 12)", "Non-Sponsored", "Sponsored");
-    			break;
-    		case "prod":
-    			lsExpected = Arrays.asList("Base", "Brand (Spec 13)", "Community (Spec 12)", "Non-Sponsored", "Sponsored");
-    			break;
-    		}
-    		break;
-    	case "Operator":
-    		switch (Environment.sEnvironment) {
-    		case "dev":
-    			lsExpected = Arrays.asList("AARP", "ABB Ltd", "Abbott Laboratories, Inc.", "AbbVie Inc.", "Able Inc.", "Abu Dhabi Systems and Information Centre", "Accenture plc", "ACO Severin Ahlmann GmbH & Co. KG", "Aerovias del Continente Americano S.A. Avianca", "Aetna Life Insurance Company", "Afilias Technologies Limited", "aigo Digital Technology Co,Ltd.", "Airbus S.A.S.", "Aktiebolaget Electrolux", "Alibaba Group Holding Limited", "Allfinanz Deutsche Vermögensberatung Aktiengesellschaft", "Allgemeiner Deutscher Automobil-Club e.V. (ADAC)", "Allstate Fire and Casualty Insurance Company", "Ally Financial Inc.", ".ALSTOM", "Amazon EU S.à r.l.", "American Automobile Association, Inc.", "American Express Travel Related Services Company, Inc.", "American International Group, Inc.", "AmFam, Inc.", "Amica Mutual Insurance Company", "AOL Inc.", "Apple Inc.", "Aquarelle.com", "Aramco Services Company", "Association Relative à la Télévision Européenne G.E.I.E.", "AUDI Aktiengesellschaft", "Australia and New Zealand Banking Group Limited", "Australian Football League", "Australian Postal Corporation", "AXA SA", "Baxter Hill, LLC", "Bharti Airtel Limited", "Binky Moon, LLC", ".BMC", "Campus IP LLC", "Charleston Road Registry Inc.", "CORE Association", "corinna", "DERAutos, LLC", "Disney Enterprises, Inc.", "Dog Beach, LLC", "dot Accountant Limited", "DotAsia Organisation Limited", "Fiat Chrysler Automobiles N.V.", "Fondation Aga Khan (Aga Khan Foundation)", "Gemeente Amsterdam", "ICM Registry AD LLC", "Interlink Co., Ltd.", "Johnson Shareholdings, Inc.", "Knob Town, LLC", "League of Arab States", "Microsoft Corporation", "Monster Worldwide, Inc.", "National Australia Bank Limited", "operator", "Public Interest Registry", "QIHOO 360 TECHNOLOGY CO. LTD.", "REGION D ALSACE", "Sand Cedar, LLC", "Societe Internationale de Telecommunications Aeronautiques SC (SITA) ", "STARTING DOT LIMITED", "The Active Network, Inc", "The Gap, Inc.", "The TJX Companies, Inc.", "Top Level Domain Holdings Limited", "UK Creative Ideas Limited", "Uniregistry, Corp.", "United TLD Holdco Ltd.", "VeriSign Sarl", "VeriSign, Inc.", "Volkswagen (China) Investment Co., Ltd.", "Wal-Mart Stores, Inc.", "ZA Central Registry NPC trading as Registry.Africa");
-    			break;
-    		case "prod":
-    			lsExpected = Arrays.asList("1&1 Mail & Media GmbH", "AARP", "ABB Ltd", "Abbott Laboratories, Inc.", "AbbVie Inc.", "Able Inc.", "Abu Dhabi Systems and Information Centre", "AC Webconnecting Holding B.V.", "Academic Institution: Kyoto Jyoho Gakuen", "Accent Media Limited", "Accenture plc", "A.C.D. LEC Association des Centres Distributeurs Edouard Leclerc", "ACO Severin Ahlmann GmbH & Co. KG", "Aerovias del Continente Americano S.A. Avianca", "Aetna Life Insurance Company", "Affinity Names, Inc.,", "Afilias", "Afilias Domains No. 5 Limited", "Afilias Limited", "Afilias plc", "Afilias Technologies Limited", "aigo Digital Technology Co,Ltd.", "Airbus S.A.S.", "Aktiebolaget Electrolux", "Alibaba Group Holding Limited", "Allfinanz Deutsche Vermögensberatung Aktiengesellschaft", "Allgemeiner Deutscher Automobil-Club e.V. (ADAC)", "Alliance-One Services, Inc.", "Allstate Fire and Casualty Insurance Company", "Ally Financial Inc.", "ALSTOM", "Amazon EU S.à r.l.", "American Automobile Association, Inc.", "American Bible Society", "American Council of Life Insurers", "American Express Travel Related Services Company, Inc.", "American International Group, Inc.", "AmFam, Inc.", "Amica Mutual Insurance Company", "Annco, Inc.", "AOL Inc.", "Apple Inc.", "Aquarelle.com", "Aramco Services Company", "ARUBA S.p.A.,", "Asia Green IT System Bilgisayar San. ve Tic. Ltd. Sti.", "Asiamix Digital Limited", "Asociación puntoGAL", "Association Relative à la Télévision Européenne G.E.I.E.", "Association www.bzh", "Atgron, Inc.", "Atomic Fields, LLC", "Atomic Lake, LLC", "Atomic Maple, LLC", "Atomic Pipe, LLC", "Auburn Bloom, LLC", "AUDI Aktiengesellschaft", "Australia and New Zealand Banking Group Limited", "Australian Cancer Research Foundation", "Australian Football League", "Australian Postal Corporation", "Autodesk, Inc.", "Automobili Lamborghini S.p.A.", "AXA SA", "Baidu, Inc.", "Banca Nazionale del Lavoro", "BANCO BILBAO VIZCAYA ARGENTARIA, S.A.", "Banco Bradesco S.A.", "Barclays Bank PLC", "Baxter Hill, LLC", "Bayerische Motoren Werke Aktiengesellschaft", "Bayern Connect GmbH", "BB&T Corporation", "BBY Solutions, Inc.", "Beats Electronics, LLC", "Beijing Gamease Age Digital Technology Co., Ltd.", "Beijing Qianxiang Wangjing Technology Development Co., Ltd.", "Beijing RITT-Net Technology Development Co., Ltd", "Beijing Tele-info Network Technology Co., Ltd.", "Belmond Ltd.", "Bentley Motors Limited", "BestTLD Pty Ltd", "Bharti Airtel Limited", "Bharti Enterprises (Holding) Private Limited", "Big Fest, LLC", "Big Hollow, LLC", "Big Room Inc.", "Binky Birch, LLC", "Binky Frostbite, LLC", "Binky Galley, LLC", "Binky Lake, LLC", "Binky Moon, LLC", "Bitter Fields, LLC", "Black Corner, LLC", "Black Cover, LLC", "BLANCO GmbH + Co KG", "Bloomberg IP Holdings LLC", "Blue Falls, LLC", "Blue Sky Registry Limited", "BNP Paribas", "Boehringer Ingelheim International GmbH", "Bond University Limited", "Booking.com B.V.", "Bostik SA", "Boston TLD Management, LLC", ".BOX INC.", "Brice Orchard, LLC", "Brice Trail, LLC,", "Bridgestone Corporation", "Bridgestone Licensing Services, Inc.", "Bristol-Myers Squibb Company", "British Broadcasting Corporation", "Brother Industries, Ltd.", "BRregistry, Inc.", "Bugatti International SA", "Business Ralliart, inc.", "CAIXA D'ESTALVIS I PENSIONS DE BARCELONA", "Campus IP LLC", "Canon Inc.", "Capital One Financial Corporation", "Caravan International, Inc.", "CBRE, Inc.", "CBS Domains Inc.", "Celebrate Broadway, Inc.", "CEOTLD Pty Ltd", "CFA Institute", "Chanel International B.V.", "Charleston Road Registry", "Charleston Road Registry Inc.", "Charleston Road Registry Inc.,", "China Organizational Name Administration Center", "China United Network Communications Corporation Limited", "CHINTAI Corporation", "Cisco Technology, Inc.", "Citadel Domain LLC", "CITIC Group Corporation", "Citigroup Inc.", "City of Helsinki", "City of Paris", ".CLUB DOMAINS, LLC", "Club Méditerranée S.A.", "CNH Industrial N.V.", "Collectivité Territoriale de Corse", "COMBELL GROUP NV/SA", "Comcast IP Holdings I, LLC", "COMMONWEALTH BANK OF AUSTRALIA", "Communications Regulatory Authority (CRA)", "Computer Network Information Center of Chinese Academy of Sciences (China Internet Network Information Center)", "Comunidad de Madrid", "Connect West Pty. Ltd.", "CORE Association", "Corn Station, LLC", "Corn Sunset, LLC", "Cotton Bloom, LLC", "Crescent Holding GmbH", "Crown Equipment Corporation", "CUNA Performance Resources, LLC", "Dabur India Limited", "Dai Nippon Printing Co., Ltd.", "Dash Cypress, LLC", "Dash McCook, LLC", "Dealer Dot Com, Inc.", "Dell Inc.", "Deloitte Touche Tohmatsu", "Delta Air Lines, Inc.", "Delta Orchard, LLC", "DERAutos, LLC", "DERBoats, LLC", "DERHomes, LLC", "DERMotorcycles, LLC", "DERYachts, LLC", "Desi Networks LLC", "Deutsche Post AG", "Deutsche Vermögensberatung Aktiengesellschaft DVAG", "Discover Financial Services", "Dish DBS Corporation", "Disney Enterprises, Inc.", "DNS.be vzw", "Dog Beach, LLC", "Dog Edge, LLC", "DOMAIN ROBOT SERVICOS DE HOSPEDAGEM NA INTERNET LTDA", "Doosan Corporation", "dot Accountant Limited", "dot Bid Limited", "Dot Cooperation LLC (DCLLC)", "dot Cricket Limited", "dot Date Limited", "dot Faith Limited", "Dot Global Domain Registry Ltd", "Dot Kiwi, Limited", "Dot Latin, LLC", "dot Loan Limited", "Dot London Domains Limited", "dot Review Limited", "dot Science Limited", "Dot Scot Registry Limited", "dot Stream Limited", "dot Support Limited", "Dot Trademark TLD Holding Company Limted", "Dot Vegas, Inc.", "dot Webcam Limited", "DotAsia Organisation Limited", "dotBERLIN GmbH & Co. KG", "dotCareer, LLC", "dotCOOL, Inc.", "DotCountry LLC", "DotHealth, LLC", "dotHIV gemeinnuetziger e.V.", "DotHost Inc.", "dotKoeln GmbH", "DotOnline Inc.", "DotPress Inc.", "dotRealEstate LLC", "dotreise GmbH", "dotSaarland GmbH", "DotSite Inc.", "DotSpace Inc.", "DotStore Inc.", "Dotstrategy Co.", "dotversicherung-registry GmbH", "DotWebsite Inc.", "Dubai Smart Government Department", "DWANGO Co., Ltd.", "Eagle Horizon Limited", "ECOM-LAC Federaciòn de Latinoamèrica y el Caribe para Internet y el Comercio Electrònico", "EDEKA Verband kaufmännischer Genossenschaften e.V.", "E.I. du Pont de Nemours and Company", "Electronic Media Network (Pty) Ltd", "Elegant Leader Limited", "Eli Lilly and Company", "Elite Registry Limited", "Emerson Electric Co.", "Emirates Telecommunications Corporation (trading as Etisalat)", "Employ Media LLC", "Empresa Municipal de Informática SA – IPLANRIO", "ERNI Group Holding AG", "Esurance Insurance Company", "European Broadcasting Union", "European Broadcasting Union (EBU)", "European Organization for Nuclear Research (\"CERN\")", "EverBank", "Excellent First Limited", "Exclusive Registry Limited", "Extra Cover, LLC", "Extra Dynamite, LLC", "Extra Space Storage LLC", "Fage International S.A.", "FairWinds Partners, LLC", "Farmers Insurance Exchange", "FCA US LLC.", "Federal Express Corporation", "Federated Co operatives Limited", "Fegistry, LLC", "Ferrero Trading Lux S.A.", "Fiat Chrysler Automobiles N.V.", "Fidelity Brokerage Services LLC", "Firmdale Holdings Limited", "First Registry Limited", "FLIR Systems, Inc.", "FLSmidth A/S", "Foggy Beach, LLC,", "Foggy Moon, LLC", "Foggy Shadow, LLC", "Foggy Sky, LLC", "Fondation Aga Khan (Aga Khan Foundation)", "Ford Motor Company", "Foundation for Assistance for Internet Technologies and Infrastructure Development (FAITID)", "FOX Registry, LLC", "Fox Shadow, LLC", "Fox Station, LLC", "Fresenius Immobilien-Verwaltungs-GmbH", "FRLregistry B.V.", "Frontier Communications Corporation", "fTLD Registry Services LLC", "Fujitsu Limited", "Fundació puntCAT", "Fédération Internationale de Basketball (FIBA)", "Fédération Nationale de la Mutualité Française", "Gallo Vineyards, Inc.", "Gallup, Inc.", "GEA Group Aktiengesellschaft", "Gemeente Amsterdam", "Giving Limited", "Global Association of International Sports Federations (GAISF)", "Global Name Registry", "Global Website TLD Asia Limited", "Globo Comunicação e Participações S.A", "GMO Internet, Inc.", "GMO Registry, Inc.", "Go Daddy East, LLC", "Goose Cross", "Goose Park, LLC", "Goose Sky, LLC", "Grainger Registry Services, LLC", "Grand Hollow, LLC", "Grand Orchard, LLC", "GreenTech Consultancy Company W.L.L.", "Guangzhou YU Wei Information Technology Co., Ltd.", "Guardian News and Media Limited", "Guccio Gucci S.p.a.", "H. Lundbeck A/S", "Half Cypress, LLC", "Half Falls, LLC", "Half Hallow, LLC", "Half Trail, LLC", "Half Willow, LLC", "Hamburg Top-Level-Domain GmbH", "HBO Registry Services, Inc.", "HDFC Bank Limited", "HERMES INTERNATIONAL", "Hidden Bloom, LLC", "Hidden Frostbite, LLC", "Hidden Way, LLC", "Hisamitsu Pharmaceutical Co.,Inc.", "Hitachi, Ltd.", "Holly Hill, LLC", "Holly Shadow, LLC", "Homer TLC, Inc.,", "Honda Motor Co., Ltd.", "Honeywell GTLD LLC", "Hotel Cipriani Srl", "HOUSING DEVELOPMENT FINANCE CORPORATION LIMITED", "HSBC Holdings PLC", "HTC corporation", "HU YI GLOBAL INFORMATION RESOURCES (HOLDING) COMPANY. HONGKONG LIMITED", "HU YI GLOBAL INFORMATION RESOURCES(HOLDING) COMPANY.HONGKONG LIMITED", "Hughes Satellite Systems Corporation", "Hyatt GTLD, L.L.C.", "Hyundai Motor Company", "I-Registry Ltd", "I-REGISTRY Ltd., Niederlassung Deutschland", "ICM Registry AD LLC", "ICM Registry LLC", "ICM Registry PN LLC", "ICM Registry SX LLC", "IEEE Global LLC", "ifm electronic gmbh", "IG Group Holdings PLC", "Ikano S.A.", "Industria de Diseño Textil, S.A. (INDITEX, S.A.)", "Industrial and Commercial Bank of China Limited", "INFIBEAM INCORPORATION LIMITED", "Intel Corporation", "Intelprop (Proprietary) Limited", "Intercap Holdings Inc.", "IntercontinentalExchange, Inc.", "Interlink Co., Ltd.", "International Business Machines Corporation", "International Domain Registry Pty. Ltd.", "Intuit Administrative Services, Inc.", "Ipiranga Produtos de Petroleo S.A.", "IRI Domain Management, LLC (\"Applicant\")", "iSelect Ltd", "Istanbul Metropolitan Municipality", "Itau Unibanco Holding S.A.", "ITV Services Limited", "Jaguar Land Rover Ltd", "Japan Broadcasting Corporation (NHK)", "Japan Registry Services Co., Ltd.", "JCB Co., Ltd.", "JCP Media, Inc.", "Jiangsu Bangning Science & Technology Co.,Ltd.", "John Castle, LLC", "John Edge, LLC", "John McCook, LLC", "Johnson & Johnson Services, Inc.", "Johnson Shareholdings, Inc.", "Joint Stock Company \"Navigation-information systems\"", "Jones Lang LaSalle Incorporated", "JPMorgan Chase & Co.,", "June Woods, LLC", "JUNIPER NETWORKS, INC.", "Just Goodbye, LLC", "Just Maple, LLC", "Kanton Zürich (Canton of Zurich)", "KBE gTLD Holding Inc", "KDDI CORPORATION", "Kerry Trading Co. Limited", "KIA MOTORS CORPORATION", "KNET Co., Ltd.", "Knob Town, LLC", "Koko Station, LLC", "Komatsu Ltd.", "Koninklijke KPN N.V.", "Koninklijke Philips N.V.", "Kosher Marketing Assets LLC", "KPMG International Cooperative (KPMG International Genossenschaft)", "KredTLD Pty Ltd", "KRG Department of Information Technology", "Kuwait Finance House", "La Trobe University", "LADBROKES INTERNATIONAL PLC", "LANCASTER", "LANXESS Corporation", "Latin American Telecom LLC", "League of Arab States", "LeFrak Organization, Inc.", "LEGO Juris A/S", "Liaison Technologies, Incorporated", "Lifestyle Domain Holdings, Inc.", "Limited Liability Company \"Coordination Center of Regional Domain of Tatarstan Republic\"", "lincoln Motor Company", "Linde Aktiengesellschaft", "Lipsy Ltd", "Little Station, LLC", "LIXIL Group Corporation", "Locus Analytics LLC", "Lone Falls, LLC", "Lone Hollow, LLC,", "Lone Tigers, LLC", "L'Oréal", "Lotte Holdings Co., Ltd.", "LPL Holdings, Inc.", "LUPIN LIMITED", "Luxury Partners, LLC", "Macys, Inc.", "Magic Pass, LLC", "MAN SE", "Marriott Worldwide Corporation", "Massachusetts Institute of Technology", "Matrix IP LLC", "Mattel Sites, Inc.", "McDonald's Corporation", "McKinsey Holdings, Inc.", "Medistry LLC", "Merchant Law Group LLP", "Merck KGaA", "MetLife Services and Solutions, LLC", "Microsoft Corporation", "MIH PayU B.V.", "Minds + Machines GmbH", "Minds + Machines Group Limited", "Minds + Machines Group Limited,", "Mitsubishi Corporation", "Mitsubishi Tanabe Pharma Corporation", "MLB Advanced Media DH, LLC", "MMA IARD", "Monash University", "Monolith Registry LLC", "Monster Worldwide, Inc.", "Motion Picture Domain Registry Pty Ltd", "MSD Registry Holdings, Inc.", "MTN Dubai Limited", "MTR Corporation Limited", "MultiChoice (Proprietary) Limited", "Municipi de Barcelona", "MuseDoma", "Mutuelle Assurance Instituteur France (MAIF)", "mySRL GmbH", "National Association of Boards of Pharmacy", "National Association of Real Estate Investment Trusts, Inc.", "National Australia Bank Limited", "Nationwide Mutual Insurance Company", "NATURA COSMÉTICOS S.A.", "NBA REGISTRY, LLC", "NEC Corporation", "Net-Chinese Co., Ltd.", "Netflix, Inc.", "NeuStar, Inc.", "New Cypress, LLC", "New Frostbite, LLC", "New TLD Company AB", "Next plc", "NFL Reg Ops LLC", "NIKE, Inc.", "NIKON CORPORATION", "Nippon Life Insurance Company", "NIPPON TELEGRAPH AND TELEPHONE CORPORATION", "NISSAN MOTOR CO., LTD.", "NMS Services, Inc.,", "Nokia Corporation", "Nominet UK", "Northwestern Mutual MU TLD Registry, LLC", "Northwestern Mutual Registry, LLC", "NRA Holdings Company, INC.", "NTT Resonant Inc.", "Núcleo de Informação e Coordenação do Ponto BR - NIC.br", "OBI Group Holding SE & Co. KGaA", "One.com A/S", "One.com A/S,", "OP3FT", "OPEN UNIVERSITIES AUSTRALIA PTY LTD", "Oracle Corporation", "Orange Brand Services Limited", "Oriental Trading Company,", "Osaka Registry Co., Ltd.", "Otsuka Holdings Co. Ltd.", "Outer Falls, LLC", "Outer Moon, LLC", "OVH SAS", "Pacific Century Asset Management (HK) Limited", "Panasonic Corporation", "PCCW Enterprises Limited", "PCCW-HKT DataCom Services Limited", "Pearl Woods, LLC", "Personals TLD Inc.", "Pfizer Inc.", "PhysBiz Pty Ltd", "Pictet Europe S.A.", "Pine Mill, LLC", "Ping Registry Provider, Inc.", "Pioneer Canyon, LLC,", "Pioneer Corporation", "Pioneer Cypress, LLC", "Pioneer Maple, LLC", "Pixie Station, LLC", "Plan Bee LLC", "Play.PROMO Oy", "PNC Domain Co., LLC", "PointQuébec Inc", "Politie Nederland", "Pontificium Consilium de Comunicationibus Socialibus (PCCS) (Pontifical Council for Social Communication)", "Praxi S.p.A.", "Premier Registry Limited", "PricewaterhouseCoopers LLP", "PRIMER NIVEL S.A.", "Progressive Casualty Insurance Company", "Prudential Financial, Inc.", "PT Comunicacoes S.A.", "Public Interest Registry", "Puff House, LLC", "Puff Willow, LLC", "punkt Tirol GmbH", "punkt.wien GmbH", "Punto 2012 Sociedad Anonima Promotora de Inversion de Capital Variable", "PUNTO FA S.L.", "Puntueus Fundazioa", "PVH gTLD Holdings LLC", "QIHOO 360 TECHNOLOGY CO. LTD.", "Quest ION Limited", "QVC, Inc.", "Real Estate Domains LLC", "Redstone Haute Couture Co., Ltd.", "regiodot GmbH & Co. KG", "REGION D ALSACE", "Reliance Industries Limited", "Republican State Leadership Committee, Inc.", "Research IP LLC", "Resorts World Inc Pte. Ltd.", "Richemont DNS Inc.", "Ricoh Company, Ltd.", "RISE VICTORY LIMITED", "Robert Bosch GMBH", "Rogers Communications Partnership", "Royal Melbourne Institute of Technology", "Ruby Moon, LLC", "Ruby Town, LLC", "Rusnames Limited", "RWE AG", "Safety Registry Services, LLC.", "Saint-Gobain Weber SA", "SAKURA Internet Inc.", "SALM S.A.S.", "SAMSUNG SDS CO., LTD", "Samsung SDS Co., LTD", "Sand Cedar, LLC", "Sandvik AB", "Sanofi", "SAP AG", "Saudi Telecom Company", "Saxo Bank A/S", "Schaeffler Technologies AG & Co. KG", "Scholarships.com, LLC", "Schwarz Domains und Services GmbH & Co. KG", "SCOR SE", "Sea Corner, LLC", "Sea Sunset, LLC,", "SEAT, S.A. (Sociedad Unipersonal)", "Seek Limited", "Seiko Epson Corporation", "Self Storage Company LLC", "Sener Ingeniería y Sistemas, S.A.", "SES", "Seven West Media Ltd", "SEW-EURODRIVE GmbH & Co KG", "Shangri‐La International Hotel Management Limited", "Sharp Corporation", "Shaw Cablesystems G.P.", "Shell Information Technology International Inc", "Shriram Capital Ltd.", "Silver Avenue, LLC", "Silver Glen, LLC", "Sina Corporation", "Sky IP International Ltd, a company incorporated in England and Wales, operating via its registered Swiss branch", "Smart Communications, Inc. (SMART)", "Snow Beach, LLC", "Snow Galley, LLC", "Snow Moon, LLC", "Societe Francaise du Radiotelephone - SFR", "Societe Internationale de Telecommunications Aeronautiques SC (SITA) ", "Société Nationale des Chemins de fer Francais S N C F", "SoftBank Corp.", "Sohu.com Limited", "Sony Computer Entertainment Inc.", "Sony Corporation", "Sony Mobile Communications AB", "SPECIAL BROADCASTING SERVICE CORPORATION", "SPIEGEL-Verlag Rudolf Augstein GmbH & Co. KG", "Spring Goodbye, LLC,", "Spring Madison, LLC", "Stable Tone Limited", "STADA Arzneimittel AG", "Staples, Inc.", "Star India Private Limited", "Starbucks (HK) Limited", "StarHub Limited", "STARTING DOT LIMITED", "STATE BANK OF INDIA", "State Farm Mutual Automobile Insurance Company", "State of New South Wales, Department of Premier and Cabinet", "Statoil ASA", "Stockholms kommun", "Storm Orchard, LLC", "Sugar Cross, LLC", "Sugar Glen, LLC", "Sugar House, LLC", "Sugar Mill, LLC,", "Sugar Park, LLC", "Suhub Electronic", "SuperSport International Holdings Proprietary Limited", "SUZUKI MOTOR CORPORATION", "SVENSKA CELLULOSA AKTIEBOLAGET SCA (publ)", "Swiftcover Insurance Services Limited", "Swiss Confederation", "Symantec Corporation", "T V SUNDRAM IYENGAR & SONS LIMITED", "Tabcorp Holdings Limited", "Taipei City Government", "Target Domain Holdings, LLC", "Tata Motors Ltd", "TDK Corporation", "Teachers Insurance and Annuity Association of America", "TelecityGroup International Limited", "Telefonaktiebolaget L M Ericsson", "Telefonica Brasil S.A.", "Telefónica S.A.", "Telnames Limited", "Temasek Holdings (Private) Limited", "Teva Pharmaceutical Industries Limited", "The Active Network, Inc", "THE BOOTS COMPANY PLC", "The Boston Consulting Group, Inc.", "The Canadian Real Estate Association", "The Christian Broadcasting Network, Inc.", "The City of New York by and through the New York City Department of Information Technology & Telecommunications", "The Corporate Executive Board Company", "The Crown in right of the State of Victoria, represented by its Department of State Development, Business and Innovation", "The Dun & Bradstreet Corporation", "The Estée Lauder Companies Inc.", "The Foundation for Network Initiatives \"The Smart Internet\"", "The Gap, Inc.", "The Goodyear Tire & Rubber Company", "The Guardian Life Insurance Company of America", "The Pampered Chef, Ltd.", "The Siam Commercial Bank Public Company Limited (\"SCB\")", "The Swatch Group Ltd", "The TJX Companies, Inc.", "The Vanguard Group, Inc.", "The Weather Channel, LLC", "Tiffany and Company", "Tin Birch, LLC", "Tin Mill, LLC", "TLD Registry Limited", "Top Level Design, LLC", "Top Level Domain Holdings Limited", "Top Level Spectrum, Inc.", "Toray Industries, Inc.", "TOSHIBA Corporation", "Total SA", "TOYOTA MOTOR CORPORATION", "Tralliance Registry Management Company, LLC", "Travel Reservations SRL", "Travelers TLD, LLC", "TUI AG", "Tycoon Treasure Limited", "UBN INTERNET LTDA.", "UBS AG", "UK Creative Ideas Limited", "Uniregistry Corp.", "Uniregistry, Corp", "Uniregistry, Corp.", "United TLD Holdco Ltd.", "Universal Postal Union (UPU)", "UPS Market Driver, Inc.", "Valuetainment Corp.", "VeriSign", "VeriSign Sarl", "VeriSign, Inc.", "Victor Frostbite, LLC", "Victor Way, LLC", "VIENNA INSURANCE GROUP AG Wiener Versicherung Gruppe", "Viking River Cruises (Bermuda) Ltd.", "Virgin Enterprises Limited", "Visa Worldwide Pte. Limited", "Vistaprint Limited", "Volkswagen (China) Investment Co., Ltd.", "Volkswagen Group of America Inc.", "Volvo Holding Sverige Aktiebolag", "Vox Populi Registry Inc.", "Wal-Mart Stores, Inc.", "Wedding TLD2, LLC", "Weir Group IP Limited", "Werkhaus GmbH", "Who's Who Registry", "Wild Corner, LLC", "Wild Dale, LLC", "Will Bloom, LLC", "William Hill Organization Limited", "William Morris Endeavor Entertainment, LLC", "Wolters Kluwer N.V.", "Woodside Petroleum Limited", "World Rugby Strategic Developments Limited", "World Trade Centers Association, Inc.", "Xerox DNHC LLC", "Xinhua News Agency Guangdong Branch 新华通讯社广东分社", "XYZ.COM LLC", "Yahoo! Domain Services Inc.", "YANDEX, LLC", "YODOBASHI CAMERA CO.,LTD.", "ZA Central Registry NPC trading as Registry.Africa", "ZA Central Registry NPC trading as ZA Central Registry", "Zadco Company", "Zodiac Aquarius Limited", "Zodiac Scorpio Limited", "Zodiac Taurus Limited", "Zodiac Wang Limited");
-    			break;
-    		}
-    		break;
-    	case "Agreement Status":
-    		lsExpected = Arrays.asList("Active", "Terminated");
-    		break;
-    	}
-    	
-		Helper.logTest("Test the " + sWhichField + " dropdown contents.");
-		
-		Helper.logTestStep("Get the list of selections available for the field:  " + sWhichField);
-		List<String> lsActual = RegistryAgreementsPage.lsSelectionsForField(sWhichField);
-		
-		Helper.logTestStep("Compare the expected list of selections vs the actual list.");
-		Helper.compareLists(lsExpected, lsActual, "List of choices for enter/select control:  " + sWhichField);
-		
-		if (Helper.bDebug) {
-			String sTheWholeThing = "";
-			String sCommaIfAny = ", ";
-			for (int i=0; i<lsActual.size(); i++) {
-				if (i+1 == lsActual.size()) {
-					sCommaIfAny = "";
-
-				}
-				sTheWholeThing += "\"" + lsActual.get(i).replaceAll("\"", "\\\\\"") + "\"" + sCommaIfAny;
-			}
-			Helper.logDebug("<variable_here> = Arrays.asList(" + sTheWholeThing + ");");
-		}
-    }
-    
+//	List<String> lsSuiteVars = Arrays.asList("sALabel", "sTypeOfTld", "sAgreementType", "sAgreementDate");
+	List<String> lsSuiteVars = Arrays.asList("raRecord");
+	public String sALabel;
+	public String sTypeOfTld;
+	public String sAgreementType;
+	public String sAgreementDate;
+	public RegistryAgreement raRecord;
+	
 	@BeforeClass
 	static public void runOnce() throws Exception {
 		browser = Environment.initializeDriver();
 		Environment.setEnvironmentAndLogServers("dev");	
 		
-		Helper.logTestGroup("Proof of concept - CMS");
+		Helper.logTestGroup("Proof of concept - CMS POC");	
 	}
 
 	@Before
 	public void beforeEach(){
+		
+	}
+	
+	@Test
+	public void retrieveRegistryAgreement() {
+		Helper.bDebug = true;
+		
+		if (Suite.bUsingSuite) {
+			Helper.logDebug("Using suite.");
+			for (int i=0; i<lsSuiteVars.size(); i++) {
+				try {
+					Helper.logDebug("Assigning field name  " + CmsPoc.class.getField(lsSuiteVars.get(i)) + " to suite value " + Suite.class.getField(lsSuiteVars.get(i)).get(null));
+					CmsPoc.class.getField(lsSuiteVars.get(i)).set(this, Suite.class.getField(lsSuiteVars.get(i)).get(null));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			sALabel = Helper.todayString() + "_cms_automation";
+			sTypeOfTld = "gTLD ";
+			sAgreementType = "Community - Spec 12";
+			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
+			
+			raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+		}
+		
+		Helper.logDebug("sALabel = " + sALabel);
+		Helper.logDebug("sTypeOfTld = " + sTypeOfTld); 
+		Helper.logDebug("sAgreementType = " + sAgreementType); 
+		Helper.logDebug("sAgreementDate = " + sAgreementDate); 
+		Helper.logDebug("raRecord = " + raRecord.toString());
+		Helper.bDebug = false;
+		
+		String sContentType = "Registry Agreement";
+		
+//		//debug shortcut
+//		raRecord.sGtld = "20190520_13.25.09_dms_automation"; 
+//		sALabel = raRecord.sGtld;
+		
+		
+		
+		Helper.logTest("Look up new DMS content in CMS:  " + sContentType);
+		Helper.logMessage("Looking for registry agreement:  " + raRecord.sGtld);
+		Helper.logMessage("");
+		
+		Helper.logTestStep("Open the registry agreements page.");
 		RegistryAgreementsPage.open();
-	}
+		
+		sWhichField = "gTLD / String";
+		Helper.logTestStep("Filter the registry agreements by the new A-Label:  " + raRecord.sGtld);
+		Helper.logDebug("Click the " + sWhichField + " text field.");
+		Helper.waitForThenClick(RegistryAgreementsPage.txtEnterSelect(sWhichField));
+		Helper.nap(2);
+		
+		Helper.waitForThenSendKeys(RegistryAgreementsPage.txtEnterSelectSearch("gTLD / String"), raRecord.sGtld);
+		
+		Helper.logTestStep("Click the checkbox for filter item:  " + raRecord.sGtld);
+		Helper.waitForThenClick(RegistryAgreementsPage.chkFilterSelection(raRecord.sGtld));
+		
+		Helper.logTestStep("Click Apply.");
+		Helper.waitForThenClick(RegistryAgreementsPage.btnApplyFilters);
+		Helper.nap(1);
+		
+		List<String> lsExpected = Arrays.asList(raRecord.sGtld, raRecord.sAgreementType, raRecord.sOperator, raRecord.sAgreementStatus, raRecord.sAgreementDate);
+		Helper.logMessage("Verify the row record information.");
+		Helper.compareLists(lsExpected, RegistryAgreementsPage.searchResultRowValue(1).toList());
 	
-	@Test
-	public void testgTldStringOverflowItems() {
-		String sWhichField = "gTLD / String";
-		testOverflow(sWhichField);
+		Helper.logTestStep("Click the agreement link with text:  " + raRecord.sGtld);
+		Helper.waitForThenClick(RegistryAgreementsPage.resultLink(raRecord.sGtld));
+		
+		Helper.logTestStep("Verify the returned URL contains:  " + raRecord.sGtld);
+		Helper.waitForUrlToContain(raRecord.sGtld);
+		
+		String sExpectedAgreementTitle = "." + raRecord.sGtld + " Registry Agreement";
+		Helper.logTestStep("Verify the agreement title is:  " + sExpectedAgreementTitle);
+		Helper.compareStrings(sExpectedAgreementTitle, Helper.waitForElement(RegistryAgreementDetail.txtAgreementTitle).getText());
+		
+		String sULabelPreString = "U-Label ";
+		Helper.logTestStep("Verify the U-Label is:  " + raRecord.sGtld);
+		Helper.compareStrings(sULabelPreString + raRecord.sGtld, Helper.waitForElement(RegistryAgreementDetail.txtULabel).getText());
+		
+		String sOperatorPreString = "Operator";
+		Helper.logTestStep("Verify the Operator is:  " + raRecord.sOperator);
+		Helper.compareStrings(sOperatorPreString + raRecord.sOperator, Helper.waitForElement(RegistryAgreementDetail.txtOperator).getText());
+
+		String sAgreementDatePreString = "Agreement Date ";
+		Helper.logTestStep("Verify the Agreement Date is:  " + raRecord.sAgreementDate);
+		Helper.compareStrings(sAgreementDatePreString + raRecord.sAgreementDate, Helper.waitForElement(RegistryAgreementDetail.txtAgreementDate).getText());
+		
+		String sAgreementTypePreString = "Agreement Type ";
+		Helper.logTestStep("Verify the Agreement Type is:  " + raRecord.sAgreementType);
+		Helper.compareStrings(sAgreementTypePreString + raRecord.sAgreementType, Helper.waitForElement(RegistryAgreementDetail.txtAgreementType).getText());
+
 	}
 
+	@Ignore
 	@Test
-	public void testAgreementTypeOverflowItems() {
-		String sWhichField = "Agreement Type";
-		testOverflow(sWhichField);
-	}
-
-	@Test
-	public void testOperatorOverflowItems() {
-		String sWhichField = "Operator";
-		testOverflow(sWhichField);
-	}
+	public void publishPlayground() {
+		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=112b6283-9fb0-473e-9be2-3fb196d44bea");
+		
+		
+		
+		
+//		RegistryAgreementPage.requestReview("jeffrey.chen");
+//		RegistryAgreementPage.requestTranslation("Arabic");
 	
-	@Test
-	public void testAgreementStatusOverflowItems() {
-		String sWhichField = "Agreement Status";
-		testOverflow(sWhichField);
 	}
-	
 	@AfterClass
 	static public void cleanup(){
 //		Helper.thatsThat();
