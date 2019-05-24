@@ -48,7 +48,7 @@ public class PublicComment {
 		Helper.waitForUrlToContain("nodeId");
 		
 		Helper.logTestStep("Verify a nodeId is returned.");
-		sNodeId = PublicCommentPage.getCurrentNodeId();
+		sNodeId = PublicCommentPage.currentNodeId();
 		Helper.logMessage("The created nodeId:  " + sNodeId);
 		
 		String sPublicCommentTitle = "Public Comment Title";
@@ -66,24 +66,24 @@ public class PublicComment {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = "metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Taxonomy.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(Dms.txtMetadataDescription, sMetadataDescription);
 
 		
 		sWhichField = "topic owner";
 		sValueToSelect = "Communications";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 		
 
 		sWhichField = "team";
 		sValueToSelect = "Language Services";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 
 		sWhichField = "topic";
 		sValueToSelect = "Translation, Interpretation, and Localization";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 				
 		Helper.logTestStep("Publish the content item now.");
 		ContentItem.publishNow();

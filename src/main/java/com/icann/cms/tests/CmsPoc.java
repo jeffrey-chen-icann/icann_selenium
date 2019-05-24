@@ -58,7 +58,7 @@ public class CmsPoc {
 				}
 			}
 		} else {
-			sALabel = Helper.todayString() + "_dms_automation";
+			sALabel = Helper.todayString() + "_cms_automation";
 			sTypeOfTld = "gTLD ";
 			sAgreementType = "Community - Spec 12";
 			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");

@@ -36,7 +36,7 @@ public class Suite {
 	public static void setSuiteVars(String sSuiteName) {
 		switch (sSuiteName) {
 		case "pocsuite":
-			sALabel = "suite_" + Helper.todayString() + "_dms_automation";
+			sALabel = "suite_" + Helper.todayString() + "_e2e_automation";
 			sTypeOfTld = "gTLD ";
 			sAgreementType = "Base";
 			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");

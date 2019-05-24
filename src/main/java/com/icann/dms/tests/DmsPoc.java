@@ -35,7 +35,7 @@ public class DmsPoc {
 		browser = Environment.initializeDriver();
 		Environment.setEnvironmentAndLogServers("dev");	
 		
-		Helper.logTestGroup("Proof of concept - DMS ===> CMS");
+		Helper.logTestGroup("Proof of concept - DMS");
 		
 		Dms.login();		
 	}
@@ -98,7 +98,7 @@ public class DmsPoc {
 		Helper.waitForUrlToContain("nodeId");
 		
 		Helper.logTestStep("Verify a nodeId is returned.");
-		sNodeId = RegistryAgreementPage.getCurrentNodeId();
+		sNodeId = RegistryAgreementPage.currentNodeId();
 		Helper.logMessage("The created nodeId:  " + sNodeId);
 		if (Suite.bUsingSuite) {
 			Suite.sNodeId = sNodeId;
@@ -117,7 +117,7 @@ public class DmsPoc {
 		sWhichField = "type of tld";
 		sValueToSelect = sTypeOfTld;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection("Type of TLD", sValueToSelect);
+		Dms.setDropdownSelection("Type of TLD", sValueToSelect);
 
 		Helper.logTestStep("Check the Part of Registry Agreement checkbox.");
 		Helper.waitForThenClick(RegistryAgreementPage.chkPartOfARegistryAgreement);
@@ -128,22 +128,22 @@ public class DmsPoc {
 		sWhichField = "agreement type";
 		sValueToSelect = raRecord.sAgreementType;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = raRecord.sGtld + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Taxonomy.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(Dms.txtMetadataDescription, sMetadataDescription);
 
 		sWhichField = "agreement status";
 		sValueToSelect = "Current";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		sWhichField = "agreement round";
 		sValueToSelect = "2004";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		ContentItem.setDropdownSelection(sWhichField, sValueToSelect);
+		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		Helper.logTestStep("Click the Save Draft button.");
 		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);

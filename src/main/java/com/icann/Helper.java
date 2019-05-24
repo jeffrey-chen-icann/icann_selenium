@@ -297,7 +297,7 @@ public class Helper {
 	
 	public static By anythingWithText(String sTextToLookFor){ 
 		
-		String sXpath = "//*[text()[contains(.,\"" + sTextToLookFor + "\")]]";
+		String sXpath = "//*[text()=\"" + sTextToLookFor + "\" or text()[contains(.,\"" + sTextToLookFor + "\")]]";
 
 		if (sTextToLookFor.contains("\"")){
 			Helper.logDebug("Fourd double quotes in string to search for, so replacing double quotes in contains xpath call with single quotes.");
