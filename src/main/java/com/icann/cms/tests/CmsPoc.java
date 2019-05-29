@@ -44,9 +44,7 @@ public class CmsPoc {
 	}
 	
 	@Test
-	public void retrieveRegistryAgreement() {
-		Helper.bDebug = true;
-		
+	public void retrieveRegistryAgreement() {		
 		if (Suite.bUsingSuite) {
 			Helper.logDebug("Using suite.");
 			for (int i=0; i<lsSuiteVars.size(); i++) {
@@ -137,7 +135,7 @@ public class CmsPoc {
 
 	@Ignore
 	@Test
-	public void publishPlayground() {
+	public void playground() {
 		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=112b6283-9fb0-473e-9be2-3fb196d44bea");
 		
 		
@@ -149,6 +147,6 @@ public class CmsPoc {
 	}
 	@AfterClass
 	static public void cleanup(){
-//		Helper.thatsThat();
+		Helper.thatsThat();
 	}
 }

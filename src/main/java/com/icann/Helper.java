@@ -445,7 +445,9 @@ public class Helper {
 //				}
 //			}
 			
-			browser.quit();
+			if (!Helper.bDebug) {
+				browser.quit();	
+			}
 		}
 	}
 	

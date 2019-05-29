@@ -34,12 +34,16 @@ public class Suite {
 	public static RegistryAgreement raRecord = new RegistryAgreement();
 	
 	public static void setSuiteVars(String sSuiteName) {
+		//note:  these must be mixed case to handle the reflection
+		
+		Helper.logMessage("Setting suite variables for suite:  " + sSuiteName);
 		switch (sSuiteName) {
-		case "pocsuite":
+		case "PocSuite":
 			sALabel = "suite_" + Helper.todayString() + "_e2e_automation";
 			sTypeOfTld = "gTLD ";
 			sAgreementType = "Base";
 			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
+			break;
 		default:
 			Helper.logError("Oops; did not find suite name:  " + sSuiteName);
 		}
