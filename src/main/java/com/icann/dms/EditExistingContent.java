@@ -73,14 +73,17 @@ public class EditExistingContent {
     public static int iTotalResultRows() {
     	int iTotalRows = 0;
     	
-    	if (Helper.waitForElement(searchReturned0Results, 5).isDisplayed()) {
-    		Helper.logDebug("Found 0 search results returned text.");
-    	} else {
-    		Helper.logDebug("Waiting for pagination control...");
+    	try {
+    		Helper.logDebug("Looking for pagination control...");
+    		browser.findElement(showingXofY);
+    		
 	    	String sShowingXofY = Helper.waitForElement(showingXofY).getText();
 	
 	    	String sY = sShowingXofY.substring(sShowingXofY.lastIndexOf(" ")+1);
 	    	iTotalRows = Integer.parseInt(sY);
+    		
+    	} catch (Exception e) {
+    		Helper.logDebug("Never found pagination control.  Assuming 0 results.");
     	}
 
     	return iTotalRows;

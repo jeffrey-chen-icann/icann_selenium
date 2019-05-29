@@ -168,7 +168,8 @@ public class ContentItem {
     	Helper.logMessage("Waiting up to " + iSecondsToWait + " seconds for workflow state to change to:  " + sDesiredState);
     	sCurrentState = currentWorkflowState();
     	
-    	for (int i=0; i<iSecondsToWait/iRetryTimeInSeconds; i++) {
+    	int i;
+    	for (i=0; i<iSecondsToWait/iRetryTimeInSeconds; i++) {
     		if (sCurrentState.equals(sDesiredState)) {
     			bMatches = true;
     			break;
@@ -182,7 +183,7 @@ public class ContentItem {
     	}
 
     	if (bMatches) {
-    		Helper.logMessage(sWorkflowStateText + sCurrentState);
+    		Helper.logMessage(sWorkflowStateText + sCurrentState + " after " + (i+1)*iRetryTimeInSeconds + " seconds.");
     	} else {
     		Helper.logError("State (" + sDesiredState + ") was not achieved after " + iSecondsToWait + " seconds.");
     	}

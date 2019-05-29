@@ -47,8 +47,6 @@ public class DmsPoc {
 	
 	@Test
 	public void createRegistryAgreement() {
-		Helper.bDebug = true;
-		
 		if (Suite.bUsingSuite) {
 			Helper.logDebug("Using suite.");
 			for (int i=0; i<lsSuiteVars.size(); i++) {
@@ -78,8 +76,6 @@ public class DmsPoc {
 		if (Suite.bUsingSuite) {
 			Suite.raRecord = raRecord;
 		}
-		
-		
 		
 //		String sOriginalTab = browser.getWindowHandle();
 		
@@ -151,16 +147,13 @@ public class DmsPoc {
 		Helper.logTestStep("Publish the content item.");
 		ContentItem.publishNow();
 		
-		//poll the published state
-		ContentItem.waitForWorkflowState("Published", 60);
-		
 ////>>>somehow trigger cache refresh - graphql?
 
 	}
 
 	@Ignore
 	@Test
-	public void publishPlayground() {
+	public void playground() {
 		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=112b6283-9fb0-473e-9be2-3fb196d44bea");
 		
 
@@ -171,6 +164,6 @@ public class DmsPoc {
 	}
 	@AfterClass
 	static public void cleanup(){
-//		Helper.thatsThat();
+		Helper.thatsThat();
 	}
 }

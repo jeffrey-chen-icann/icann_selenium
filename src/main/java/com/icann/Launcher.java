@@ -51,11 +51,6 @@ public class Launcher {
 			default:
 			}
 			
-			//suite?
-			if (sSuiteParameter.toLowerCase().contains("suite")) {
-				Suite.bUsingSuite = true;
-				Suite.setSuiteVars(sSuiteParameter);
-			}
 			switch (sProject) {
 			//PLEASE ADD YOUR NEW PROJECT/SUITE PARAMETER TO lsPossibleProjectSuiteParams ABOVE!
 			case "cms":
@@ -78,13 +73,18 @@ public class Launcher {
 				}
 				break;
 			case "e2e":
+				Suite.bUsingSuite = true;
+				
 				switch (sSuiteParameter){
 				case "pocsuite":
 					sSuiteToRun = "PocSuite";
+					
 					break;
 				default:
 					
 				}
+				
+				Suite.setSuiteVars(sSuiteToRun);
 			default:
 				
 			}
@@ -108,6 +108,7 @@ public class Launcher {
 			for (int i=0; i<=lsPossibleProjectSuiteParams.size(); i++) {
 				Helper.logMessage("    " + lsPossibleProjectSuiteParams.get(i));
 			}
+			System.exit(1);
 
 		} else {
 			String sJUnitSuite = "com.icann." + sProject + ".tests." + sSuiteToRun;
