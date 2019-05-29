@@ -68,19 +68,37 @@ public class EditExistingContent {
     	return lsAllTitles;
     }
     
+    private static By searchReturned0Results = Helper.anythingWithText("Your search returned 0 results");
     private static By showingXofY = By.xpath("//span[@class=\"adf-pagination__range\"]");
     public static int iTotalResultRows() {
-    	int iTotalRows = -1;
-    	String sShowingXofY = Helper.waitForElement(showingXofY).getText();
-
-    	String sY = sShowingXofY.substring(sShowingXofY.lastIndexOf(" ")+1);
-    	iTotalRows = Integer.parseInt(sY);
+    	int iTotalRows = 0;
     	
+    	if (Helper.waitForElement(searchReturned0Results, 5).isDisplayed()) {
+    		Helper.logDebug("Found 0 search results returned text.");
+    	} else {
+    		Helper.logDebug("Waiting for pagination control...");
+	    	String sShowingXofY = Helper.waitForElement(showingXofY).getText();
+	
+	    	String sY = sShowingXofY.substring(sShowingXofY.lastIndexOf(" ")+1);
+	    	iTotalRows = Integer.parseInt(sY);
+    	}
+
     	return iTotalRows;
     }
     private static By itemsPerPage = By.xpath("//*[@class=\"adf-pagination__max-items\"]");
     public static int iMaxItemsShownPerPage() {
     	return Integer.parseInt(Helper.waitForElement(itemsPerPage).getText());
     }
-    
+    private static By btnItemsPerPageDropdown = By.xpath("//*[@class[contains(.,\"adf-pagination__perpage-block\")]]//button");
+    private static By btnItemsPerPage(int iMaxItemsPerPage) {
+    	return By.xpath("//button[text()[contains(.,\"" + iMaxItemsPerPage + "\")]]");
+    }
+    public static void setItemsPerPage(int iDesiredNumberOfItems) {
+    	Helper.logMessage("Clicking items per page dropdown.");
+    	Helper.waitForThenClick(btnItemsPerPageDropdown);
+    	
+    	Helper.logMessage("Clicking item:  " + iDesiredNumberOfItems);
+    	Helper.waitForThenClick(btnItemsPerPage(iDesiredNumberOfItems));
+    	Helper.nap(2);
+    }
 }

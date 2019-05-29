@@ -1,11 +1,14 @@
 package com.icann;
 import java.util.Arrays;
-
+import java.util.List;
 import com.icann.e2e.Suite;
 
 public class Launcher {
 	public static String sProject = "unset";
+	public static String sSuiteParameter = "unset";
 	public static String sCommandLineArgs = "unset";
+	
+	private static List<String> lsPossibleProjectSuiteParams = Arrays.asList("dms _removeallregistryagreements", "dms poc", "e2e pocsuite");
 	
 	public static void main(String[] args)  {
 		//expects arguments:
@@ -14,7 +17,7 @@ public class Launcher {
 		//    <wheretorun>
 		//    <suite>
 		//    <configuration> 
-		
+	
 		String sSuiteToRun = "unset";
 		sCommandLineArgs = Arrays.toString(args);
 				
@@ -34,7 +37,7 @@ public class Launcher {
 			
 			Environment.sEnvironment = args[1];
 			String sWhereToRunParameter = args[2];
-			String sSuiteParameter = args[3];
+			sSuiteParameter = args[3];
 						
 			//where to run
 			switch (sWhereToRunParameter){
@@ -54,22 +57,24 @@ public class Launcher {
 				Suite.setSuiteVars(sSuiteParameter);
 			}
 			switch (sProject) {
-			case "dms":
-				switch (sSuiteParameter){
-				case "poc":
-					sSuiteToRun = "DmsPoc";
-					break;						
-				default:
-					Helper.logError("Unrecognized suite parameter for project " + sProject + ":  " + sSuiteParameter);
-					System.exit(1);
-				}
-				break;
+			//PLEASE ADD YOUR NEW PROJECT/SUITE PARAMETER TO lsPossibleProjectSuiteParams ABOVE!
 			case "cms":
 				switch (sSuiteParameter){ 
 
 				default:
 					Helper.logError("Unrecognized suite parameter for project " + sProject + ":  " + sSuiteParameter);
-					System.exit(1);
+				}
+				break;
+			case "dms":
+				switch (sSuiteParameter){
+				case "_removeallregistryagreements":
+					sSuiteToRun = "_RemoveAllRegistryAgreements";
+					break;
+				case "poc":
+					sSuiteToRun = "DmsPoc";
+					break;						
+				default:
+					Helper.logError("Unrecognized suite parameter for project " + sProject + ":  " + sSuiteParameter);
 				}
 				break;
 			case "e2e":
@@ -86,19 +91,29 @@ public class Launcher {
 		} else {
 			//specify which arguments?
 			Helper.logError("You must send arguments to execute this jar:  <environment> <saucelabs> <suitetorun>");
-			Helper.logMessage("    <project> = dms|cms|?");
+			Helper.logMessage("    <project>     = cms|dms|e2e|_utility");
 			Helper.logMessage("    <environment> = dev|staging|prod");
-			Helper.logMessage("    <wheretorun>   = bs|local");
+			Helper.logMessage("    <wheretorun>  = bs|local");
 			Helper.logMessage("    <suitetorun>  = suite name to run within a project's \"tests\" folder");
 			Helper.logMessage("    <additional>  = ");
+			Helper.logMessage("");
+			
 			System.exit(1);
 		}
 		
+		if (sSuiteToRun.equals("unset")) {
+			Helper.logError ("Could not find mapped suite for project/suite parameters:  " + sProject + "/" + sSuiteParameter);
+			
+			Helper.logMessage("Possible project/suite parameters:");
+			for (int i=0; i<=lsPossibleProjectSuiteParams.size(); i++) {
+				Helper.logMessage("    " + lsPossibleProjectSuiteParams.get(i));
+			}
 
-		
-		String sJUnitSuite = "com.icann." + sProject + ".tests." + sSuiteToRun;
-		Helper.logMessage("Running suite/test:  " + sSuiteToRun + " (" + sJUnitSuite + ")");
-		Helper.logMessage("");
-		org.junit.runner.JUnitCore.main(sJUnitSuite);
+		} else {
+			String sJUnitSuite = "com.icann." + sProject + ".tests." + sSuiteToRun;
+			Helper.logMessage("Running suite/test:  " + sSuiteToRun + " (" + sJUnitSuite + ")");
+			Helper.logMessage("");
+			org.junit.runner.JUnitCore.main(sJUnitSuite);
+		}
     }
 }
