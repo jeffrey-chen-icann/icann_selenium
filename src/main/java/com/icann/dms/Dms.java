@@ -12,6 +12,9 @@ public class Dms {
     public static void login(){
     	Login.login();
     }
+	public static void logout() {
+		DmsHeader.logout();
+	}
     
     public static By btnMetadataOverflowChoice(String sChoiceText) {
     	return By.xpath("//*[text()=\"" + sChoiceText + "\"]/ancestor::mat-option");
@@ -98,4 +101,6 @@ public class Dms {
     
     public static By txtPageTitle = By.id("mat-input-2"); //edit existing content filter
     public static By txtMetadataDescription = By.id("icn:metadataDescription"); //content pages 
+
+
 }
