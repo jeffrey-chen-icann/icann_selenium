@@ -408,13 +408,10 @@ public class Helper {
 		
 		logMessage("");
 		logMessage("");
-		logMessage("########################################");
-		logMessage("########################################");		
+		logTest("");		
 		logMessage("");
 		
 		if (bRecoverableErrors){
-
-
 			logMessage("Non-fatal errors occurred during the test run.  See log above for details.");
 
 			int iErrors = lsRecoverableErrors.size();

@@ -33,7 +33,7 @@ public class DmsPoc {
 	@BeforeClass
 	static public void runOnce() throws Exception {
 		browser = Environment.initializeDriver();
-		Environment.setEnvironmentAndLogServers("dev");	
+		Environment.setEnvironmentAndLogServers();	
 		
 		Helper.logTestGroup("Proof of concept - DMS");
 		

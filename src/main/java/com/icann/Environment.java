@@ -1,16 +1,12 @@
 package com.icann;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 //import org.openqa.selenium.Proxy;
@@ -20,8 +16,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 //import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 public class Environment{
@@ -321,6 +315,42 @@ public class Environment{
 		case "staging":
 		case "prod":
 			sReturn = "admin";
+			break;
+		default:
+			Helper.logFatal("sAdfAdminUsername:  sEnvironment is not set to any expected value:  " + Environment.sEnvironment);
+		}
+		
+		return sReturn;
+	}
+	public static String sDmsNonAdminUsername(){
+		String sReturn = "unset";
+		
+		switch (Environment.sEnvironment){
+		case "localhost":
+			sReturn = "";
+			break;
+		case "dev":
+		case "staging":
+		case "prod":
+			sReturn = "test@test.com";
+			break;
+		default:
+			Helper.logFatal("sAdfAdminUsername:  sEnvironment is not set to any expected value:  " + Environment.sEnvironment);
+		}
+		
+		return sReturn;
+	}
+	public static String sDmsNonAdminPassword(){
+		String sReturn = "unset";
+		
+		switch (Environment.sEnvironment){
+		case "localhost":
+			sReturn = "";
+			break;
+		case "dev":
+		case "staging":
+		case "prod":
+			sReturn = "JeffIsTheBest";
 			break;
 		default:
 			Helper.logFatal("sAdfAdminUsername:  sEnvironment is not set to any expected value:  " + Environment.sEnvironment);

@@ -21,4 +21,18 @@ public class DmsHeader {
     
     public static By txtSearchField = By.id("adf-control-input");
     
+    public static By btnUserDropdown = By.xpath("//*[@class[contains(.,\"current-user__full-name\")]]");
+    public static By mnuLogout = Helper.anythingWithText("Sign out");
+    
+	public static void logout(){
+		Helper.logMessage("Click the user dropdown link.");
+		Helper.waitForThenClick(btnUserDropdown);
+		
+		Helper.logMessage("Click the Sign out link.");
+		Helper.waitForThenClick(mnuLogout);
+		
+		Helper.logMessage("Verify the login page is returned.");
+		Helper.waitForUrlToContain("login");
+		Helper.waitForElement(Login.txtUsername);
+	}
 }
