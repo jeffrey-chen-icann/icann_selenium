@@ -8,7 +8,7 @@ public class Launcher {
 	public static String sSuiteParameter = "unset";
 	public static String sCommandLineArgs = "unset";
 	
-	private static List<String> lsPossibleProjectSuiteParams = Arrays.asList("dms _removeallregistryagreements", "dms login", "dms poc", "e2e pocsuite");
+	private static List<String> lsPossibleProjectSuiteParams = Arrays.asList("dms _removeallregistryagreements", "dms smokelogin", "dms poc", "e2e pocsuite");
 	
 	public static void main(String[] args)  {
 		//expects arguments:
@@ -65,8 +65,8 @@ public class Launcher {
 				case "_removeallregistryagreements":
 					sSuiteToRun = "_RemoveAllRegistryAgreements";
 					break;
-				case "login":
-					sSuiteToRun = "Login";
+				case "smokelogin":
+					sSuiteToRun = "_SmokeLogin";
 					break;						
 				case "poc":
 					sSuiteToRun = "DmsPoc";
