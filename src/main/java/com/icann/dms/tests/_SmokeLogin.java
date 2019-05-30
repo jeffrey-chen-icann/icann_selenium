@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +18,7 @@ import com.icann.Helper;
 
 import com.icann.dms.*;
 
-public class Login {
+public class _SmokeLogin {
     static WebDriver browser; 
 	
 	
@@ -38,7 +37,7 @@ public class Login {
 
 	@Test
 	public void loginWithAdmin() {
-		Helper.logTest("Log in with an admin user and verify that the admin actions are available.");
+		Helper.logTest("dms.smoke.login.admin (ITI-3446) - Log in with an admin user and verify that the admin actions are available.");
 		
 		Helper.logTestStep("Log in with an admin user:  " + Environment.sDmsAdminUsername());
 		Dms.login(Environment.sDmsAdminUsername(), Environment.sDmsAdminPassword());
@@ -78,7 +77,7 @@ public class Login {
 	
 	@Test
 	public void loginWithNonAdmin() {
-		Helper.logTest("Log in with a non-admin user and verify that the admin actions are available.");
+		Helper.logTest("dms.smoke.login.nonadmin (ITI-3447) - Log in with a non-admin user and verify the header items.");
 		
 		Helper.logTestStep("Log in with a non-admin user:  " + Environment.sDmsNonAdminUsername());
 		Dms.login(Environment.sDmsNonAdminUsername(), Environment.sDmsNonAdminPassword());
@@ -91,11 +90,21 @@ public class Login {
 			lsItemsActual.add(menuitem.getText().strip());
 		}
 		Helper.compareLists(lsItemsExpected, lsItemsActual, "List of non-admin header links.");
+		
+		Helper.logTestStep("Verify the admin actions link is not present.");
+		try {
+			browser.findElement(DmsHeader.btnAdminMenu);
+			Helper.logError("The admin actions link was found!  This should not be present with a non-admin user.");
+		} catch (Exception e) {
+			Helper.logMessage("The admin actions link was not found (as expected).");
+		}
+
+		//later:  verify that someone can't access an admin page directly?
 	}
 
 	@Test
 	public void loginWithInvalidUsernamePassword() {
-		Helper.logTest("Attempt to log in with an invalid username/password combo.");
+		Helper.logTest("dms.smoke.login.invalid (ITI-3448) - Attempt to log in with an invalid username/password combo.");
 		String sBogusUsername = "kratos";
 		String sBogusPassword = "i hate ares";
 		
@@ -122,6 +131,7 @@ public class Login {
 	@After
 	public void afterEach() {
 		Helper.logMessage("");
+		Helper.logMessage("Resetting to test case home state.");
 		browser.navigate().refresh();
 		
 		if (!browser.getCurrentUrl().contains("login")) {
