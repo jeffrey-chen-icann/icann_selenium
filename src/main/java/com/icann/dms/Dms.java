@@ -102,5 +102,6 @@ public class Dms {
     public static By txtPageTitle = By.id("mat-input-2"); //edit existing content filter
     public static By txtMetadataDescription = By.id("icn:metadataDescription"); //content pages 
 
-
+    public static String sPermissionsError = "This file or folder no longer exists or you don't have permission to view it.\n";
+    public static By txtPermissionsError = Helper.anythingWithText(sPermissionsError);
 }

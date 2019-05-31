@@ -1,7 +1,5 @@
 package com.icann.dms.tests;
 
-import java.util.Arrays;
-import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -12,9 +10,6 @@ import com.icann.Environment;
 import com.icann.Helper;
 
 import com.icann._contentrecordtypes.RegistryAgreement;
-
-import com.icann.cms.*;
-
 import com.icann.dms.*;
 import com.icann.dms.ContentType.*;
 

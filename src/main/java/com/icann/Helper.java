@@ -442,9 +442,17 @@ public class Helper {
 //				}
 //			}
 			
-			if (!Helper.bDebug) {
-				browser.quit();	
-			}
+
+		}
+		
+		if (Helper.bDebug) {
+			Helper.logMessage("Leaving browser open since we are in debug mode.");
+		} else {
+			browser.quit();
+		}
+		
+		if (bRecoverableErrors){
+			fail();
 		}
 	}
 	
