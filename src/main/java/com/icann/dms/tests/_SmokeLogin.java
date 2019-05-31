@@ -98,8 +98,6 @@ public class _SmokeLogin {
 		} catch (Exception e) {
 			Helper.logMessage("The admin actions link was not found (as expected).");
 		}
-
-		//later:  verify that someone can't access an admin page directly?
 	}
 
 	@Test

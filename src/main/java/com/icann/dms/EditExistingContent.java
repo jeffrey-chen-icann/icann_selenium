@@ -68,7 +68,6 @@ public class EditExistingContent {
     	return lsAllTitles;
     }
     
-    private static By searchReturned0Results = Helper.anythingWithText("Your search returned 0 results");
     private static By showingXofY = By.xpath("//span[@class=\"adf-pagination__range\"]");
     public static int iTotalResultRows() {
     	int iTotalRows = 0;
