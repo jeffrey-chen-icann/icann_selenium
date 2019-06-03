@@ -116,6 +116,6 @@ public class Overflows {
 	
 	@AfterClass
 	static public void cleanup(){
-//		Helper.thatsThat();
+		Helper.thatsThat();
 	}
 }

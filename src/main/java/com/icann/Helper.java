@@ -464,18 +464,34 @@ public class Helper {
 		
 		if(lsActual.equals(lsExpected)){
 			bEqual = true;
-	    	logMessage("The lists were equal:  " + lsExpected);
+	    	logMessage("The lists were equal (" + lsExpected.size() + " items):  " + lsExpected);
 		} else {
 	    	logError("The lists were not equal:  " + sWhatAreTheseLists);
 	    	logError("Expected items (" + lsExpected.size() + ") vs. actual items (" + lsActual.size() + "):");
 	    	logError("Expected:  " + lsExpected);
 	    	logError("Actual:    " + lsActual);
+	    	
+	    	Helper.logDebug("<variable_here> = Arrays.asList(" + sConvertListToStringForAsList(lsActual) + ");");
 		}
 		
 		return bEqual;
 	}	
 	public static boolean compareLists(List<String> lsExpected, List<String> lsActual){
 		return compareLists(lsExpected, lsActual, "");
+	}
+	
+	private static String sConvertListToStringForAsList(List<String> lsStringsToConvert) {
+		String sReturn = "";
+		String sCommaIfAny = ", ";
+		for (int i=0; i<lsStringsToConvert.size(); i++) {
+			if (i+1 == lsStringsToConvert.size()) {
+				sCommaIfAny = "";
+
+			}
+			sReturn += "\"" + lsStringsToConvert.get(i).replaceAll("\"", "\\\\\"") + "\"" + sCommaIfAny;
+		}
+		
+		return sReturn;
 	}
 	
 	public static boolean compareStrings(String sExpected, String sActual, String sWhatAreTheseStrings){

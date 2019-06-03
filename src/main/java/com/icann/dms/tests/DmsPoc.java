@@ -13,7 +13,7 @@ import com.icann.Helper;
 
 import com.icann._contentrecordtypes.RegistryAgreement;
 import com.icann.dms.*;
-import com.icann.dms.ContentType.*;
+import com.icann.dms.contenttype.*;
 import com.icann.e2e.Suite;
 
 public class DmsPoc {
