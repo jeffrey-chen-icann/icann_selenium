@@ -23,7 +23,16 @@ public class RegistryAgreementsPage {
 	
 	// enter-select type dropdowns - might move to a more generic class at some point
 	private static String sEnterSelectRootXpath(String sWhichField) {
-		return "//*[text()[contains(.,\"" + sWhichField + "\")]]/ancestor::iti-form-field";
+		String sReturn = "unset"; 
+		switch (sWhichField) {
+		case "Content Type":  //content type on the create content modal
+			sReturn = "//*[text()[contains(.,\"" + sWhichField + "\")]]/ancestor::mat-form-field";
+			break;
+		default:
+			sReturn = "//*[text()[contains(.,\"" + sWhichField + "\")]]/ancestor::iti-form-field";			
+		}
+		
+		return sReturn;
 	}
 
 	public static By txtEnterSelect(String sWhichField) {

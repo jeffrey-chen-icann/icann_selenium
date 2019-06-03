@@ -11,7 +11,7 @@ import com.icann.Helper;
 
 import com.icann._contentrecordtypes.RegistryAgreement;
 import com.icann.dms.*;
-import com.icann.dms.ContentType.*;
+import com.icann.dms.contenttype.*;
 
 public class DmsPocOriginal {
     static WebDriver browser; 

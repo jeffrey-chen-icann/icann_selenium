@@ -7,4 +7,5 @@ public class CreateContentModal {
     static WebDriver browser = Helper.browser;
     
     public static By btnCreate = By.xpath("//aca-create-content-modal//*[text()=\"Create\"]");
+    public static By btnCancel = By.xpath("//aca-create-content-modal//*[text()=\"Cancel\"]");
 }

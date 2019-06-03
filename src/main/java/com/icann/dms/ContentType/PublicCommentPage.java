@@ -1,4 +1,4 @@
-package com.icann.dms.ContentType;
+package com.icann.dms.contenttype;
 
 import org.openqa.selenium.*;
 

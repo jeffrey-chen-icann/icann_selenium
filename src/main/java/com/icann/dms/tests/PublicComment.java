@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
 import com.icann.Helper;
 import com.icann.dms.*;
-import com.icann.dms.ContentType.*;
+import com.icann.dms.contenttype.*;
 
 public class PublicComment {
     static WebDriver browser; 

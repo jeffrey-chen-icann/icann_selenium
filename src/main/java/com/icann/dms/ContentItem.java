@@ -2,7 +2,7 @@ package com.icann.dms;
 
 import org.openqa.selenium.*;
 import com.icann.Helper;
-import com.icann.dms.ContentType.PublicCommentPage;
+import com.icann.dms.contenttype.PublicCommentPage;
 
 public class ContentItem {
     static WebDriver browser = Helper.browser;
