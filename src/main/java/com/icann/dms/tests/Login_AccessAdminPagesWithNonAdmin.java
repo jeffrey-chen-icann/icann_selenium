@@ -57,6 +57,7 @@ public class Login_AccessAdminPagesWithNonAdmin {
 				
 			} catch (Exception e) {
 				Helper.logError("The error message was not found when accessing this page with a non-admin user:  " + sUrl);
+				Helper.logKnownFailure("https://jira.icann.org/browse/ITI-3435", "non-admin can access admin-only pages");
 			}
 			Helper.logMessage("");
 			Helper.logMessage("");
