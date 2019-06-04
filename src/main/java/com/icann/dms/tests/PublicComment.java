@@ -86,7 +86,7 @@ public class PublicComment {
 		Dms.setDropdownSelection(sWhichField, sValueToSelect);
 				
 		Helper.logTestStep("Publish the content item now.");
-		ContentItem.publishNow();
+		_DmsContentItem.publishNow();
 	}
 	
 	@AfterClass

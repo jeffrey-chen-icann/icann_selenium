@@ -107,10 +107,10 @@ public class DmsPocOriginal {
 		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);
 
 		Helper.logTestStep("Publish the content item.");
-		ContentItem.publishNow();
+		_DmsContentItem.publishNow();
 		
 		//poll the published state
-		ContentItem.waitForWorkflowState("Published", 60);
+		_DmsContentItem.waitForWorkflowState("Published", 60);
 		
 		
 ////>>>somehow trigger cache refresh - graphql?

@@ -25,7 +25,7 @@ public class Login {
         Helper.waitForThenClick(btnSignInButton);
     	
         Helper.logDebug("Waiting for landing page...");
-        Helper.waitForElement(DmsHeader.btnCreateContent);
+        Helper.waitForElement(_DmsHeader.btnCreateContent);
     }
     
     public static void login(){

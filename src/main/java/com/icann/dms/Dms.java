@@ -13,7 +13,7 @@ public class Dms {
     	Login.login();
     }
 	public static void logout() {
-		DmsHeader.logout();
+		_DmsHeader.logout();
 	}
     
     public static By btnMetadataOverflowChoice(String sChoiceText) {

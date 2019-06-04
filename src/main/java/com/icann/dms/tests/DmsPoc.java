@@ -85,10 +85,6 @@ public class DmsPoc {
 		Helper.logTestStep("Create a new item of type:  " + sContentType);
 		LandingPage.createContent(sContentType);
 		
-		Helper.logTestStep("Wait for registry agreement page.");
-		Helper.waitForUrlToContain("registry-agreement");
-		Helper.nap(2);
-		
 		Helper.logTestStep("Click the Save Draft button.");
 		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);
 		Helper.waitForUrlToContain("nodeId");
@@ -145,7 +141,7 @@ public class DmsPoc {
 		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);
 
 		Helper.logTestStep("Publish the content item.");
-		ContentItem.publishNow();
+		_DmsContentItem.publishNow();
 		
 ////>>>somehow trigger cache refresh - graphql?
 
