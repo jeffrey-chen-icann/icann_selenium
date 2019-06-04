@@ -1,9 +1,9 @@
 package com.icann.dms.contenttype;
 
 import org.openqa.selenium.*;
-import com.icann.dms.ContentItem;
+import com.icann.dms._DmsContentItem;
 
-public class RegistryAgreementPage extends ContentItem {
+public class RegistryAgreementPage extends _DmsContentItem {
     public static By pageTextExpander = By.id("field-htmlblock1-container");
     
     private static String sGtldStringXpathRoot = "//*[@id=\"field-icn:associatedTLD-container\"]";

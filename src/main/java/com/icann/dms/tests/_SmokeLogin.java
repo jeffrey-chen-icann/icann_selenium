@@ -56,13 +56,13 @@ public class _SmokeLogin {
 			lsItemsActual.add(sText);
 		}
 		
-		if (Helper.waitForElement(DmsHeader.btnAdminMenu).isDisplayed()) {
+		if (Helper.waitForElement(_DmsHeader.btnAdminMenu).isDisplayed()) {
 			lsItemsActual.add("Admin Menu");
 		}
 		Helper.compareLists(lsItemsExpected, lsItemsActual, "List of admin header links.");
 		
 		Helper.logTestStep("Click Admin Actions dropdown.");
-		Helper.waitForThenClick(DmsHeader.btnAdminMenu);
+		Helper.waitForThenClick(_DmsHeader.btnAdminMenu);
 		Helper.nap(1);
 		
 		Helper.logTestStep("Verify the admin menu items are as expected.");
@@ -93,7 +93,7 @@ public class _SmokeLogin {
 		
 		Helper.logTestStep("Verify the admin actions link is not present.");
 		try {
-			browser.findElement(DmsHeader.btnAdminMenu);
+			browser.findElement(_DmsHeader.btnAdminMenu);
 			Helper.logError("The admin actions link was found!  This should not be present with a non-admin user.");
 		} catch (Exception e) {
 			Helper.logMessage("The admin actions link was not found (as expected).");

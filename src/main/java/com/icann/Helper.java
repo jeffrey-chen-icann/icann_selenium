@@ -176,7 +176,7 @@ public class Helper {
 		}
 		
 		if (sUrlChangedTo.indexOf(sLookForText)==-1){
-			Helper.logMessage("After " + iTimeoutInSeconds + " seconds, the URL never changed to include '" + sLookForText + "'.  Current URL:  " + sUrlChangedTo);
+			Helper.logError("After " + iTimeoutInSeconds + " seconds, the URL never changed to include '" + sLookForText + "'.  Current URL:  " + sUrlChangedTo);
 		}
 		return sUrlChangedTo;
 	}

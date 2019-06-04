@@ -45,7 +45,7 @@ public class CreateContentModalTests {
 		Dms.login(Environment.sDmsAdminUsername(), Environment.sDmsAdminPassword());
 
 		Helper.logTestStep("Click the Create Content link.");
-		Helper.waitForThenClick(DmsHeader.btnCreateContent);
+		Helper.waitForThenClick(_DmsHeader.btnCreateContent);
 		
 		Helper.logTestStep("Verify the content type list is as expected.");
 		Helper.waitForNumberOfElementsToAppear(contentTypeDropdownItems, 1);
@@ -66,7 +66,7 @@ public class CreateContentModalTests {
 		Dms.login(Environment.sDmsNonAdminUsername(), Environment.sDmsNonAdminPassword());
 
 		Helper.logTestStep("Click the Create Content link.");
-		Helper.waitForThenClick(DmsHeader.btnCreateContent);
+		Helper.waitForThenClick(_DmsHeader.btnCreateContent);
 		
 		Helper.logTestStep("Verify the content type list is as expected.");
 		Helper.waitForNumberOfElementsToAppear(contentTypeDropdownItems, 1);

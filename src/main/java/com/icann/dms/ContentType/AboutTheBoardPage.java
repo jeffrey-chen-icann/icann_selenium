@@ -2,9 +2,9 @@ package com.icann.dms.contenttype;
 
 import org.openqa.selenium.*;
 import com.icann.Helper;
-import com.icann.dms.ContentItem;
+import com.icann.dms._DmsContentItem;
 
-public class AboutTheBoardPage extends ContentItem {
+public class AboutTheBoardPage extends _DmsContentItem {
 	static WebDriver browser = Helper.browser;
 	
     public static By txtPageTitle = By.id("icn:pageTitle");

@@ -103,7 +103,7 @@ public class _RemoveAllRegistryAgreements {
 							Helper.waitForElement(Helper.anythingWithText(sTitleOnContentPage)).isDisplayed();  //this will cause element not found exception and bail
 							
 							Helper.logTestStep("Delete the content item:  " + sTitleOnContentPage);
-							ContentItem.delete();
+							_DmsContentItem.delete();
 							
 							Helper.logMessage("Closing content item tab.");
 							browser.close();
