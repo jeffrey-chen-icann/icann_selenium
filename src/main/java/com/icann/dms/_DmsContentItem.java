@@ -19,6 +19,8 @@ public class _DmsContentItem extends _DmsPage {
     public static By btnRequestReview = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Request Review\")]]");
     public static By btnDelete = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Delete\")]]");
     
+    public static By txtMetadataDescription = By.id("icn:metadataDescription"); //content pages 
+    
     public static String currentNodeId() {
 		Helper.waitForUrlToContain("nodeId");
     	
@@ -31,8 +33,6 @@ public class _DmsContentItem extends _DmsPage {
     	
     	return sNodeId;
     }
-    
-
     
     static public void publish() {
     	//defaults to today - later add argument for when to publish (?)
@@ -113,7 +113,7 @@ public class _DmsContentItem extends _DmsPage {
 
 		String sWhichField = "Languages";
 		Helper.logMessage("Set the " + sWhichField + " to value:  " + sLanguage);
-		Dms.setDropdownSelection(sWhichField, sLanguage);
+		setDropdownSelection(sWhichField, sLanguage);
 
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);
@@ -133,7 +133,7 @@ public class _DmsContentItem extends _DmsPage {
 
 		String sWhichField = "Reviewer";
 		Helper.logMessage("Set the " + sWhichField + " to value:  " + sFromReviewer);
-		Dms.setDropdownSelection(sWhichField, sFromReviewer);
+		setDropdownSelection(sWhichField, sFromReviewer);
 		
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);

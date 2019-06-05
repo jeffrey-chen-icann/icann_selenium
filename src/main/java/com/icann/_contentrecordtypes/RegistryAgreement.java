@@ -3,7 +3,7 @@ package com.icann._contentrecordtypes;
 import java.util.Arrays;
 import java.util.List;
 
-public class RegistryAgreement {
+public class RegistryAgreement extends _ContentRecord{
 	public String sGtld;
 	public String sAgreementType = "";
 	public String sOperator = "";

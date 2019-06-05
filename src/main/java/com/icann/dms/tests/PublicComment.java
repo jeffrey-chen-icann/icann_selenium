@@ -66,27 +66,27 @@ public class PublicComment {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = "metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Dms.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(PublicCommentPage.txtMetadataDescription, sMetadataDescription);
 
 		
 		sWhichField = "topic owner";
 		sValueToSelect = "Communications";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		PublicCommentPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
 
 		sWhichField = "team";
 		sValueToSelect = "Language Services";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		PublicCommentPage.setDropdownSelection(sWhichField, sValueToSelect);
 
 		sWhichField = "topic";
 		sValueToSelect = "Translation, Interpretation, and Localization";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		PublicCommentPage.setDropdownSelection(sWhichField, sValueToSelect);
 				
 		Helper.logTestStep("Publish the content item now.");
-		_DmsContentItem.publishNow();
+		PublicCommentPage.publishNow();
 	}
 	
 	@AfterClass
