@@ -75,7 +75,7 @@ public class DmsPocOriginal {
 		sWhichField = "type of tld";
 		sValueToSelect = sTypeOfTld;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection("Type of TLD", sValueToSelect);
+		RegistryAgreementPage.setDropdownSelection("Type of TLD", sValueToSelect);
 
 		Helper.logTestStep("Check the Part of Registry Agreement checkbox.");
 		Helper.waitForThenClick(RegistryAgreementPage.chkPartOfARegistryAgreement);
@@ -86,22 +86,22 @@ public class DmsPocOriginal {
 		sWhichField = "agreement type";
 		sValueToSelect = raRecord.sAgreementType;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297)is not there
 		String sMetadataDescription = Helper.todayString() + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Dms.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(RegistryAgreementPage.txtMetadataDescription, sMetadataDescription);
 
 		sWhichField = "agreement status";
 		sValueToSelect = "Current";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		sWhichField = "agreement round";
 		sValueToSelect = "2004";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		Dms.setDropdownSelection(sWhichField, sValueToSelect);
+		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
 		Helper.logTestStep("Click the Save Draft button.");
 		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);

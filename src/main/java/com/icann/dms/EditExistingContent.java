@@ -18,6 +18,8 @@ public class EditExistingContent {
     	browser.navigate().to(sEditContentUrl);
     }
     
+    public static By txtPageTitle = By.id("mat-input-2"); //edit existing content filter
+    
     //filters
     public static By btnApplyFilters = Helper.anythingWithText("Apply");
     public static By btnClearFilters = Helper.anythingWithText("Clear");

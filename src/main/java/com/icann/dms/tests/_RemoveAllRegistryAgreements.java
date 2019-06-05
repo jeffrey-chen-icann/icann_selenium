@@ -47,7 +47,7 @@ public class _RemoveAllRegistryAgreements {
 		EditExistingContent.open();
 
 		Helper.logMessage("Type in _automation into the Page Title filter field.");
-		Helper.waitForThenSendKeys(Dms.txtPageTitle, sStringToDeleteContent);
+		Helper.waitForThenSendKeys(EditExistingContent.txtPageTitle, sStringToDeleteContent);
 		
 		Helper.logMessage("Click Apply.");
 		Helper.waitForThenClick(EditExistingContent.btnApplyFilters);
@@ -126,7 +126,7 @@ public class _RemoveAllRegistryAgreements {
 				Helper.nap(2);
 				
 				Helper.logMessage("Type in _automation into the Page Title filter field.");
-				Helper.waitForThenSendKeys(Dms.txtPageTitle, sStringToDeleteContent);
+				Helper.waitForThenSendKeys(EditExistingContent.txtPageTitle, sStringToDeleteContent);
 				
 				Helper.logMessage("Click Apply.");
 				Helper.waitForThenClick(EditExistingContent.btnApplyFilters);
