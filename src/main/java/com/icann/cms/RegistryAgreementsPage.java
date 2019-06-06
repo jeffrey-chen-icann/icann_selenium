@@ -105,7 +105,7 @@ public class RegistryAgreementsPage {
 	}
 	
 	public static RegistryAgreement searchResultRowValue(int iWhichRow) {
-		RegistryAgreement raReturn = new RegistryAgreement("unset", "unset", "unset", "unset", "unset");
+		RegistryAgreement raReturn = new RegistryAgreement();
 		
 		Helper.waitForElement(lSingleResultRowFields(iWhichRow));
 		

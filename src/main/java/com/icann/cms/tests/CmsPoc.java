@@ -61,7 +61,7 @@ public class CmsPoc {
 			sAgreementType = "Community - Spec 12";
 			sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
 			
-			raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+			raRecord = new RegistryAgreement(sALabel, sTypeOfTld, sAgreementType, "", "Active", sAgreementDate);
 		}
 		
 		Helper.logDebug("sALabel = " + sALabel);
