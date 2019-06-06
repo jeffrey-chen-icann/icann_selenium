@@ -40,7 +40,7 @@ public class DmsPocOriginal {
 		String sTypeOfTld = "gTLD ";
 		String sAgreementType = "Community - Spec 12";
 		String sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
-		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sTypeOfTld, sAgreementType, "", "Active", sAgreementDate);
 		
 //		String sOriginalTab = browser.getWindowHandle();
 		

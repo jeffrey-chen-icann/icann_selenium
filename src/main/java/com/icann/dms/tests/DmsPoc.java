@@ -71,7 +71,7 @@ public class DmsPoc {
 		
 		Helper.bDebug = false;
 		
-		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sTypeOfTld, sAgreementType, "", "Active", sAgreementDate);
 		
 		if (Suite.bUsingSuite) {
 			Suite.raRecord = raRecord;
@@ -84,10 +84,9 @@ public class DmsPoc {
 
 		Helper.logTestStep("Create a new item of type:  " + sContentType);
 		LandingPage.createContent(sContentType);
-		
-		Helper.logTestStep("Click the Save Draft button.");
-		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);
-		Helper.waitForUrlToContain("nodeId");
+
+		Helper.logTestStep("Save the item as a draft.");
+		RegistryAgreementPage.saveDraft();
 		
 		Helper.logTestStep("Verify a nodeId is returned.");
 		sNodeId = RegistryAgreementPage.currentNodeId();
@@ -96,28 +95,10 @@ public class DmsPoc {
 			Suite.sNodeId = sNodeId;
 		}
 
-		Helper.logTestStep("Click Manage on the gTLD/String field.");
-		Helper.waitForThenClick(RegistryAgreementPage.btnManageGtldString);
-		
-		Helper.logTestStep("Set the A-Label:  " + raRecord.sGtld);
-		Helper.waitForThenSendKeys(RegistryAgreementPage.txtTldALabel, raRecord.sGtld);
-
-		String sULabel = raRecord.sGtld;
-		Helper.logTestStep("Set the U-Label:  " + sULabel);
-		Helper.waitForThenSendKeys(RegistryAgreementPage.txtTldULabel, sULabel);
-
-		sWhichField = "type of tld";
-		sValueToSelect = sTypeOfTld;
-		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
-		RegistryAgreementPage.setDropdownSelection("Type of TLD", sValueToSelect);
-
-		Helper.logTestStep("Check the Part of Registry Agreement checkbox.");
-		Helper.waitForThenClick(RegistryAgreementPage.chkPartOfARegistryAgreement);
-		
-		Helper.logTestStep("Click the Create button.");
-		Helper.waitForThenClick(RegistryAgreementPage.btnTldCreate);
+		Helper.logTestStep("Create a gTLD/String.");
+		RegistryAgreementPage.createGtldString(raRecord);
 				
-		sWhichField = "agreement type";
+		sWhichField = "Agreement Type";
 		sValueToSelect = raRecord.sAgreementType;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
 		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
@@ -127,18 +108,18 @@ public class DmsPoc {
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
 		Helper.waitForThenSendKeys(RegistryAgreementPage.txtMetadataDescription, sMetadataDescription);
 
-		sWhichField = "agreement status";
+		sWhichField = "Agreement Status";
 		sValueToSelect = "Current";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
 		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
-		sWhichField = "agreement round";
+		sWhichField = "Agreement Round";
 		sValueToSelect = "2004";
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
 		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
 		
-		Helper.logTestStep("Click the Save Draft button.");
-		Helper.waitForThenClick(RegistryAgreementPage.btnSaveDraft);
+		Helper.logTestStep("Save the item as a draft.");
+		RegistryAgreementPage.saveDraft();
 
 		Helper.logTestStep("Publish the content item.");
 		RegistryAgreementPage.publishNow();
