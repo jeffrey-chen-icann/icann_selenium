@@ -28,7 +28,6 @@ public class RegistryAgreementPage extends _DmsContentItem {
 		
 		Helper.logMessage("Set the A-Label:  " + raRecord.sGtld);
 		Helper.waitForThenSendKeys(txtTldALabel, raRecord.sGtld);
-
 		
 		Helper.logMessage("Set the U-Label:  " + raRecord.sULabel);
 		Helper.waitForThenSendKeys(txtTldULabel, raRecord.sULabel);
@@ -43,5 +42,12 @@ public class RegistryAgreementPage extends _DmsContentItem {
 		
 		Helper.logTestStep("Click the Create button.");
 		Helper.waitForThenClick(btnTldCreate);
+		
+		Helper.bDebug = true;
+		
+		verifySnackbarMessage("Successfully created the TLD: '" + raRecord.sGtld + ".'");
+		
+		//detect 
+		
     }
 }

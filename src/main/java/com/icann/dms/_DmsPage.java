@@ -55,10 +55,13 @@ public class _DmsPage extends _DmsHeader {
     	return lsSelections;
     }
     
+    private static String sParentElementRootXpath (String sFieldName) {
+    	return ("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
+    }
     public static By txtForField(String sFieldName) {
     	By byControl = null;
     	
-    	byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//input");   	
+    	byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//input");   	
     	
     	return byControl;
     }
@@ -67,14 +70,29 @@ public class _DmsPage extends _DmsHeader {
     	
     	switch (sFieldName.toLowerCase()){
     		case "type of tld":
-    			byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//div");
+    			byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//div");
     			break;
     	default:
-    		byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//button");
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//button");
     	}
     	
-    	
     	return byControl;
+    }
+    
+    private static By lwExistingSelectionsForField(String sFieldName) {
+    	return By.xpath(sParentElementRootXpath(sFieldName) + "//span[@class[contains(.,\"app-typeahead-select-box\")]]");
+    }
+    public static List<String> lsExistingSelectionsForField(String sFieldName) {
+    	List<String> lsSelections =  new ArrayList<String>();
+    	
+    	Helper.waitForNumberOfElementsToAppear(lwExistingSelectionsForField(sFieldName), 1);
+    	
+    	for (WebElement e : browser.findElements(lwExistingSelectionsForField(sFieldName))) {
+    		String sText = e.getText();
+    		lsSelections.add(sText.substring(0, sText.indexOf(" clear")).strip());
+    	}
+    	
+    	return lsSelections;
     }
     
     static private String sFieldIdentifier(String sFieldName) {
@@ -92,6 +110,9 @@ public class _DmsPage extends _DmsHeader {
     		break;
     	case "board meeting type":  //board meeting
     		sIdentifier = "icn:legalBoardMeetingType";
+    		break;
+    	case "gtld/string":  //registry agreement
+    		sIdentifier = "icn:associatedTLD";
     		break;
     	case "languages":  //request translation
     		sIdentifier = "languages";

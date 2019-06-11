@@ -116,8 +116,8 @@ public class RegistryAgreementsPage {
 			raReturn.sGtld = lsFieldValuesForOneRow.get(0).getText();
 			raReturn.sAgreementType = lsFieldValuesForOneRow.get(1).getText();
 			raReturn.sOperator = lsFieldValuesForOneRow.get(2).getText();
-			raReturn.sAgreementStatus = lsFieldValuesForOneRow.get(3).getText();
-			raReturn.sAgreementDate = lsFieldValuesForOneRow.get(4).getText();
+			raReturn.metadata.sAgreementStatus = lsFieldValuesForOneRow.get(3).getText();
+			raReturn.metadata.sAgreementDate = lsFieldValuesForOneRow.get(4).getText();
 		} else {
 			Helper.logFatal("Unexpected number of fields shown on registry agreements search result table:  " + iNumOfFields);
 		}

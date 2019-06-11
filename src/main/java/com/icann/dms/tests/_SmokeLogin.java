@@ -27,7 +27,7 @@ public class _SmokeLogin {
 		browser = Environment.initializeDriver();
 		Environment.setEnvironmentAndLogServers();	
 		
-		Helper.logTestGroup("Login tests");
+		Helper.logTestGroup("Login smoke tests");
 	}
 
 	@Before
