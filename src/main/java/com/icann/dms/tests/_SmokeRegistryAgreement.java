@@ -11,8 +11,7 @@ import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
 import com.icann.Helper;
 
-import com.icann._contentrecordtypes.RegistryAgreement;
-import com.icann.cms.RegistryAgreementsPage;
+import com.icann._contentrecordtypes.*;
 import com.icann.dms.*;
 import com.icann.dms.contenttype.*;
 import com.icann.e2e.Suite;
@@ -57,8 +56,7 @@ public class _SmokeRegistryAgreement {
 	
 	@Test
 	public void createRegistryAgreement() {
-		Helper.logTest("dms.smoke.registryagreement.create - ITI-XXXX");
-		
+		Helper.logTest("dms.smoke.registryagreement.create - ITI-3526");
 		
 		if (Suite.bUsingSuite) {
 			Helper.logDebug("Using suite.");
@@ -89,8 +87,17 @@ public class _SmokeRegistryAgreement {
 		if (Suite.bUsingSuite) {
 			Suite.raRecord = raRecord;
 		}
+
+		
+		//verify default field population
+		
+		
 		
 		Dms.createRegistryAgreeement(raRecord);
+		
+		
+
+		
 		
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		Metadata.setMetadataDescription(raRecord.metadata.sMetadataDescription);
@@ -100,13 +107,14 @@ public class _SmokeRegistryAgreement {
 		Helper.logTestStep("Save the item as a draft.");
 		RegistryAgreementPage.saveDraft();
 		
+		System.exit(1);
+		
 		if (Suite.bUsingSuite) {
 			Suite.sNodeId = sNodeId;
 		}
 		
-		Helper.logTestStep("Wait 10 seconds.");
-		Helper.nap(10);
-		
+		Helper.logTestStep("Wait 5 seconds (enough for reindexing to occur so the item can be found using search?).");
+		Helper.nap(5);
 		
 		Helper.logTestStep("Go to the edit existing content page.");
 		EditExistingContent.open();
@@ -129,9 +137,6 @@ public class _SmokeRegistryAgreement {
 			Helper.logTestStep("Verify row information:  " + lsExpectedRowData);
 			Helper.compareLists(lsExpectedRowData, lsActualRowData);
 			
-			Helper.bDebug = true;
-			
-
 			Helper.logTestStep("Click edit link on row:  " + sExpectedRowPageTitle);
 			String sWindowHandle = browser.getWindowHandle();
 			Helper.waitForThenClick(EditExistingContent.btnEditContentLink(sExpectedRowPageTitle));
@@ -147,8 +152,10 @@ public class _SmokeRegistryAgreement {
 			Helper.logMessage("Does the current URL contain the expected nodeId:  " + raRecord._sNodeId);
 			Helper.waitForUrlToContain(raRecord._sNodeId);
 			
-			//verify item data
-			Helper.logMessage(EditExistingContent.lsExistingSelectionsForField("gTLD/String").toString());
+			//verify item data we set (all?)
+			Helper.logMessage(RegistryAgreementPage.lsExistingSelectionsForField("gTLD/String").toString());
+			
+//			RegistryAgreementPage.verifyFields(raRecord);
 			
 			
 			break;

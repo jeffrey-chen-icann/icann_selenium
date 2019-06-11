@@ -47,7 +47,12 @@ public class RegistryAgreementPage extends _DmsContentItem {
 		
 		verifySnackbarMessage("Successfully created the TLD: '" + raRecord.sGtld + ".'");
 		
-		//detect 
-		
+		Helper.logTestStep("Verify the gTLD field was populated as expected:  " + raRecord.sGtld); 
+		Helper.compareStrings(raRecord.sGtld, RegistryAgreementPage.lsExistingSelectionsForField("gTLD/String").get(0));
     }
+
+	public static void verifyFields(RegistryAgreement raRecord) {
+		
+		
+	}
 }
