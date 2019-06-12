@@ -114,11 +114,17 @@ public class _DmsPage extends _DmsHeader {
     	case "gtld/string":  //registry agreement
     		sIdentifier = "icn:associatedTLD";
     		break;
+    	case "internal owner":  //registry agreement
+    		sIdentifier = "icn:internalOwner";
+    		break;
     	case "languages":  //request translation
     		sIdentifier = "languages";
     		break;
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
+    		break;
+    	case "subtopic":
+    		sIdentifier = "icn:subtopic";
     		break;
     	case "team":
     		sIdentifier = "icn:subowner";
@@ -133,7 +139,7 @@ public class _DmsPage extends _DmsHeader {
     		sIdentifier = "icn:typeOfTld";
     		break;
     	default:
-    		
+    		Helper.logError("Need to define fieldname in _DmsPage.sFieldIdentifier():  " + sFieldName);
     	}
     	
     	return sIdentifier;

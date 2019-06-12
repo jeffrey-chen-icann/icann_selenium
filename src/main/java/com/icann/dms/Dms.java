@@ -23,7 +23,7 @@ public class Dms {
     
     
   
-    public static String createRegistryAgreeement(RegistryAgreement raRecord) {
+    public static String createRegistryAgreement(RegistryAgreement raRecord) {
     	String sWhichField;
     	String sValueToSelect;
 
@@ -44,8 +44,6 @@ public class Dms {
 		sValueToSelect = raRecord.sAgreementType;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
 		RegistryAgreementPage.setDropdownSelection(sWhichField, sValueToSelect);
-    	
-		
 		
     	return raRecord._sNodeId;
     }

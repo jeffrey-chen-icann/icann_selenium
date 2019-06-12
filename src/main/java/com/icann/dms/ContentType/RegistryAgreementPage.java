@@ -43,8 +43,6 @@ public class RegistryAgreementPage extends _DmsContentItem {
 		Helper.logTestStep("Click the Create button.");
 		Helper.waitForThenClick(btnTldCreate);
 		
-		Helper.bDebug = true;
-		
 		verifySnackbarMessage("Successfully created the TLD: '" + raRecord.sGtld + ".'");
 		
 		Helper.logTestStep("Verify the gTLD field was populated as expected:  " + raRecord.sGtld); 

@@ -39,14 +39,16 @@ public class _SmokeRegistryAgreement {
 		
 		Dms.login();		
 		
-//		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=1130dd3f-29f8-41b6-b4c4-3cc13ae33882");
-//		
-//		
-//		Helper.bDebug = true;
-//		
-//		
-//		
-//		System.exit(1);
+		browser.navigate().to("https://iti-adf-dev.icann.org/content?nodeId=1130dd3f-29f8-41b6-b4c4-3cc13ae33882");
+		
+		
+		Helper.bDebug = true;
+		
+		String sExpectedInternalOwner = "Global Domains Division (GDD)";
+		Helper.compareLists(Arrays.asList(sExpectedInternalOwner), RegistryAgreementPage.lsExistingSelectionsForField("Internal Owner"));
+		
+		
+		System.exit(1);
 	}
 
 	@Before
@@ -90,10 +92,21 @@ public class _SmokeRegistryAgreement {
 
 		
 		//verify default field population
+		String sExpectedInternalOwner = "Global Domains Division (GDD)";
+		Helper.compareLists(Arrays.asList(sExpectedInternalOwner), RegistryAgreementPage.lsExistingSelectionsForField("Internal Owner"));
 		
 		
 		
-		Dms.createRegistryAgreeement(raRecord);
+		//internal owner - Global Domains Division (GDD) - icn:internalOwner
+		//topic owner - Global Domains Division (GDD) - icn:owner
+		//team - Registry Services - icn:subowner
+		//topic - Registry Agreement - icn:topic
+		//subtopic - Individual Registry Agreement - icn:subtopic
+		
+		
+System.exit(21);		
+		
+		Dms.createRegistryAgreement(raRecord);
 		
 		
 
@@ -107,8 +120,7 @@ public class _SmokeRegistryAgreement {
 		Helper.logTestStep("Save the item as a draft.");
 		RegistryAgreementPage.saveDraft();
 		
-		System.exit(1);
-		
+
 		if (Suite.bUsingSuite) {
 			Suite.sNodeId = sNodeId;
 		}
