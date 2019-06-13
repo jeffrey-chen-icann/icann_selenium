@@ -6,7 +6,6 @@ import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
@@ -182,10 +181,10 @@ public class _SmokeRegistryAgreement {
 			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
 			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sField).get(0));
 			
-//			sField = "U-Label";
-//			sValueToSelect = raRecord.sGtld;
-//			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
-//			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sField).get(0));
+			sField = "U-Label";
+			sValueToSelect = raRecord.sGtld;
+			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
+			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sField).get(0));
 //
 //			sField = "gTLD/String";
 //			sValueToSelect = raRecord.sGtld;

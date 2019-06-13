@@ -96,12 +96,19 @@ public class _DmsPage extends _DmsHeader {
     }
     public static List<String> lsExistingSelectionsForField(String sFieldName) {
     	List<String> lsSelections =  new ArrayList<String>();
-    	
-    	Helper.waitForNumberOfElementsToAppear(lwExistingSelectionsForField(sFieldName), 1);
-    	
-    	for (WebElement e : browser.findElements(lwExistingSelectionsForField(sFieldName))) {
-    		String sText = e.getText();
-    		lsSelections.add(sText.substring(0, sText.indexOf(" clear")).strip());
+    	switch (sFieldName.toLowerCase()) {
+    	case "u-label": 
+    		Helper.nap(2);
+    		Helper.logDebug("Special case!  Field is disabled!");
+    		lsSelections.add(browser.findElement(By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]")).getAttribute("value"));
+    		break;
+    	default:
+        	Helper.waitForNumberOfElementsToAppear(lwExistingSelectionsForField(sFieldName), 1);
+        	
+        	for (WebElement e : browser.findElements(lwExistingSelectionsForField(sFieldName))) {
+        		String sText = e.getText();
+        		lsSelections.add(sText.substring(0, sText.indexOf(" clear")).strip());
+        	}    		
     	}
     	
     	return lsSelections;
@@ -131,6 +138,9 @@ public class _DmsPage extends _DmsHeader {
     		break;
     	case "languages":  //request translation
     		sIdentifier = "languages";
+    		break;
+    	case "u-label":  //registry agreement
+    		sIdentifier = "icn:uLabel";
     		break;
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
