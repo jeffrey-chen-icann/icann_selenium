@@ -27,8 +27,10 @@ public class LandingPage extends _DmsPage {
 		String sSub = "";
 		String sExpectToSeeInUrl = "unset";
 		
-		switch (sContentType) {
-		
+		switch (sContentType) {		
+		case "About the Board":
+			sExpectToSeeInUrl = "about-the-board";
+			break;
 		case "Board Meetings":
 			sExpectToSeeInUrl = "board-meetings";
 			sPreType = "Board Meeting Materials"; 
@@ -52,7 +54,7 @@ public class LandingPage extends _DmsPage {
 		Helper.waitForThenClick(btnCreateContent);
 		
 		if (sPreType.equals("unset")) {
-			//do nothing special
+			//no need to do nothing special
 		} else {
 			sSub = "child ";
 			Helper.logMessage("Choose a content type:  " + sPreType);

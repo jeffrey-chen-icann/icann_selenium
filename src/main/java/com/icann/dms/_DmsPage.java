@@ -31,11 +31,9 @@ public class _DmsPage extends _DmsHeader {
 		Helper.logMessage("Click the popup menu item:  " + sValueToSelect);
 		Helper.waitForThenClick(btnMetadataOverflowChoice(sValueToSelect));
 		
-//		Helper.nap(2);
-		
 		switch (sWhichField.toLowerCase()) {
 		case "type of tld":
-			Helper.logDebug("Skipping this type of field population:  " + sWhichField.toLowerCase());
+			Helper.logDebug("Skipping this type of field population verification:  " + sWhichField.toLowerCase());
 			break;
 		default:
 			Helper.logTestStep("Verify the " + sWhichField + " field was populated as expected:  " + sValueToSelect); 
@@ -72,9 +70,14 @@ public class _DmsPage extends _DmsHeader {
     }
     public static By txtForField(String sFieldName) {
     	By byControl = null;
-    	
-    	byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//input");   	
-    	
+    	switch (sFieldName.toLowerCase()) {
+    	case "status":
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//*[@class[contains(.,\"mat-select-value-text\")]]");
+    		break;
+    	default:
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//input");
+    	}
+    	   	
     	return byControl;
     }
     public static By btnDropdownForField(String sFieldName) {
@@ -98,6 +101,7 @@ public class _DmsPage extends _DmsHeader {
     	List<String> lsSelections =  new ArrayList<String>();
     	switch (sFieldName.toLowerCase()) {
     	case "u-label": 
+    	case "page title":
     		Helper.nap(2);
     		Helper.logDebug("Special case!  Field is disabled!");
     		lsSelections.add(browser.findElement(By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]")).getAttribute("value"));
@@ -142,8 +146,14 @@ public class _DmsPage extends _DmsHeader {
     	case "u-label":  //registry agreement
     		sIdentifier = "icn:uLabel";
     		break;
+    	case "page title":  //about the board, ?
+    		sIdentifier = "icn:pageTitle";
+    		break;
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
+    		break;
+    	case "status":  //about the board
+    		sIdentifier = "icn:status";
     		break;
     	case "subtopic":
     		sIdentifier = "icn:subtopic";
