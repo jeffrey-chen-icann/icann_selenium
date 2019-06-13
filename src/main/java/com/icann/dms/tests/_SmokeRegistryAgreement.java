@@ -184,14 +184,8 @@ public class _SmokeRegistryAgreement {
 			sField = "U-Label";
 			sValueToSelect = raRecord.sGtld;
 			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
-			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sField).get(0));
-//
-//			sField = "gTLD/String";
-//			sValueToSelect = raRecord.sGtld;
-//			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
-//			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sField).get(0));
+			Helper.compareStrings(sValueToSelect, Helper.waitForDisabledElement(RegistryAgreementPage.txtForField(sField)).getAttribute("value"));
 
-			
 			sField = "Internal Owner";
 			lsExpectedValues = Arrays.asList("Global Domains Division (GDD)");
 			Helper.logTestStep("Verify the saved value for metadata field:  " + sField);
