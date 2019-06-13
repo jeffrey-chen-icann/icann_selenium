@@ -101,7 +101,7 @@ public class CmsPoc {
 		Helper.waitForThenClick(RegistryAgreementsPage.btnApplyFilters);
 		Helper.nap(1);
 		
-		List<String> lsExpected = Arrays.asList(raRecord.sGtld, raRecord.sAgreementType, raRecord.sOperator, raRecord.sAgreementStatus, raRecord.sAgreementDate);
+		List<String> lsExpected = Arrays.asList(raRecord.sGtld, raRecord.sAgreementType, raRecord.sOperator, raRecord.metadata.sAgreementStatus, raRecord.metadata.sAgreementDate);
 		Helper.logMessage("Verify the row record information.");
 		Helper.compareLists(lsExpected, RegistryAgreementsPage.searchResultRowValue(1).toList());
 	
@@ -124,8 +124,8 @@ public class CmsPoc {
 		Helper.compareStrings(sOperatorPreString + raRecord.sOperator, Helper.waitForElement(RegistryAgreementDetail.txtOperator).getText());
 
 		String sAgreementDatePreString = "Agreement Date ";
-		Helper.logTestStep("Verify the Agreement Date is:  " + raRecord.sAgreementDate);
-		Helper.compareStrings(sAgreementDatePreString + raRecord.sAgreementDate, Helper.waitForElement(RegistryAgreementDetail.txtAgreementDate).getText());
+		Helper.logTestStep("Verify the Agreement Date is:  " + raRecord.metadata.sAgreementDate);
+		Helper.compareStrings(sAgreementDatePreString + raRecord.metadata.sAgreementDate, Helper.waitForElement(RegistryAgreementDetail.txtAgreementDate).getText());
 		
 		String sAgreementTypePreString = "Agreement Type ";
 		Helper.logTestStep("Verify the Agreement Type is:  " + raRecord.sAgreementType);

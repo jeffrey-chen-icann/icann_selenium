@@ -69,8 +69,6 @@ public class DmsPoc {
 		Helper.logDebug("sAgreementType = " + sAgreementType); 
 		Helper.logDebug("sAgreementDate = " + sAgreementDate); 
 		
-		Helper.bDebug = false;
-		
 		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sTypeOfTld, sAgreementType, "", "Active", sAgreementDate);
 		
 		if (Suite.bUsingSuite) {
@@ -106,7 +104,7 @@ public class DmsPoc {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = raRecord.sGtld + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(RegistryAgreementPage.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(Metadata.txtMetadataDescription, sMetadataDescription);
 
 		sWhichField = "Agreement Status";
 		sValueToSelect = "Current";

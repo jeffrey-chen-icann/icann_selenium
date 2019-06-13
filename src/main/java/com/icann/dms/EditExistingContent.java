@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
 import com.icann.Environment;
 import com.icann.Helper;
 
-public class EditExistingContent {
+public class EditExistingContent extends _DmsPage {
     static WebDriver browser = Helper.browser;
     
     private static String sEditContentUrl = Environment.sDmsUrl() + "/search;q=*";

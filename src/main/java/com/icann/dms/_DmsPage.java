@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.*;
 import com.icann.Helper;
+import com.icann.dms.contenttype.RegistryAgreementPage;
 
 public class _DmsPage extends _DmsHeader {
     static WebDriver browser = Helper.browser;
@@ -29,7 +30,18 @@ public class _DmsPage extends _DmsHeader {
     	
 		Helper.logMessage("Click the popup menu item:  " + sValueToSelect);
 		Helper.waitForThenClick(btnMetadataOverflowChoice(sValueToSelect));
-		Helper.nap(2);
+		
+//		Helper.nap(2);
+		
+		switch (sWhichField.toLowerCase()) {
+		case "type of tld":
+			Helper.logDebug("Skipping this type of field population:  " + sWhichField.toLowerCase());
+			break;
+		default:
+			Helper.logTestStep("Verify the " + sWhichField + " field was populated as expected:  " + sValueToSelect); 
+			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sWhichField).get(0));
+		}
+		
     }
     
     public static By popupMenuItems = By.xpath("//mat-option");
@@ -55,10 +67,13 @@ public class _DmsPage extends _DmsHeader {
     	return lsSelections;
     }
     
+    private static String sParentElementRootXpath (String sFieldName) {
+    	return ("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
+    }
     public static By txtForField(String sFieldName) {
     	By byControl = null;
     	
-    	byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//input");   	
+    	byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//input");   	
     	
     	return byControl;
     }
@@ -67,14 +82,36 @@ public class _DmsPage extends _DmsHeader {
     	
     	switch (sFieldName.toLowerCase()){
     		case "type of tld":
-    			byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//div");
+    			byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//div");
     			break;
     	default:
-    		byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//button");
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//button");
     	}
     	
-    	
     	return byControl;
+    }
+    
+    private static By lwExistingSelectionsForField(String sFieldName) {
+    	return By.xpath(sParentElementRootXpath(sFieldName) + "//span[@class[contains(.,\"app-typeahead-select-box\")]]");
+    }
+    public static List<String> lsExistingSelectionsForField(String sFieldName) {
+    	List<String> lsSelections =  new ArrayList<String>();
+    	switch (sFieldName.toLowerCase()) {
+    	case "u-label": 
+    		Helper.nap(2);
+    		Helper.logDebug("Special case!  Field is disabled!");
+    		lsSelections.add(browser.findElement(By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]")).getAttribute("value"));
+    		break;
+    	default:
+        	Helper.waitForNumberOfElementsToAppear(lwExistingSelectionsForField(sFieldName), 1);
+        	
+        	for (WebElement e : browser.findElements(lwExistingSelectionsForField(sFieldName))) {
+        		String sText = e.getText();
+        		lsSelections.add(sText.substring(0, sText.indexOf(" clear")).strip());
+        	}    		
+    	}
+    	
+    	return lsSelections;
     }
     
     static private String sFieldIdentifier(String sFieldName) {
@@ -93,11 +130,23 @@ public class _DmsPage extends _DmsHeader {
     	case "board meeting type":  //board meeting
     		sIdentifier = "icn:legalBoardMeetingType";
     		break;
+    	case "gtld/string":  //registry agreement
+    		sIdentifier = "icn:associatedTLD";
+    		break;
+    	case "internal owner":  //registry agreement
+    		sIdentifier = "icn:internalOwner";
+    		break;
     	case "languages":  //request translation
     		sIdentifier = "languages";
     		break;
+    	case "u-label":  //registry agreement
+    		sIdentifier = "icn:uLabel";
+    		break;
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
+    		break;
+    	case "subtopic":
+    		sIdentifier = "icn:subtopic";
     		break;
     	case "team":
     		sIdentifier = "icn:subowner";
@@ -112,7 +161,7 @@ public class _DmsPage extends _DmsHeader {
     		sIdentifier = "icn:typeOfTld";
     		break;
     	default:
-    		
+    		Helper.logError("Need to define fieldname in _DmsPage.sFieldIdentifier():  " + sFieldName);
     	}
     	
     	return sIdentifier;

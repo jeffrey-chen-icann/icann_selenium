@@ -66,7 +66,7 @@ public class PublicComment {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = "metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(PublicCommentPage.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(Metadata.txtMetadataDescription, sMetadataDescription);
 
 		
 		sWhichField = "topic owner";

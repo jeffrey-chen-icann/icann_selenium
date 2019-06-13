@@ -19,8 +19,6 @@ public class _DmsContentItem extends _DmsPage {
     public static By btnRequestReview = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Request Review\")]]");
     public static By btnDelete = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Delete\")]]");
     
-    public static By txtMetadataDescription = By.id("icn:metadataDescription"); //content pages 
-    
     public static By snackbarMessage = By.xpath("//simple-snack-bar");
     
     public static String currentNodeId() {
