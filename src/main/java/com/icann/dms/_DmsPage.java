@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.*;
 import com.icann.Helper;
+import com.icann.dms.contenttype.RegistryAgreementPage;
 
 public class _DmsPage extends _DmsHeader {
     static WebDriver browser = Helper.browser;
@@ -29,7 +30,18 @@ public class _DmsPage extends _DmsHeader {
     	
 		Helper.logMessage("Click the popup menu item:  " + sValueToSelect);
 		Helper.waitForThenClick(btnMetadataOverflowChoice(sValueToSelect));
-		Helper.nap(2);
+		
+//		Helper.nap(2);
+		
+		switch (sWhichField.toLowerCase()) {
+		case "type of tld":
+			Helper.logDebug("Skipping this type of field population:  " + sWhichField.toLowerCase());
+			break;
+		default:
+			Helper.logTestStep("Verify the " + sWhichField + " field was populated as expected:  " + sValueToSelect); 
+			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sWhichField).get(0));
+		}
+		
     }
     
     public static By popupMenuItems = By.xpath("//mat-option");

@@ -16,6 +16,7 @@ public class Login {
     public static String sUnknownUsernameOrPasswordMessage = "You've entered an unknown username or password";
     
     public static void login(String sUsername, String sPassword){
+    	Helper.logMessage("Using DMS:  " + Environment.sDmsUrl());
     	Helper.logMessage("Logging in as:  " + sUsername);
     	
     	browser = Helper.browser;    	

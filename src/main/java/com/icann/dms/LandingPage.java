@@ -18,7 +18,7 @@ public class LandingPage extends _DmsPage {
     
     public static void open() {
     	Helper.logTestStep("Opening landing page.");
-    	browser.navigate().to(Environment.sDmsUrl());
+    	browser.navigate().to(Environment.sDmsUrl() + "/landing-page");
     }
     
     public static String createContent(String sContentType) {
@@ -70,10 +70,10 @@ public class LandingPage extends _DmsPage {
 		ArrayList<String> allTabs = new ArrayList<String>(browser.getWindowHandles());
 		
 		if (allTabs.size() > 1) {
+			Helper.logMessage("*** New tab detected...switching to new tab and closing old tab.");
+			browser.close();
 			allTabs.remove(sWindowHandle);
-			sWindowHandle = allTabs.get(0);
-			Helper.logMessage("*** New tab detected...switching to new tab.");
-			browser.switchTo().window(sWindowHandle);
+			browser.switchTo().window(allTabs.get(0));
 		}
 		
 		Helper.waitForUrlToContain(sExpectToSeeInUrl);

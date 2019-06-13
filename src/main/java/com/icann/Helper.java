@@ -464,10 +464,10 @@ public class Helper {
 		
 		if(lsActual.equals(lsExpected)){
 			bEqual = true;
-	    	logMessage("The lists were equal (" + lsExpected.size() + " items):  " + lsExpected);
+	    	logMessage("The lists were equal (" + lsExpected.size() + " item(s)):  " + lsExpected, 2);
 		} else {
 	    	logError("The lists were not equal:  " + sWhatAreTheseLists);
-	    	logError("Expected items (" + lsExpected.size() + ") vs. actual items (" + lsActual.size() + "):");
+	    	logError("Expected item (" + lsExpected.size() + ") vs. actual items (" + lsActual.size() + "):");
 	    	logError("Expected:  " + lsExpected);
 	    	logError("Actual:    " + lsActual);
 	    	

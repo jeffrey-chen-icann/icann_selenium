@@ -31,15 +31,15 @@ public class Dms {
 		Helper.logTestStep("Create a new item of type:  " + sContentType);
 		LandingPage.createContent(sContentType);
 
-		Helper.logTestStep("Save the item as a draft.");
-		RegistryAgreementPage.saveDraft();
-		
-		raRecord._sNodeId = RegistryAgreementPage.currentNodeId();
-		Helper.logMessage("Created nodeId:  " + raRecord._sNodeId);
-
 		Helper.logTestStep("Create a gTLD/String.");
 		RegistryAgreementPage.createGtldString(raRecord);
-				
+
+		Helper.logTestStep("Save the item as a draft.");
+		RegistryAgreementPage.saveDraft();
+		raRecord._sNodeId = RegistryAgreementPage.currentNodeId();
+		Helper.logMessage("Created nodeId:  " + raRecord._sNodeId);
+		Helper.logMessage("page URL:  " + browser.getCurrentUrl());
+		
 		sWhichField = "Agreement Type";
 		sValueToSelect = raRecord.sAgreementType;
 		Helper.logTestStep("Set the " + sWhichField + " to value:  " + sValueToSelect);
