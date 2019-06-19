@@ -105,6 +105,8 @@ public class Helper {
 		WebElement eElement = null;
 		boolean bElementFound = false;
 
+		logDebug("Looking for disabled element " + byLocator.toString() + ".");
+		
 		for(int i=0; i<iTimeoutInSeconds; i++){
 			if (!browser.findElements(byLocator).isEmpty()){				
 				bElementFound = true;
@@ -296,11 +298,10 @@ public class Helper {
 	}
 	
 	public static By anythingWithText(String sTextToLookFor){ 
-		
 		String sXpath = "//*[text()=\"" + sTextToLookFor + "\" or text()[contains(.,\"" + sTextToLookFor + "\")]]";
 
 		if (sTextToLookFor.contains("\"")){
-			Helper.logDebug("Fourd double quotes in string to search for, so replacing double quotes in contains xpath call with single quotes.");
+			Helper.logDebug("Found double quotes in string to search for, so replacing double quotes in contains xpath call with single quotes.");
 			sXpath = "//*[text()[contains(.,'" + sTextToLookFor + "')]]";
 		}
 		return By.xpath(sXpath);

@@ -42,7 +42,7 @@ public class _SmokeRegistryAgreement {
 
 	@Before
 	public void beforeEach(){
-		LandingPage.open();
+
 	}
 	@Test
 	public void registryAgreementDefaultFieldValues() {
@@ -184,7 +184,7 @@ public class _SmokeRegistryAgreement {
 			sField = "U-Label";
 			sValueToSelect = raRecord.sGtld;
 			Helper.logTestStep("Verify the " + sField + " field was populated as expected:  " + sValueToSelect); 
-			Helper.compareStrings(sValueToSelect, Helper.waitForDisabledElement(RegistryAgreementPage.txtForField(sField)).getAttribute("value"));
+			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.getTextForField(sField));
 
 			sField = "Internal Owner";
 			lsExpectedValues = Arrays.asList("Global Domains Division (GDD)");

@@ -8,16 +8,26 @@ import com.icann.Helper;
 import com.icann.dms.contenttype.RegistryAgreementPage;
 
 public class _DmsPage extends _DmsHeader {
-    static WebDriver browser = Helper.browser;
+    public static WebDriver browser = Helper.browser;
+    
+    //modals
+    public static String sModalPrefix = "[modal]";
+    public static String sModalXPath = "//mat-dialog-container";
+    public static By btnModalSave = By.xpath(sModalXPath + "//*[text()=\"Save\"]");
+
+    public static final String sModalMetadataField = "[modal]metadata description"; //special because the metadata topic field is an enter-select but they have the same ID
+    public static final String sModalTeamField = "[modal]topic"; //special because the metadata topic field is an enter-select but they have the same ID
     
     public static By btnMetadataOverflowChoice(String sChoiceText) {
     	return By.xpath("//*[text()=\"" + sChoiceText + "\"]/ancestor::mat-option");
     }
     public static void setDropdownSelection(String sWhichField, String sValueToSelect) {
     	Helper.logMessage("Click the " + sWhichField + " dropdown link.");
+    	 
     	
     	switch (sWhichField.toLowerCase()){
 		//these are dropdown only fields
+    	case sModalTeamField:
     	case "type of tld":
     		Helper.logDebug("We think " + sWhichField + " is a select control.");
 			Helper.waitForThenClick(btnDropdownForField(sWhichField));
@@ -40,9 +50,15 @@ public class _DmsPage extends _DmsHeader {
 			Helper.compareStrings(sValueToSelect, RegistryAgreementPage.lsExistingSelectionsForField(sWhichField).get(0));
 		}
 		
+		Helper.nap(5);  //trying to get dependent fields to populate - can we be smarter?
     }
     
-    public static By popupMenuItems = By.xpath("//mat-option");
+    public static void setTextForField(String sWhichTextField, String sValueToSet) {
+    	Helper.logMessage("Enter text into the " + sWhichTextField + " field:" + sValueToSet);
+    	Helper.waitForThenSendKeys(txtForField(sWhichTextField), sValueToSet);
+    }
+    
+    private static By popupMenuItems = By.xpath("//mat-option");
     public static List<String> lsDropdownSelections(String sWhichField) {
     	List<String> lsSelections =  new ArrayList<String>();
     	
@@ -66,11 +82,21 @@ public class _DmsPage extends _DmsHeader {
     }
     
     private static String sParentElementRootXpath (String sFieldName) {
-    	return ("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
+    	String sModalPre = "";
+    	
+    	if (sFieldName.contains(sModalPrefix)) {
+    		Helper.logDebug("We think the field is in a modal.");
+    		sModalPre = sModalXPath;
+    	}
+    	
+    	return (sModalPre + "//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
     }
-    public static By txtForField(String sFieldName) {
+    private static By txtForField(String sFieldName) {
     	By byControl = null;
     	switch (sFieldName.toLowerCase()) {
+    	case sModalMetadataField:  //file metadata
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//textarea");
+    		break;
     	case "status":
     		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//*[@class[contains(.,\"mat-select-value-text\")]]");
     		break;
@@ -79,6 +105,19 @@ public class _DmsPage extends _DmsHeader {
     	}
     	   	
     	return byControl;
+    }
+    public static String getTextForField(String sFieldName) {
+    	String sReturn = "unset";
+    	
+    	switch (sFieldName.toLowerCase()) {
+    	case "u-label":
+    	case "page title":
+    		sReturn = Helper.waitForDisabledElement(txtForField(sFieldName)).getAttribute("value");
+    		break;
+    	default:
+    		sReturn = Helper.waitForElement(txtForField(sFieldName)).getAttribute("value");
+    	}
+    	return sReturn;
     }
     public static By btnDropdownForField(String sFieldName) {
     	By byControl = null;
@@ -120,6 +159,8 @@ public class _DmsPage extends _DmsHeader {
     
     static private String sFieldIdentifier(String sFieldName) {
     	String sIdentifier = "unset";
+
+    	sFieldName = sFieldName.replace(sModalPrefix, "");
     	
     	switch (sFieldName.toLowerCase()) {
     	case "agreement round":  //registry agreement
@@ -134,6 +175,9 @@ public class _DmsPage extends _DmsHeader {
     	case "board meeting type":  //board meeting
     		sIdentifier = "icn:legalBoardMeetingType";
     		break;
+    	case "case name":  //independent review process
+    		sIdentifier = "icn:legalCase";
+    		break;
     	case "gtld/string":  //registry agreement
     		sIdentifier = "icn:associatedTLD";
     		break;
@@ -143,16 +187,28 @@ public class _DmsPage extends _DmsHeader {
     	case "languages":  //request translation
     		sIdentifier = "languages";
     		break;
+    	case "legal case value":  //independent review process
+    		sIdentifier = "icn:legalCase";
+    		break;
+    	case "legal case status":  //independent review process
+    		sIdentifier = "icn:legalCaseStatus";
+    		break;
+    	case "metadata description":  //registry agreement
+    		sIdentifier = "icn:metadataDescription";
+    		break;
+    	case "name":  //add file via search modal
+    		sIdentifier = "cm:name";
+    		break;
     	case "u-label":  //registry agreement
     		sIdentifier = "icn:uLabel";
     		break;
-    	case "page title":  //about the board, ?
+    	case "page title":  //many
     		sIdentifier = "icn:pageTitle";
     		break;
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
     		break;
-    	case "status":  //about the board
+    	case "status":  //about the board, irp
     		sIdentifier = "icn:status";
     		break;
     	case "subtopic":
@@ -171,7 +227,7 @@ public class _DmsPage extends _DmsHeader {
     		sIdentifier = "icn:typeOfTld";
     		break;
     	default:
-    		Helper.logError("Need to define fieldname in _DmsPage.sFieldIdentifier():  " + sFieldName);
+    		Helper.logError("Need to define fieldname in _DmsPage.sFieldIdentifier():  " + sFieldName.toLowerCase());
     	}
     	
     	return sIdentifier;

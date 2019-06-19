@@ -19,6 +19,18 @@ public class _DmsContentItem extends _DmsPage {
     public static By btnRequestReview = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Request Review\")]]");
     public static By btnDelete = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Delete\")]]");
     
+    public static By btnLinkFile = Helper.anythingWithText("Link File");
+    public static By btnLinkPage = Helper.anythingWithText("Link Page");
+    public static By btnAddText = Helper.anythingWithText("Add Text");
+    
+    //upload + search for file
+    public static By txtUploadFileHidden = By.xpath("//*[text()[contains(.,\"Upload files\")]]/ancestor::*[@class[contains(.,\"alfresco-link-header\")]]//input");
+    public static By btnFileSearchSearchFiles = Helper.anythingWithText("Search files");
+    public static By btnFileSearchApply = Helper.anythingWithText("Apply");
+    public static By btnFileSearchLinkForFilename(String sFilename) {
+    	return By.xpath("//*[text()=\"" + sFilename + "\"]//ancestor::*[@class[contains(.,\"adf-datatable-row\")]]//*[text()[contains(.,\"Link\")]]");
+    }
+    
     public static By snackbarMessage = By.xpath("//simple-snack-bar");
     
     public static String currentNodeId() {
