@@ -1,12 +1,10 @@
 package com.icann.dms.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
@@ -15,7 +13,6 @@ import com.icann.Helper;
 import com.icann._contentrecordtypes.*;
 import com.icann.dms.*;
 import com.icann.dms.contenttype.*;
-import com.icann.e2e.Suite;
 
 public class _SmokeAboutTheBoard {
     static WebDriver browser; 
@@ -54,12 +51,12 @@ public class _SmokeAboutTheBoard {
 		sField = "Page Title";
 		sExpectedValue = "About the Board";
 		Helper.logTestStep("Verify the default value for field:  " + sField);
-		Helper.compareStrings(sExpectedValue, Helper.waitForDisabledElement(RegistryAgreementPage.txtForField(sField)).getAttribute("value"), sField + " default value");
+		Helper.compareStrings(sExpectedValue, RegistryAgreementPage.getTextForField(sField), sField + " default value");
 	
 		sField = "Status";
 		sExpectedValue = "Final";
 		Helper.logTestStep("Verify the default value for metadata field:  " + sField);
-		Helper.compareStrings(sExpectedValue, Helper.waitForElement(RegistryAgreementPage.txtForField(sField)).getText(), sField + " default value");			
+		Helper.compareStrings(sExpectedValue, RegistryAgreementPage.getTextForField(sField), sField + " default value");			
 		
 		sField = "Internal Owner";
 		lsExpectedValues = Arrays.asList("Legal");

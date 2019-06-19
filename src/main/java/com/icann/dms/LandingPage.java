@@ -17,7 +17,7 @@ public class LandingPage extends _DmsPage {
     public static By btnResources = By.xpath("//app-landing-page//*[@title=\"Resources\"]");
     
     public static void open() {
-    	Helper.logTestStep("Opening landing page.");
+    	Helper.logTestStep("Open the landing page.");
     	browser.navigate().to(Environment.sDmsUrl() + "/landing-page");
     }
     
@@ -26,6 +26,8 @@ public class LandingPage extends _DmsPage {
 		String sPreType = "unset";
 		String sSub = "";
 		String sExpectToSeeInUrl = "unset";
+		
+		open();
 		
 		switch (sContentType) {		
 		case "About the Board":
@@ -38,6 +40,12 @@ public class LandingPage extends _DmsPage {
 		case "Board Committee Meetings":
 			sExpectToSeeInUrl = "board-committee-meetings";
 			sPreType = "Board Meeting Materials"; 
+			break;
+		case "Independent Review Process":
+			sExpectToSeeInUrl = "independent-review-process";
+			break;
+		case "IRP Landing":
+			sExpectToSeeInUrl = "irp-landing";
 			break;
 		case "Secretary's Notice":
 			sExpectToSeeInUrl = "secretarys-notice";

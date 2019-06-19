@@ -22,7 +22,13 @@ public class Dms {
     public static By txtPermissionsError = Helper.anythingWithText(sPermissionsError);
     
     
-  
+    public static void createIRPLandingPage() {
+		String sContentType = "IRP Landing";
+		Helper.logTestStep("Create a new item of type:  " + sContentType);
+		LandingPage.createContent(sContentType);
+    	
+    }
+    		
     public static String createRegistryAgreement(RegistryAgreement raRecord) {
     	String sWhichField;
     	String sValueToSelect;
@@ -47,4 +53,5 @@ public class Dms {
 		
     	return raRecord._sNodeId;
     }
+
 }
