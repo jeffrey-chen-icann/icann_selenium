@@ -88,13 +88,14 @@ public class _DmsPage extends _DmsHeader {
     		Helper.logDebug("We think the field is in a modal.");
     		sModalPre = sModalXPath;
     	}
-    	
+
     	return (sModalPre + "//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
     }
     private static By txtForField(String sFieldName) {
     	By byControl = null;
     	switch (sFieldName.toLowerCase()) {
     	case sModalMetadataField:  //file metadata
+    	case "metadata description":
     		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//textarea");
     		break;
     	case "status":
@@ -106,10 +107,12 @@ public class _DmsPage extends _DmsHeader {
     	   	
     	return byControl;
     }
+
     public static String getTextForField(String sFieldName) {
     	String sReturn = "unset";
     	
     	switch (sFieldName.toLowerCase()) {
+    	// these fields are special because they are disabled
     	case "u-label":
     	case "page title":
     		sReturn = Helper.waitForDisabledElement(txtForField(sFieldName)).getAttribute("value");
@@ -119,6 +122,7 @@ public class _DmsPage extends _DmsHeader {
     	}
     	return sReturn;
     }
+
     public static By btnDropdownForField(String sFieldName) {
     	By byControl = null;
     	
@@ -193,6 +197,12 @@ public class _DmsPage extends _DmsHeader {
     	case "legal case status":  //independent review process
     		sIdentifier = "icn:legalCaseStatus";
     		break;
+    	case "legal document type":  //board meeting
+    		sIdentifier = "icn:legalDocumentType";
+    		break;    		
+    	case "legal document year":  //board meeting
+    		sIdentifier = "icn:legalDocYear";
+    		break;    		
     	case "metadata description":  //registry agreement
     		sIdentifier = "icn:metadataDescription";
     		break;

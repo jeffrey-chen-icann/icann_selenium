@@ -33,7 +33,7 @@ public class LandingPage extends _DmsPage {
 		case "About the Board":
 			sExpectToSeeInUrl = "about-the-board";
 			break;
-		case "Board Meetings":
+		case "Board Meeting":
 			sExpectToSeeInUrl = "board-meetings";
 			sPreType = "Board Meeting Materials"; 
 			break;
@@ -55,7 +55,7 @@ public class LandingPage extends _DmsPage {
 			sExpectToSeeInUrl = "registry-agreement";
 			break;
 		default:
-			Helper.logError("You need a case for your content type here:  LandingPage.createContent()");
+			Helper.logError("You need a case for your content type (" + sContentType + ") here:  LandingPage.createContent()");
 		}
 		
 		Helper.logMessage("Click the Create Content button.");

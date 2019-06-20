@@ -7,7 +7,7 @@ import org.openqa.selenium.*;
 import com.icann.Helper;
 import com.icann.dms._DmsContentItem;
 
-public class BoardMeetingsPage extends _DmsContentItem {
+public class BoardMeetingPage extends _DmsContentItem {
 	static WebDriver browser = Helper.browser;
 	
     public static By txtPageTitle = By.id("icn:pageTitle");
