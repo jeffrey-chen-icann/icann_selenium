@@ -10,7 +10,7 @@ import com.icann.Helper;
 import com.icann.dms.*;
 import com.icann.dms.contenttype.*;
 
-public class PublicComment {
+public class PublicComment extends _DmsContentItem {
     static WebDriver browser; 
     String sNodeId = "unset";
 	String sWhichField = "";
@@ -66,7 +66,7 @@ public class PublicComment {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
 		String sMetadataDescription = "metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Metadata.txtMetadataDescription, sMetadataDescription);
+		PublicComment.setTextForField("Metadata Description", sMetadataDescription);
 
 		
 		sWhichField = "topic owner";
