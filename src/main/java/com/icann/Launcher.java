@@ -9,7 +9,7 @@ public class Launcher {
 	public static String sCommandLineArgs = "unset";
 	
 	private static List<String> lsPossibleProjectSuiteParams = Arrays.asList(
-			"dms _removeallregistryagreements", 
+			"dms _removeallautomationcontentitems", 
 			"dms createcontentmodal.contenttypes",
 			"dms login.accessadminpageswithnonadmin", 
 			"dms poc", 
@@ -69,8 +69,8 @@ public class Launcher {
 				break;
 			case "dms":
 				switch (sSuiteParameter){
-				case "_removeallregistryagreements":
-					sSuiteToRun = "_RemoveAllRegistryAgreements";
+				case "_removeallautomationcontentitems":
+					sSuiteToRun = "_RemoveAllAutomationContentItems";
 					break;
 				case "smokeboardmeeting":
 					sSuiteToRun = "_SmokeBoardMeeting";
