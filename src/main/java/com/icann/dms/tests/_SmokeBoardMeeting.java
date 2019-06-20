@@ -79,8 +79,6 @@ public class _SmokeBoardMeeting {
 		Helper.logTestStep("Enter in a Metadata Description:  " + sMetadataDescription);
 		BoardMeetingPage.setTextForField("Metadata Description", sMetadataDescription);
 		
-//		Metadata.setMetadataDescription(sMetadataDescription);
-		
 		Helper.logTestStep("Enter in a Legal Document Type:  " + sLegalDocumentType);
 		BoardMeetingPage.setDropdownSelection("Legal Document Type", sLegalDocumentType);
 		

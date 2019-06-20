@@ -7,13 +7,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
 import com.icann.Helper;
 
 import com.icann.dms.*;
 
-public class _RemoveAllRegistryAgreements {
+public class _RemoveAllAutomationContentItems {
     static WebDriver browser; 
 
     String sStringToDeleteContent = "_automation";
@@ -38,6 +39,8 @@ public class _RemoveAllRegistryAgreements {
 		int iTotalResultRows = 0;
 		int iTotalPagesToTraverse = 0;
 		int iMaxItemsShownPerPage = 100;
+		
+		String sPageTitle = "unset";
 		
 		//still need to handle
 		//* more than one page of results - untested
@@ -78,7 +81,7 @@ public class _RemoveAllRegistryAgreements {
 				
 				for (String sTitle : lsRows) {
 					String sNewWindowHandle = "unset";
-					String sTitleOnContentPage = "unset";
+//					String sTitleOnContentPage = "unset";
 					Helper.logMessage("");
 					Helper.logTestStep("Remove page title content:  " + sTitle);
 					
@@ -99,10 +102,26 @@ public class _RemoveAllRegistryAgreements {
 						Helper.waitForUrlToContain("nodeId");
 						
 						try {
-							sTitleOnContentPage = sTitle.substring(1).substring(0, sTitle.indexOf(" Registry Agreement"));
-							Helper.waitForElement(Helper.anythingWithText(sTitleOnContentPage)).isDisplayed();  //this will cause element not found exception and bail
+							//another sanity check
+							Helper.nap(2);
+							By pageTitle = By.id("icn:pageTitle");
+							if (browser.findElements(pageTitle).size() > 0) {
+								Helper.logDebug("Found page title field.");
+								
+								sPageTitle = browser.findElement(pageTitle).getAttribute("value");
+								if (sPageTitle.contains(sStringToDeleteContent)) {
+									//great!  continue!
+									Helper.logMessage("Found " + sStringToDeleteContent + " inside " + sPageTitle);
+								} else {
+									throw (new Exception());
+								}
+							} else {
+								Helper.logDebug("Did not find page title field.  Looking for any element contaning the delete string.");
+								sPageTitle = Helper.waitForElement(Helper.anythingWithText(sStringToDeleteContent)).getText(); //this will cause element not found exception and bail
+								
+							}
 							
-							Helper.logTestStep("Delete the content item:  " + sTitleOnContentPage);
+							Helper.logTestStep("Delete the content item:  " + sPageTitle);
 							_DmsContentItem.delete();
 							
 							Helper.logMessage("Closing content item tab.");
@@ -112,7 +131,7 @@ public class _RemoveAllRegistryAgreements {
 							browser.switchTo().window(sOriginalWindowHandle);
 							
 						} catch (Exception e) {
-							Helper.logFatal("The gTLD (" + sTitleOnContentPage + ") was not found anywhere on this page!  Aborting run.  Page we were looking at:  " + browser.getCurrentUrl());
+							Helper.logError("Nothing with (" + sStringToDeleteContent + ") was not found anywhere on this page!  Aborting run.  Page we were looking at:  " + browser.getCurrentUrl());
 							Helper.logError(e.toString());
 							
 							System.exit(1);
