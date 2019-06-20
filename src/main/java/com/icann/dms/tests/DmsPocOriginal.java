@@ -40,7 +40,7 @@ public class DmsPocOriginal {
 		String sTypeOfTld = "gTLD ";
 		String sAgreementType = "Community - Spec 12";
 		String sAgreementDate = Helper.todayString("dd") + " " + Helper.todayString("Month") + " " + Helper.todayString("yyyy");
-		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sAgreementType, "", "Active", sAgreementDate);
+		RegistryAgreement raRecord = new RegistryAgreement(sALabel, sTypeOfTld, sAgreementType, "", "Active", sAgreementDate);
 		
 //		String sOriginalTab = browser.getWindowHandle();
 		
@@ -91,7 +91,7 @@ public class DmsPocOriginal {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297)is not there
 		String sMetadataDescription = Helper.todayString() + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(RegistryAgreementPage.txtMetadataDescription, sMetadataDescription);
+		Helper.waitForThenSendKeys(Metadata.txtMetadataDescription, sMetadataDescription);
 
 		sWhichField = "agreement status";
 		sValueToSelect = "Current";

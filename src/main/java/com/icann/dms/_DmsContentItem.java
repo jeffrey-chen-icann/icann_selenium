@@ -19,7 +19,19 @@ public class _DmsContentItem extends _DmsPage {
     public static By btnRequestReview = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Request Review\")]]");
     public static By btnDelete = By.xpath(sMoreActionsXpathRoot + "//button[text()[contains(.,\"Delete\")]]");
     
-    public static By txtMetadataDescription = By.id("icn:metadataDescription"); //content pages 
+    public static By btnLinkFile = Helper.anythingWithText("Link File");
+    public static By btnLinkPage = Helper.anythingWithText("Link Page");
+    public static By btnAddText = Helper.anythingWithText("Add Text");
+    
+    //upload + search for file
+    public static By txtUploadFileHidden = By.xpath("//*[text()[contains(.,\"Upload files\")]]/ancestor::*[@class[contains(.,\"alfresco-link-header\")]]//input");
+    public static By btnFileSearchSearchFiles = Helper.anythingWithText("Search files");
+    public static By btnFileSearchApply = Helper.anythingWithText("Apply");
+    public static By btnFileSearchLinkForFilename(String sFilename) {
+    	return By.xpath("//*[text()=\"" + sFilename + "\"]//ancestor::*[@class[contains(.,\"adf-datatable-row\")]]//*[text()[contains(.,\"Link\")]]");
+    }
+    
+    public static By snackbarMessage = By.xpath("//simple-snack-bar");
     
     public static String currentNodeId() {
 		Helper.waitForUrlToContain("nodeId");
@@ -34,7 +46,7 @@ public class _DmsContentItem extends _DmsPage {
     	return sNodeId;
     }
     
-    static public void publish() {
+    public static void publish() {
     	//defaults to today - later add argument for when to publish (?)
 		Helper.logMessage("Click the Publish button.");
 		Helper.waitForThenClick(btnPublish);
@@ -48,11 +60,11 @@ public class _DmsContentItem extends _DmsPage {
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(PublishModal.btnSubmit);
 		
-		//detect snackbar message?
-		Helper.nap(2);
+		//when does it get published if you specify a date?
     }
 
-    static public void publishNow() {
+    private static String sSnackbarPublishedSuccessfullyMessage = "Published successfully.";
+    public static void publishNow() {
     	//defaults to today - later add argument for when to publish (?)
 		Helper.logMessage("Click the More actions button.");
 		Helper.waitForThenClick(btnMoreActions);
@@ -63,12 +75,15 @@ public class _DmsContentItem extends _DmsPage {
 		Helper.logMessage("Click Publish button on confirmation modal.");
 		Helper.waitForThenClick(PublishModal.btnPublishConfirm);
 
+		verifySnackbarMessage(sSnackbarPublishedSuccessfullyMessage);
+		
 		waitForWorkflowState("Published");
     }
     
-    static public By btnUnpublishYes = Helper.anythingWithText("Yes");
-    static public By btnUnpublishNo = Helper.anythingWithText("No");
-    static public void unpublish() {
+    public static By btnUnpublishYes = Helper.anythingWithText("Yes");
+    public static By btnUnpublishNo = Helper.anythingWithText("No");
+    private static String sSnackbarContentSuccessfullyUnpublishedMessage = "Content successfully unpublished.";
+    public static void unpublish() {
     	//only do it if we need to
     	String sCurrentState = currentWorkflowState();
     	if (sCurrentState.contentEquals("Published")) {
@@ -82,14 +97,16 @@ public class _DmsContentItem extends _DmsPage {
     		Helper.logMessage("Click Yes on confirmation modal.");
     		Helper.waitForThenClick(btnUnpublishYes);
     		
+    		verifySnackbarMessage(sSnackbarContentSuccessfullyUnpublishedMessage);
+    		
     		waitForWorkflowState("Unpublished");    		
     	} else {
     		Helper.logMessage("Current workflow state is " + sCurrentState + ".  No need to unpublish.");
     	}
     }
 
-    static public By btnDeleteConfirm = By.xpath("//mat-dialog-container//*[text()=\"Delete\"]");
-    static public void delete() {
+    public static By btnDeleteConfirm = By.xpath("//mat-dialog-container//*[text()=\"Delete\"]");
+    public static void delete() {
     	Helper.logMessage("Deleting content with nodeId:  " + currentNodeId());
     	unpublish();
     	
@@ -104,7 +121,9 @@ public class _DmsContentItem extends _DmsPage {
     	
 		Helper.waitForUrlToContain("landing-page");
     }
-    static public void requestTranslation(String sLanguage) {
+    
+    private static String sSnackbarTranslationRequestedSuccessfullyMessage = "Translation requested successfully.";
+    public static void requestTranslation(String sLanguage) {
 		Helper.logMessage("Click the More actions button.");
 		Helper.waitForThenClick(btnMoreActions);
 		
@@ -118,13 +137,13 @@ public class _DmsContentItem extends _DmsPage {
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);
 		
-		//detect snackbar message?
-		Helper.nap(2);
+		verifySnackbarMessage(sSnackbarTranslationRequestedSuccessfullyMessage);
     }
 
-    static public By btnRequestReviewSubmit = By.xpath("//*[text()=\"Submit\"]/ancestor::button");
-    static public By btnRequestReviewCancel = By.xpath("//*[text()=\"Cancel\"]/ancestor::button");
-    static public void requestReview(String sFromReviewer) {
+    public static By btnRequestReviewSubmit = By.xpath("//*[text()=\"Submit\"]/ancestor::button");
+    public static By btnRequestReviewCancel = By.xpath("//*[text()=\"Cancel\"]/ancestor::button");
+    private static String sSnackbarSuccessfullyAddedReviewerMessage = "Successfully added reviewer.";
+    public static void requestReview(String sFromReviewer) {
 		Helper.logMessage("Click the More actions button.");
 		Helper.waitForThenClick(btnMoreActions);
 		
@@ -138,20 +157,24 @@ public class _DmsContentItem extends _DmsPage {
 		Helper.logMessage("Click Submit.");
 		Helper.waitForThenClick(btnRequestReviewSubmit);
 		
-		//detect snackbar message?
-		Helper.nap(2);
+		verifySnackbarMessage(sSnackbarSuccessfullyAddedReviewerMessage);
     }
 
-    static public void saveDraft() {
+    private static String sSnackbarSuccessfullySavedDraftMessage = "Successfully saved draft."; 
+    public static void saveDraft() {
 		Helper.logMessage("Click the Save Draft button.");
 		Helper.waitForThenClick(PublicCommentPage.btnSaveDraft);
 
-		//detect snackbar message?
-		Helper.nap(2);
+		Helper.waitForUrlToContain("nodeId");
+	
+		verifySnackbarMessage(sSnackbarSuccessfullySavedDraftMessage);
+		
+		//this workflow state does not show until the page is refreshed - do we care?
+		//waitForWorkflowState("Draft");
     }
     
-    static private By txtWorkflowState = By.cssSelector(".workflowState-value");
-    static public String currentWorkflowState() {
+    private static By txtWorkflowState = By.cssSelector(".workflowState-value");
+    public static String currentWorkflowState() {
     	String sCurrentState = "unset";
     	
     	sCurrentState = Helper.waitForElement(txtWorkflowState).getText().strip();
@@ -159,7 +182,7 @@ public class _DmsContentItem extends _DmsPage {
     	return sCurrentState;
     }
     
-    static public String waitForWorkflowState(String sDesiredState, int iSecondsToWait) {
+    public static String waitForWorkflowState(String sDesiredState, int iSecondsToWait) {
     	String sCurrentState = currentWorkflowState();
     	String sWorkflowStateText = "Workflow state = ";
     	boolean bMatches = false;
@@ -189,7 +212,16 @@ public class _DmsContentItem extends _DmsPage {
     	}
     	return sCurrentState;
     }
-    static public String waitForWorkflowState(String sDesiredState) {
+    public static String waitForWorkflowState(String sDesiredState) {
     	return waitForWorkflowState(sDesiredState, 60);
     }
+    
+    public static void verifySnackbarMessage(String sExpectedMessage) {
+		Helper.logMessage("Verify snackbar message appears:  " + sExpectedMessage);
+		Helper.compareStrings(sExpectedMessage, Helper.waitForElement(snackbarMessage).getText());
+
+		Helper.logDebug("Wait for snackbar to disappear.");
+		Helper.waitForElementToDisappear(snackbarMessage);
+    }
+    
 }

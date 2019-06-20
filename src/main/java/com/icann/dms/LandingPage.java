@@ -17,8 +17,8 @@ public class LandingPage extends _DmsPage {
     public static By btnResources = By.xpath("//app-landing-page//*[@title=\"Resources\"]");
     
     public static void open() {
-    	Helper.logTestStep("Opening landing page.");
-    	browser.navigate().to(Environment.sDmsUrl());
+    	Helper.logTestStep("Open the landing page.");
+    	browser.navigate().to(Environment.sDmsUrl() + "/landing-page");
     }
     
     public static String createContent(String sContentType) {
@@ -27,23 +27,25 @@ public class LandingPage extends _DmsPage {
 		String sSub = "";
 		String sExpectToSeeInUrl = "unset";
 		
-		switch (sContentType) {
+		open();
 		
-<<<<<<< Updated upstream
-		case "Board Meetings":
-=======
 		switch (sContentType) {		
 		case "About the Board":
 			sExpectToSeeInUrl = "about-the-board";
 			break;
 		case "Board Meeting":
->>>>>>> Stashed changes
 			sExpectToSeeInUrl = "board-meetings";
 			sPreType = "Board Meeting Materials"; 
 			break;
 		case "Board Committee Meetings":
 			sExpectToSeeInUrl = "board-committee-meetings";
 			sPreType = "Board Meeting Materials"; 
+			break;
+		case "Independent Review Process":
+			sExpectToSeeInUrl = "independent-review-process";
+			break;
+		case "IRP Landing":
+			sExpectToSeeInUrl = "irp-landing";
 			break;
 		case "Secretary's Notice":
 			sExpectToSeeInUrl = "secretarys-notice";
@@ -60,7 +62,7 @@ public class LandingPage extends _DmsPage {
 		Helper.waitForThenClick(btnCreateContent);
 		
 		if (sPreType.equals("unset")) {
-			//do nothing special
+			//no need to do nothing special
 		} else {
 			sSub = "child ";
 			Helper.logMessage("Choose a content type:  " + sPreType);
@@ -78,10 +80,10 @@ public class LandingPage extends _DmsPage {
 		ArrayList<String> allTabs = new ArrayList<String>(browser.getWindowHandles());
 		
 		if (allTabs.size() > 1) {
+			Helper.logMessage("*** New tab detected...switching to new tab and closing old tab.");
+			browser.close();
 			allTabs.remove(sWindowHandle);
-			sWindowHandle = allTabs.get(0);
-			Helper.logMessage("*** New tab detected...switching to new tab.");
-			browser.switchTo().window(sWindowHandle);
+			browser.switchTo().window(allTabs.get(0));
 		}
 		
 		Helper.waitForUrlToContain(sExpectToSeeInUrl);
