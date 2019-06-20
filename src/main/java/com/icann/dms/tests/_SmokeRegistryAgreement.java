@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import com.icann.Environment;
@@ -44,6 +45,8 @@ public class _SmokeRegistryAgreement {
 	public void beforeEach(){
 
 	}
+	
+	@Ignore
 	@Test
 	public void registryAgreementDefaultFieldValues() {
 		String sField;
@@ -119,9 +122,9 @@ public class _SmokeRegistryAgreement {
 		Dms.createRegistryAgreement(raRecord);
 		
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297) is not there
-		Metadata.setMetadataDescription(raRecord.metadata.sMetadataDescription);
-		Metadata.setAgreementStatus("Current");
-		Metadata.setAgreementRound("2004");
+		RegistryAgreementPage.setTextForField("Metadata Description", raRecord.metadata.sMetadataDescription);
+		RegistryAgreementPage.setDropdownSelection("Agreement Status", "Current");
+		RegistryAgreementPage.setDropdownSelection("Agreement Round", "2004");
 		
 		Helper.logTestStep("Save the item as a draft.");
 		RegistryAgreementPage.saveDraft();
