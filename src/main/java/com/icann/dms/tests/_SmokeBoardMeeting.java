@@ -84,9 +84,11 @@ public class _SmokeBoardMeeting {
 		
 		Helper.logTestStep("Enter in a Legal Document Year:  " + sLegalDocumentYear);
 		BoardMeetingPage.setDropdownSelection("Legal Document Year", sLegalDocumentYear);
-		
-		
 
+		
+		
+		
+		
 		
 		
 		//save draft
