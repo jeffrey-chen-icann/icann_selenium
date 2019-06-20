@@ -51,7 +51,7 @@ public class Helper {
 		boolean bEnabled = false;
 		boolean bDisplayed = false;
 		
-		logDebug("Looking for element " + byLocator.toString() + ".");
+		logDebug("Looking for element:  " + byLocator.toString());
 		
 		for(int i=0; i<iTimeoutInSeconds; i++){
 			if (!browser.findElements(byLocator).isEmpty()){				

@@ -10,10 +10,10 @@ public class Launcher {
 	
 	private static List<String> lsPossibleProjectSuiteParams = Arrays.asList(
 			"dms _removeallregistryagreements", 
-			"dms boardmeeting.defaultvalues",
 			"dms createcontentmodal.contenttypes",
 			"dms login.accessadminpageswithnonadmin", 
 			"dms poc", 
+			"dms smokeboardmeeting",
 			"dms smokelogin", 
 			"e2e pocsuite");
 	
@@ -72,8 +72,8 @@ public class Launcher {
 				case "_removeallregistryagreements":
 					sSuiteToRun = "_RemoveAllRegistryAgreements";
 					break;
-				case "boardmeeting.defaultvalues":
-					sSuiteToRun = "BoardMeetingsTests";
+				case "smokeboardmeeting":
+					sSuiteToRun = "_SmokeBoardMeeting";
 					break;
 				case "createcontentmodal.contenttypes":
 					sSuiteToRun = "CreateContentModalTests";

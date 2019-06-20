@@ -60,8 +60,43 @@ public class _DmsPage extends _DmsHeader {
     	
     	byControl = By.xpath("//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field//input");   	
     	
+<<<<<<< Updated upstream
     	return byControl;
     }
+=======
+    	return (sModalPre + "//*[@id=\"" + sFieldIdentifier(sFieldName) + "\"]/ancestor::mat-form-field");
+    }
+    private static By txtForField(String sFieldName) {
+    	By byControl = null;
+    	switch (sFieldName.toLowerCase()) {
+    	case sModalMetadataField:  //file metadata
+    	case "metadata description":
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//textarea");
+    		break;
+    	case "status":
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//*[@class[contains(.,\"mat-select-value-text\")]]");
+    		break;
+    	default:
+    		byControl = By.xpath(sParentElementRootXpath(sFieldName) + "//input");
+    	}
+    	   	
+    	return byControl;
+    }
+    public static String getTextForField(String sFieldName) {
+    	String sReturn = "unset";
+    	
+    	switch (sFieldName.toLowerCase()) {
+    	// these fields are special because they are disabled
+    	case "u-label":
+    	case "page title":
+    		sReturn = Helper.waitForDisabledElement(txtForField(sFieldName)).getAttribute("value");
+    		break;
+    	default:
+    		sReturn = Helper.waitForElement(txtForField(sFieldName)).getAttribute("value");
+    	}
+    	return sReturn;
+    }
+>>>>>>> Stashed changes
     public static By btnDropdownForField(String sFieldName) {
     	By byControl = null;
     	
@@ -96,6 +131,33 @@ public class _DmsPage extends _DmsHeader {
     	case "languages":  //request translation
     		sIdentifier = "languages";
     		break;
+<<<<<<< Updated upstream
+=======
+    	case "legal case value":  //independent review process
+    		sIdentifier = "icn:legalCase";
+    		break;
+    	case "legal case status":  //independent review process
+    		sIdentifier = "icn:legalCaseStatus";
+    		break;
+    	case "legal document type":  //board meeting
+    		sIdentifier = "icn:legalDocumentType";
+    		break;    		
+    	case "legal document year":  //board meeting
+    		sIdentifier = "icn:legalDocYear";
+    		break;    		
+    	case "metadata description":  //registry agreement
+    		sIdentifier = "icn:metadataDescription";
+    		break;
+    	case "name":  //add file via search modal
+    		sIdentifier = "cm:name";
+    		break;
+    	case "u-label":  //registry agreement
+    		sIdentifier = "icn:uLabel";
+    		break;
+    	case "page title":  //many
+    		sIdentifier = "icn:pageTitle";
+    		break;
+>>>>>>> Stashed changes
     	case "reviewer":  //request review
     		sIdentifier = "reviewer";
     		break;
