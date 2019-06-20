@@ -4,12 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RegistryAgreement extends _ContentRecord{
-	public String sGtld;
+	public String sGtld = "";
 	public String sULabel = "";
 	public String sTypeOfTld = "";
 	public String sAgreementType = "";
 	public String sOperator = "";
-
 	
 	//constructors
 	public RegistryAgreement(String sNewGtld, String sNewTypeOfTld, String sNewAgreementType, String sNewOperator, String sNewAgreementStatus, String sNewAgreementDate) {

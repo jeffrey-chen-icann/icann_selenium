@@ -91,7 +91,7 @@ public class DmsPocOriginal {
 		//hacky - setting bottom fields first so the scrollbar blocking problem (ITI-3297)is not there
 		String sMetadataDescription = Helper.todayString() + " metadata description text";
 		Helper.logTestStep("Enter text into the Metadata Description:  " + sMetadataDescription);
-		Helper.waitForThenSendKeys(Metadata.txtMetadataDescription, sMetadataDescription);
+		RegistryAgreementPage.setTextForField("Metadata Description", sMetadataDescription);
 
 		sWhichField = "agreement status";
 		sValueToSelect = "Current";
