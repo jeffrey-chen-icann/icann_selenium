@@ -33,12 +33,24 @@ public class _SmokeRegistryAgreement {
 
 	@BeforeClass
 	static public void runOnce() throws Exception {
+		
+		Helper.bDebug = true;
+		
+		Environment.bUseBrowserStack = true;
+		
 		browser = Environment.initializeDriver();
 		Environment.setEnvironmentAndLogServers();	
 		
 		Helper.logTestGroup("Registry Agreement smoke tests");
 		
-		Dms.login();				
+		Dms.login();		
+		
+		Helper.logDebug("Killing browserstack local process...");
+		Environment.bsLocalProcess.destroy();
+		
+		browser.quit();
+		
+		System.exit(3);
 	}
 
 	@Before

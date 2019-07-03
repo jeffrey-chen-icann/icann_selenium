@@ -15,6 +15,7 @@ public class Launcher {
 			"dms poc", 
 			"dms smokeboardmeeting",
 			"dms smokelogin", 
+			"dms smokeregistryagreement",
 			"e2e pocsuite");
 	
 	public static void main(String[] args)  {
@@ -86,6 +87,9 @@ public class Launcher {
 					break;						
 				case "smokelogin":
 					sSuiteToRun = "_SmokeLogin";
+					break;						
+				case "smokeregistryagreement":
+					sSuiteToRun = "_SmokeRegistryAgreement";
 					break;						
 				default:
 					Helper.logError("Unrecognized suite parameter for project " + sProject + ":  " + sSuiteParameter);
