@@ -422,28 +422,15 @@ public class Helper {
 			}
 
 			logMessage("There were errors recovered from during the test run.  See log above for details.");
-
-//			if (Environment.bUseCbt){
-//				try {
-//					Environment.markCbtSessionPassFail(false);
-//				} catch (Exception e){
-//					
-//				}
-//			}
-//			browser.quit();
-//			fail();
-//			
-//		} else {
-//			//insert call to mark session as passed (?) << is this true?
-//			if (Environment.bUseCbt){
-//				try {
-//					Environment.markCbtSessionPassFail(true);
-//				} catch (Exception e){
-//					
-//				}
-//			}
-			
-
+		}
+		
+		if (Environment.bUseBrowserStack){
+			try {
+				Helper.logDebug("Killing browserstack local process...");
+				Environment.bsLocalProcess.destroy();
+			} catch (Exception e){
+				
+			}
 		}
 		
 		if (Helper.bDebug) {

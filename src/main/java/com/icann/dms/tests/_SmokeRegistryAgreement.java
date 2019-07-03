@@ -38,7 +38,7 @@ public class _SmokeRegistryAgreement {
 		
 		Helper.logTestGroup("Registry Agreement smoke tests");
 		
-		Dms.login();				
+		Dms.login();		
 	}
 
 	@Before

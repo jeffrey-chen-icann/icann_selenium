@@ -1,7 +1,10 @@
 package com.icann;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 //import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+//import com.browserstack.local.Local;
 
 
 public class Environment{
@@ -26,6 +32,7 @@ public class Environment{
 //	public static boolean bUseSaucelabs = false;
 //	public static boolean bUseCbt = false;
 	public static boolean bUseBrowserStack = false;
+	public static Process bsLocalProcess = null;
 	
 	//sauce access
 	public static String sSLUser = "";
@@ -91,11 +98,51 @@ public class Environment{
 		caps.setCapability("max_duration", 1800);	
 		
 		if (bUseBrowserStack){
-			bUseBrowserStack = true;
+			String sBSUser = "jeffchen14";
+			String sBSAccessKey = "x5krsghFaunC5oXBpRpY";  //find in browserstack user settings
+			String sBSUrl = String.format("https://%s:%s@hub-cloud.browserstack.com/wd/hub", sBSUser, sBSAccessKey);
+
+			String sBSTestId = "jc_selenium";
+		
+			try {
+				//!! dependency on browserstacklocal from https://www.browserstack.com/local-testing
+				String commandLine = String.format("./BrowserStackLocal --key %s --local-identifier %s", sBSAccessKey, sBSTestId);
+				Helper.logDebug(String.format("Starting local process:  %s",  commandLine));
+				bsLocalProcess = Runtime.getRuntime().exec(commandLine);
+				
+				Helper.logDebug("Waiting for browserstacklocal to be ready...input stream:");
+				BufferedReader in = new BufferedReader(new InputStreamReader(bsLocalProcess.getInputStream()));
+			    String line;
+			    String exitCondition = "You can now access your local server(s) in our remote browser.";
+			    while ((line = in.readLine()) != null) {
+			        System.out.println(line);
+			        if (line.contains(exitCondition)) {
+			        	Helper.logDebug("Found exit condition!");
+			        	break;
+			        } else {
+			        	Helper.nap(1);
+			        }
+			    }		         
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
 			
-			//request remote session from browserstack and assign to newBrowser
+			DesiredCapabilities bsCaps = new DesiredCapabilities();
+		 
+			bsCaps.setCapability("name", "icann " + Launcher.sCommandLineArgs);
+			bsCaps.setCapability("os", "OS X");
+			bsCaps.setCapability("os_version", "Mojave");
+			bsCaps.setCapability("browser", "Chrome");
+			bsCaps.setCapability("browser_version", "75.0");
+			bsCaps.setCapability("resolution", "1280x1024");
+			bsCaps.setCapability("browserstack.local", "true");
+			bsCaps.setCapability("browserstack.localIdentifier", sBSTestId);
+//			caps.setCapability("browserstack.video", "false");
 			
+			Helper.logDebug(String.format("capabilities:  %s", bsCaps.toString()));
 			
+			Helper.logDebug("Attempting to get new RemoteWebDriver...");
+			newBrowser = new RemoteWebDriver(new URL(sBSUrl), bsCaps);			
 		} else {
 			//run locally
 			newBrowser = new ChromeDriver();
@@ -115,7 +162,10 @@ public class Environment{
 		Helper.logMessage("Initialzing driver.");
 		
 		if (bUseBrowserStack){
-			enableBrowserStack();
+			Helper.logMessage("Enabling BrowserStack...");
+			
+			Helper.browser = newBrowser();
+
 		} else {
 			String localOS = Helper.localOS();
 			Helper.logDebug("local OS:  " + localOS);
@@ -191,14 +241,8 @@ public class Environment{
 		
 		return browser;
 	}
-	
-	public static void enableBrowserStack() throws MalformedURLException {	
-		Helper.logMessage("Enabling BrowserStack.");
-				
-		bUseBrowserStack = true;
-		Helper.browser = newBrowser();
-		Helper.iDefaultTimeoutInSeconds = Helper.iDefaultTimeoutInSeconds * 2;
-	}
+
+
 	
 //	public static void enableSaucelabs() throws MalformedURLException {	
 //		Helper.logMessage("Enabling saucelabs.");
