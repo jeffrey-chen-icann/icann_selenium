@@ -29,22 +29,9 @@ public class Environment{
 	static List<WebDriver> lwDriver = new ArrayList<WebDriver>();
 	
 	public static String sEnvironment = System.getenv("java_e2e_env");
-//	public static boolean bUseSaucelabs = false;
-//	public static boolean bUseCbt = false;
 	public static boolean bUseBrowserStack = false;
 	public static Process bsLocalProcess = null;
-	
-	//sauce access
-	public static String sSLUser = "";
-	public static String sSLAccessKey = "";
-	public static String sSLUrl = "http://" + sSLUser + ":" + sSLAccessKey + "@ondemand.saucelabs.com:80/wd/hub";
 
-	//cbt access
-//	public static String sCBTUser = "".replace("@", "%40");
-//	public static String sCBTAuthkey = "";
-//	public static String sCBTUrl = "https://" + sCBTUser + ":" + sCBTAuthkey + "@hub.crossbrowsertesting.com:443/wd/hub";
-//	public static String sCBTSessionId = "unset";
-	
 	public static void setEnvironmentAndLogServers(String sEnv){
 		Environment.sEnvironment = sEnv;
 		
@@ -54,7 +41,6 @@ public class Environment{
 		switch(Launcher.sProject){
 		case "adf":
 		case "cms":	
-
 			//grab build tags and log them
 			Helper.logMessage(">>>placeholder for project build tags:  " + Launcher.sProject);
 			
@@ -308,27 +294,12 @@ public class Environment{
 	//environment specific urls
 	
 	//ADF
-	public static String sDmsUrl(){
-		String sPre = "http://iti-adf-";
-		String sPost = ".icann.org";
-		String sReturn = "unset";
-		
-		switch (Environment.sEnvironment){
-		case "localhost":
-			sReturn = "???";
-			break;
-		case "dev":
-		case "staging":
-			sReturn = sPre + Environment.sEnvironment + sPost;
-			break;
-		case "prod":
-			sReturn = "http://iti-adf.icann.org";
-			break;
-		default:
-			Helper.logFatal("sAssemblyBaseUrl:  sEnvironment is not set to any expected value:  " + Environment.sEnvironment);
+	public static String sDmsUrl() {
+		if (sEnvironment.contentEquals("prod")) {
+			return "http://iti-adf.icann.org";
+		} else {
+			return String.format("http://iti-adf-%s.icann.org", sEnvironment);
 		}
-		
-		return sReturn;
 	}
 	public static String sDmsAdminUsername(){
 		String sReturn = "unset";
